@@ -9,6 +9,185 @@ venv/
 
 ```
 
+# .gitignore
+
+```
+.aidigestignore
+venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# UV
+#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#uv.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# PyPI configuration file
+.pypirc
+
+```
+
 # DeepLiveCam.spec
 
 ```spec
@@ -61,1845 +240,6 @@ app = BUNDLE(
     icon=None,
     bundle_identifier=None,
 )
-
-```
-
-# hello.py
-
-```py
-from PyQt6.QtWidgets import QApplication, QLabel
-
-app = QApplication([])
-label = QLabel('Hello, World!')
-label.show()
-app.exec()
-
-
-```
-
-# images.out
-
-```out
-images
-├── Angelina Jolie
-│   ├── 001_fe3347c0.jpg
-│   ├── 002_8f8da10e.jpg
-│   ├── 003_57612506.jpg
-│   ├── 004_f61e7d0c.jpg
-│   ├── 005_582c121a.jpg
-│   ├── 006_9135205d.jpg
-│   ├── 007_cabbfcbb.jpg
-│   ├── 008_d1f87068.jpg
-│   ├── 009_fb3e6174.jpg
-│   ├── 010_f99d79e3.jpg
-│   ├── 011_7344ca35.jpg
-│   ├── 012_cfcd4007.jpg
-│   ├── 013_95ecbd39.jpg
-│   ├── 014_0d29db88.jpg
-│   ├── 015_8bac79b5.jpg
-│   ├── 016_8945d6ca.jpg
-│   ├── 017_e28ea9d4.jpg
-│   ├── 018_fcafe1a8.jpg
-│   ├── 019_57ab290d.jpg
-│   ├── 020_4c4b655f.jpg
-│   ├── 021_6e419870.jpg
-│   ├── 022_b497b92e.jpg
-│   ├── 023_7781dd1c.jpg
-│   ├── 024_ca32be97.jpg
-│   ├── 025_41cee764.jpg
-│   ├── 026_2828fcaf.jpg
-│   ├── 027_58887f30.jpg
-│   ├── 028_6a0ff8de.jpg
-│   ├── 029_f2882b0d.jpg
-│   ├── 030_66bddeb6.jpg
-│   ├── 031_2364f4d8.jpg
-│   ├── 032_db66bd61.jpg
-│   ├── 033_23e68208.jpg
-│   ├── 034_418fbbdb.jpg
-│   ├── 035_2e497561.jpg
-│   ├── 036_3e807a88.jpg
-│   ├── 037_62d00a09.jpg
-│   ├── 038_e40d5b16.jpg
-│   ├── 039_6b10ab98.jpg
-│   ├── 040_2ef814c7.jpg
-│   ├── 041_abf5c9cb.jpg
-│   ├── 042_2ccd070f.jpg
-│   ├── 043_b812749f.jpg
-│   ├── 044_512dfd33.jpg
-│   ├── 045_c560251e.jpg
-│   ├── 046_d93a2c2d.jpg
-│   ├── 047_5350c8c0.jpg
-│   ├── 048_0a32a483.jpg
-│   ├── 049_4d6df392.jpg
-│   ├── 050_7c5b026c.jpg
-│   ├── 051_268fdfd7.jpg
-│   ├── 052_6db5f5bf.jpg
-│   ├── 053_05c78fa1.jpg
-│   ├── 054_7ba62f81.jpg
-│   ├── 055_aaaf063c.jpg
-│   ├── 056_97412d14.jpg
-│   ├── 057_7f34f0f4.jpg
-│   ├── 058_02860eff.jpg
-│   ├── 059_df425619.jpg
-│   ├── 060_4037f0f7.jpg
-│   ├── 061_e18ba2b0.jpg
-│   ├── 062_6aa9cf8f.jpg
-│   ├── 063_c486d5ef.jpg
-│   ├── 064_0de68937.jpg
-│   ├── 065_689150aa.jpg
-│   ├── 066_b378479b.jpg
-│   ├── 067_ff52c2fe.jpg
-│   ├── 068_2fb110d1.jpg
-│   ├── 069_9d0e44d5.jpg
-│   ├── 070_1a4312d2.jpg
-│   ├── 071_b537dbca.jpg
-│   ├── 072_8d068904.jpg
-│   ├── 073_9f1d377a.jpg
-│   ├── 074_0ec79719.jpg
-│   ├── 075_4c504eec.jpg
-│   ├── 076_1d914d5b.jpg
-│   ├── 077_27650aa3.jpg
-│   ├── 078_044866e7.jpg
-│   ├── 079_40a598dc.jpg
-│   ├── 080_e998ab00.jpg
-│   ├── 081_12fb31ec.jpg
-│   ├── 082_047778bb.jpg
-│   ├── 083_bdada1e2.jpg
-│   ├── 084_da751ddd.jpg
-│   ├── 085_f579db33.jpg
-│   ├── 086_f2c730f3.jpg
-│   ├── 087_f325890f.jpg
-│   ├── 088_029ffc54.jpg
-│   ├── 089_33e36564.jpg
-│   ├── 090_da55509f.jpg
-│   ├── 091_b5b4a62f.jpg
-│   ├── 092_26130bb1.jpg
-│   ├── 093_6ce62543.jpg
-│   ├── 094_c255b703.jpg
-│   ├── 095_0be163a1.jpg
-│   ├── 096_75710434.jpg
-│   ├── 097_9a6bf61f.jpg
-│   ├── 098_dd1405fc.jpg
-│   ├── 099_c22d3e48.jpg
-│   └── 100_31ff9373.jpg
-├── Brad Pitt
-│   ├── 001_c04300ef.jpg
-│   ├── 002_cc1b9701.jpg
-│   ├── 003_7a6b2156.jpg
-│   ├── 004_777c50d0.jpg
-│   ├── 005_02ab3a1b.jpg
-│   ├── 006_87166f38.jpg
-│   ├── 007_74ccfb4a.jpg
-│   ├── 008_31e90c6b.jpg
-│   ├── 009_23c94f29.jpg
-│   ├── 010_08c44431.jpg
-│   ├── 011_270cd3ea.jpg
-│   ├── 012_8de7a736.jpg
-│   ├── 013_0c83ca91.jpg
-│   ├── 014_871b0d80.jpg
-│   ├── 015_82889ec9.jpg
-│   ├── 016_8bb23f7e.jpg
-│   ├── 017_4748675b.jpg
-│   ├── 018_136dbb40.jpg
-│   ├── 019_ddcd5687.jpg
-│   ├── 020_45c8d790.jpg
-│   ├── 021_143b276f.jpg
-│   ├── 022_a8206d1a.jpg
-│   ├── 023_98d91529.jpg
-│   ├── 024_54112f36.jpg
-│   ├── 025_25dc7dcf.jpg
-│   ├── 026_805241a7.jpg
-│   ├── 027_78f200c3.jpg
-│   ├── 028_181cbb8a.jpg
-│   ├── 029_36dac19e.jpg
-│   ├── 030_716e4856.jpg
-│   ├── 031_8fc10a75.jpg
-│   ├── 032_fd37a8e2.jpg
-│   ├── 033_46c95715.jpg
-│   ├── 034_984e63b3.jpg
-│   ├── 035_a767728d.jpg
-│   ├── 036_5e0af3bf.jpg
-│   ├── 037_b5467841.jpg
-│   ├── 038_5e10a567.jpg
-│   ├── 039_1c018deb.jpg
-│   ├── 040_9b4bfe5b.jpg
-│   ├── 041_cc0957bf.jpg
-│   ├── 042_8030e553.jpg
-│   ├── 043_6973a308.jpg
-│   ├── 044_ac060de4.jpg
-│   ├── 045_6895fe7e.jpg
-│   ├── 046_8bf34269.jpg
-│   ├── 047_80045019.jpg
-│   ├── 048_185402c6.jpg
-│   ├── 049_31625c44.jpg
-│   ├── 050_3e39c960.jpg
-│   ├── 051_fd8a292f.jpg
-│   ├── 052_b80b0a3f.jpg
-│   ├── 053_be062c12.jpg
-│   ├── 054_9f01aefa.jpg
-│   ├── 055_14a5e7bc.jpg
-│   ├── 056_8362ff51.jpg
-│   ├── 057_545ca96d.jpg
-│   ├── 058_ca613f72.jpg
-│   ├── 059_ef2c0ca7.jpg
-│   ├── 060_136e5ef5.jpg
-│   ├── 061_38d21dc0.jpg
-│   ├── 062_f0c8d0c8.jpg
-│   ├── 063_a90951c4.jpg
-│   ├── 064_213e2850.jpg
-│   ├── 065_34848907.jpg
-│   ├── 066_1867585d.jpg
-│   ├── 067_571d88eb.jpg
-│   ├── 068_5ebbf7fb.jpg
-│   ├── 069_8533eee4.jpg
-│   ├── 070_0acb9d53.jpg
-│   ├── 071_2d51687a.jpg
-│   ├── 072_da45cf8f.jpg
-│   ├── 073_aa4e37e8.jpg
-│   ├── 074_6f4720aa.jpg
-│   ├── 075_a7a83d60.jpg
-│   ├── 076_75b9dd73.jpg
-│   ├── 077_ddf0abd8.jpg
-│   ├── 078_b546dff5.jpg
-│   ├── 079_e3171916.jpg
-│   ├── 080_569bb446.jpg
-│   ├── 081_4d677d83.jpg
-│   ├── 082_545afee5.jpg
-│   ├── 083_d6f1d5ac.jpg
-│   ├── 084_4876da64.jpg
-│   ├── 085_5c4b6432.jpg
-│   ├── 086_8274c0d1.jpg
-│   ├── 087_155f1f74.jpg
-│   ├── 088_b1977c95.jpg
-│   ├── 089_7a7d2c5d.jpg
-│   ├── 090_12e1f614.jpg
-│   ├── 091_8561b34e.jpg
-│   ├── 092_22d9de5d.jpg
-│   ├── 093_c4d318cd.jpg
-│   ├── 094_16e562f0.jpg
-│   ├── 095_1104d364.jpg
-│   ├── 096_b096ebfe.jpg
-│   ├── 097_df404aa1.jpg
-│   ├── 098_36dd62c5.jpg
-│   ├── 099_151b7575.jpg
-│   └── 100_f4b2c7a7.jpg
-├── Denzel Washington
-│   ├── 001_d3323f3c.jpg
-│   ├── 002_f44b8d45.jpg
-│   ├── 003_b622e925.jpg
-│   ├── 004_677c65bf.jpg
-│   ├── 005_cb37c7b2.jpg
-│   ├── 006_2880115c.jpg
-│   ├── 007_1f6f632a.jpg
-│   ├── 008_7619a328.jpg
-│   ├── 009_817304c7.jpg
-│   ├── 010_47031d88.jpg
-│   ├── 011_c2d9c2a1.jpg
-│   ├── 012_6b8f22bf.jpg
-│   ├── 013_5928728c.jpg
-│   ├── 014_9742cf0f.jpg
-│   ├── 015_72bb2861.jpg
-│   ├── 016_61188e3c.jpg
-│   ├── 017_f308fc36.jpg
-│   ├── 018_e4ed6557.jpg
-│   ├── 019_330f0c75.jpg
-│   ├── 020_9f8446bb.jpg
-│   ├── 021_8295d645.jpg
-│   ├── 022_b60724f6.jpg
-│   ├── 023_75fd6b60.jpg
-│   ├── 024_54153da7.jpg
-│   ├── 025_61e2c5e5.jpg
-│   ├── 026_2f832037.jpg
-│   ├── 027_c7a10f8d.jpg
-│   ├── 028_29634e07.jpg
-│   ├── 029_cf7e7736.jpg
-│   ├── 030_90c3e21e.jpg
-│   ├── 031_2fe075a5.jpg
-│   ├── 032_a67c5aa8.jpg
-│   ├── 033_f49a691c.jpg
-│   ├── 034_e09c630c.jpg
-│   ├── 035_014caeb7.jpg
-│   ├── 036_7ec2e5de.jpg
-│   ├── 037_39f2db43.jpg
-│   ├── 038_d967a9c7.jpg
-│   ├── 039_faa6425d.jpg
-│   ├── 040_e534b74f.jpg
-│   ├── 041_c8998bae.jpg
-│   ├── 042_b0c87dc0.jpg
-│   ├── 043_9bfd94a4.jpg
-│   ├── 044_c38d661d.jpg
-│   ├── 045_60fc8dc5.jpg
-│   ├── 046_b67077e0.jpg
-│   ├── 047_05f6a63f.jpg
-│   ├── 048_cd8dc27d.jpg
-│   ├── 049_40f1ba49.jpg
-│   ├── 050_a5810700.jpg
-│   ├── 051_d27cd673.jpg
-│   ├── 052_244a9729.jpg
-│   ├── 053_4f937ab4.jpg
-│   ├── 054_b8e917f6.jpg
-│   ├── 055_fbbcb3c7.jpg
-│   ├── 056_ccaa5638.jpg
-│   ├── 057_ce4bc775.jpg
-│   ├── 058_3743cf7d.jpg
-│   ├── 059_3b848154.jpg
-│   ├── 060_fa55e260.jpg
-│   ├── 061_6bf34908.jpg
-│   ├── 062_f1f905e2.jpg
-│   ├── 063_7656840a.jpg
-│   ├── 064_b2ccbaf6.jpg
-│   ├── 065_b2b4591d.jpg
-│   ├── 066_0411d529.jpg
-│   ├── 067_ee6435dc.jpg
-│   ├── 068_d9509f11.jpg
-│   ├── 069_37296c7d.jpg
-│   ├── 070_8020c2b5.jpg
-│   ├── 071_30155b02.jpg
-│   ├── 072_648a84c5.jpg
-│   ├── 073_2880f59c.jpg
-│   ├── 074_2a4ca70b.jpg
-│   ├── 075_b5f2a9e5.jpg
-│   ├── 076_7dd9c0bd.jpg
-│   ├── 077_a0ceecbd.jpg
-│   ├── 078_8a19b2b4.jpg
-│   ├── 079_b055b519.jpg
-│   ├── 080_42f1d0a7.jpg
-│   ├── 081_7e097924.jpg
-│   ├── 082_359c4774.jpg
-│   ├── 083_9436dbb0.jpg
-│   ├── 084_43b55cdf.jpg
-│   ├── 085_8366382f.jpg
-│   ├── 086_8eefe9d0.jpg
-│   ├── 087_cec971ab.jpg
-│   ├── 088_fb4a5e01.jpg
-│   ├── 089_2539e4d9.jpg
-│   ├── 090_2f85a193.jpg
-│   ├── 091_cc106747.jpg
-│   ├── 092_8f204d71.jpg
-│   ├── 093_4027b1e2.jpg
-│   ├── 094_7858a9ff.jpg
-│   ├── 095_0a05b6dc.jpg
-│   ├── 096_9ff8b67f.jpg
-│   ├── 097_b745e092.jpg
-│   ├── 098_1559ae78.jpg
-│   ├── 099_b7d16411.jpg
-│   └── 100_26562919.jpg
-├── Hugh Jackman
-│   ├── 001_9adc92c2.jpg
-│   ├── 002_85eab275.jpg
-│   ├── 003_8889ec2c.jpg
-│   ├── 004_41caa173.jpg
-│   ├── 005_3ba56da0.jpg
-│   ├── 006_ff6876d9.jpg
-│   ├── 007_68abd54d.jpg
-│   ├── 008_d5553651.jpg
-│   ├── 009_11c22a3b.jpg
-│   ├── 010_cce39614.jpg
-│   ├── 011_17b8991d.jpg
-│   ├── 012_b33b05c6.jpg
-│   ├── 013_025c288f.jpg
-│   ├── 014_07f2f9cb.jpg
-│   ├── 015_186b4bbf.jpg
-│   ├── 016_e319349e.jpg
-│   ├── 017_fad27cd4.jpg
-│   ├── 018_3bdca9f6.jpg
-│   ├── 019_2d261ea3.jpg
-│   ├── 020_edd8803c.jpg
-│   ├── 021_4d5264fd.jpg
-│   ├── 022_9b0e7dc8.jpg
-│   ├── 023_53e3d0b3.jpg
-│   ├── 024_2a9dc3ca.jpg
-│   ├── 025_31c04ded.jpg
-│   ├── 026_4e67d826.jpg
-│   ├── 027_ded82a08.jpg
-│   ├── 028_7214d33e.jpg
-│   ├── 029_c6e0a7f3.jpg
-│   ├── 030_c2291830.jpg
-│   ├── 031_e8d3b475.jpg
-│   ├── 032_0e6a520a.jpg
-│   ├── 033_06f1823f.jpg
-│   ├── 034_09baeb19.jpg
-│   ├── 035_79812fd1.jpg
-│   ├── 036_0be99621.jpg
-│   ├── 037_f5b8733a.jpg
-│   ├── 038_69b748e3.jpg
-│   ├── 039_80446065.jpg
-│   ├── 040_4baf02be.jpg
-│   ├── 041_efeaa4c3.jpg
-│   ├── 042_31710794.jpg
-│   ├── 043_1d38d614.jpg
-│   ├── 044_1844df0f.jpg
-│   ├── 045_24b44c3d.jpg
-│   ├── 046_de6d6bf0.jpg
-│   ├── 047_54ea04fa.jpg
-│   ├── 048_9d5874a5.jpg
-│   ├── 049_beaf3777.jpg
-│   ├── 050_509d326a.jpg
-│   ├── 051_12956682.jpg
-│   ├── 052_f394c931.jpg
-│   ├── 053_62909c7b.jpg
-│   ├── 054_4274a548.jpg
-│   ├── 055_bfeb8aab.jpg
-│   ├── 056_11835953.jpg
-│   ├── 057_6aecaa18.jpg
-│   ├── 058_48dcb96c.jpg
-│   ├── 059_aef6a0a8.jpg
-│   ├── 060_2b7fbba5.jpg
-│   ├── 061_2de5a089.jpg
-│   ├── 062_5db87e94.jpg
-│   ├── 063_6f1c7f3e.jpg
-│   ├── 064_12d52b76.jpg
-│   ├── 065_db7b31f5.jpg
-│   ├── 066_03ff28be.jpg
-│   ├── 067_296269c3.jpg
-│   ├── 068_474081ea.jpg
-│   ├── 069_429fc9ee.jpg
-│   ├── 070_e88788cd.jpg
-│   ├── 071_071d0cfc.jpg
-│   ├── 072_c6df94c3.jpg
-│   ├── 073_812b8d10.jpg
-│   ├── 074_d205687c.jpg
-│   ├── 075_31d85976.jpg
-│   ├── 076_b53060b4.jpg
-│   ├── 077_08ff1da6.jpg
-│   ├── 078_fd557ae2.jpg
-│   ├── 079_dbb72b1d.jpg
-│   ├── 080_52addc92.jpg
-│   ├── 081_9f4d7bcb.jpg
-│   ├── 082_bf5ea9df.jpg
-│   ├── 083_3ab573ea.jpg
-│   ├── 084_c4bb2e0e.jpg
-│   ├── 085_394c2c3c.jpg
-│   ├── 086_269deff5.jpg
-│   ├── 087_7f9336ac.jpg
-│   ├── 088_2ec116fe.jpg
-│   ├── 089_a49ffdf2.jpg
-│   ├── 090_916ba69a.jpg
-│   ├── 091_2ace2ad8.jpg
-│   ├── 092_4e8dad7c.jpg
-│   ├── 093_4faba724.jpg
-│   ├── 094_bcb2a8f4.jpg
-│   ├── 095_b464eda0.jpg
-│   ├── 096_b2e35bd2.jpg
-│   ├── 097_21a9bff5.jpg
-│   ├── 098_5cb67f9d.jpg
-│   ├── 099_8a31fcb9.jpg
-│   └── 100_1ea80814.jpg
-├── Jennifer Lawrence
-│   ├── 001_21a7d5e6.jpg
-│   ├── 002_533748b2.jpg
-│   ├── 003_963a3627.jpg
-│   ├── 004_94f26ed9.jpg
-│   ├── 005_7f198c47.jpg
-│   ├── 006_2d0dccd4.jpg
-│   ├── 007_72ad75ba.jpg
-│   ├── 008_35fbbb0c.jpg
-│   ├── 009_bcd380a7.jpg
-│   ├── 010_34d63b53.jpg
-│   ├── 011_8c50c05f.jpg
-│   ├── 012_12d61e14.jpg
-│   ├── 013_78060c8a.jpg
-│   ├── 014_0100b141.jpg
-│   ├── 015_48a3c3ec.jpg
-│   ├── 016_d731baf7.jpg
-│   ├── 017_b67e0915.jpg
-│   ├── 018_2974b20a.jpg
-│   ├── 019_ab6f69c3.jpg
-│   ├── 020_5a08581b.jpg
-│   ├── 021_2eaafb9f.jpg
-│   ├── 022_e214ba9f.jpg
-│   ├── 023_5bc0c09d.jpg
-│   ├── 024_bfe8d1d4.jpg
-│   ├── 025_f5a5036b.jpg
-│   ├── 026_cf5be1f1.jpg
-│   ├── 027_3290d1bc.jpg
-│   ├── 028_7191558a.jpg
-│   ├── 029_7cc8d551.jpg
-│   ├── 030_4f246d8f.jpg
-│   ├── 031_0785344e.jpg
-│   ├── 032_bed86546.jpg
-│   ├── 033_c27f428c.jpg
-│   ├── 034_de792370.jpg
-│   ├── 035_39bf8fcb.jpg
-│   ├── 036_e76dcff2.jpg
-│   ├── 037_46ec39ce.jpg
-│   ├── 038_ca50cc93.jpg
-│   ├── 039_f2610531.jpg
-│   ├── 040_b392a367.jpg
-│   ├── 041_54a9280d.jpg
-│   ├── 042_db56b563.jpg
-│   ├── 043_cccb0e88.jpg
-│   ├── 044_2619e688.jpg
-│   ├── 045_9f391be6.jpg
-│   ├── 046_7a3818f6.jpg
-│   ├── 047_6e08a927.jpg
-│   ├── 048_2646d85d.jpg
-│   ├── 049_d3ba5c55.jpg
-│   ├── 050_f545b0ea.jpg
-│   ├── 051_2aace444.jpg
-│   ├── 052_f7f4e937.jpg
-│   ├── 053_235dbe3b.jpg
-│   ├── 054_cc2a9231.jpg
-│   ├── 055_7b8dfc3a.jpg
-│   ├── 056_f22ab393.jpg
-│   ├── 057_3911a64f.jpg
-│   ├── 058_a8b460e9.jpg
-│   ├── 059_dd54feaf.jpg
-│   ├── 060_bb963eed.jpg
-│   ├── 061_2306ab5b.jpg
-│   ├── 062_99dd69cb.jpg
-│   ├── 063_67d7dfda.jpg
-│   ├── 064_3e07b8f6.jpg
-│   ├── 065_0dc771a5.jpg
-│   ├── 066_4c979163.jpg
-│   ├── 067_2cd39306.jpg
-│   ├── 068_9718f48b.jpg
-│   ├── 069_bdd7c91d.jpg
-│   ├── 070_d8f59abc.jpg
-│   ├── 071_70e7bd88.jpg
-│   ├── 072_47470694.jpg
-│   ├── 073_2c17626c.jpg
-│   ├── 074_ed2be25f.jpg
-│   ├── 075_5a5afdfa.jpg
-│   ├── 076_caf65a53.jpg
-│   ├── 077_0fd24d01.jpg
-│   ├── 078_d1d62b6f.jpg
-│   ├── 079_cf4c7dee.jpg
-│   ├── 080_7e43a953.jpg
-│   ├── 081_132549cb.jpg
-│   ├── 082_2251d7b7.jpg
-│   ├── 083_c22f1140.jpg
-│   ├── 084_0f0f27e4.jpg
-│   ├── 085_b2827d47.jpg
-│   ├── 086_7ddf4f90.jpg
-│   ├── 087_2fd20b9a.jpg
-│   ├── 088_1229c0dd.jpg
-│   ├── 089_152cf5f6.jpg
-│   ├── 090_14fe77d5.jpg
-│   ├── 091_e8f3497f.jpg
-│   ├── 092_aebdc10e.jpg
-│   ├── 093_07692aea.jpg
-│   ├── 094_c0a66044.jpg
-│   ├── 095_0ccffcb8.jpg
-│   ├── 096_a0626390.jpg
-│   ├── 097_f19b4cfc.jpg
-│   ├── 098_fa237ecc.jpg
-│   ├── 099_384306de.jpg
-│   └── 100_6882dc21.jpg
-├── Johnny Depp
-│   ├── 001_2288a4f6.jpg
-│   ├── 002_331d0423.jpg
-│   ├── 003_64926b97.jpg
-│   ├── 004_18e08ab4.jpg
-│   ├── 005_9406f32d.jpg
-│   ├── 006_8fc31fd7.jpg
-│   ├── 007_1bc0bcd6.jpg
-│   ├── 008_35d1be70.jpg
-│   ├── 009_f4a38fec.jpg
-│   ├── 010_610eea60.jpg
-│   ├── 011_c826a613.jpg
-│   ├── 012_563f0843.jpg
-│   ├── 013_f44c68a1.jpg
-│   ├── 014_68248214.jpg
-│   ├── 015_0474556e.jpg
-│   ├── 016_8b4d3698.jpg
-│   ├── 017_aadefe7b.jpg
-│   ├── 018_14e5366f.jpg
-│   ├── 019_3eb26944.jpg
-│   ├── 020_6b7d8470.jpg
-│   ├── 021_9ab18f1b.jpg
-│   ├── 022_a0763313.jpg
-│   ├── 023_4e454f96.jpg
-│   ├── 024_bfac5f5b.jpg
-│   ├── 025_4f2ec7c1.jpg
-│   ├── 026_20c41942.jpg
-│   ├── 027_2eab41f9.jpg
-│   ├── 028_ce59b46d.jpg
-│   ├── 029_30aec656.jpg
-│   ├── 030_ddacf348.jpg
-│   ├── 031_86ed9fca.jpg
-│   ├── 032_4b3ee537.jpg
-│   ├── 033_ef398d45.jpg
-│   ├── 034_52d180f0.jpg
-│   ├── 035_2a1b8bcf.jpg
-│   ├── 036_c93144a5.jpg
-│   ├── 037_f2fb045b.jpg
-│   ├── 038_081386a5.jpg
-│   ├── 039_13af66c8.jpg
-│   ├── 040_2e8934ea.jpg
-│   ├── 041_6ec992c9.jpg
-│   ├── 042_05ce6c69.jpg
-│   ├── 043_77e393de.jpg
-│   ├── 044_18b89b8d.jpg
-│   ├── 045_865604b0.jpg
-│   ├── 046_31d6a7d8.jpg
-│   ├── 047_6c6a66d2.jpg
-│   ├── 048_8af82c54.jpg
-│   ├── 049_9254f6f2.jpg
-│   ├── 050_6641bd32.jpg
-│   ├── 051_2505e244.jpg
-│   ├── 052_e2e5ef6b.jpg
-│   ├── 053_5b42d9d9.jpg
-│   ├── 054_50f42b56.jpg
-│   ├── 055_cf9af56c.jpg
-│   ├── 056_c5e6243c.jpg
-│   ├── 057_ee633567.jpg
-│   ├── 058_7e4aeab8.jpg
-│   ├── 059_27a0e6f1.jpg
-│   ├── 060_3cf86eaf.jpg
-│   ├── 061_4544a552.jpg
-│   ├── 062_23b3470a.jpg
-│   ├── 063_bdcf4753.jpg
-│   ├── 064_aa733f0c.jpg
-│   ├── 065_6f1ed846.jpg
-│   ├── 066_653f2a94.jpg
-│   ├── 067_5234e510.jpg
-│   ├── 068_006344c5.jpg
-│   ├── 069_2b2270ce.jpg
-│   ├── 070_1e22daa2.jpg
-│   ├── 071_d3036d43.jpg
-│   ├── 072_f2c8b6e9.jpg
-│   ├── 073_71584704.jpg
-│   ├── 074_bd6f3a84.jpg
-│   ├── 075_21e87f0f.jpg
-│   ├── 076_b28d1fac.jpg
-│   ├── 077_5cbf1ecc.jpg
-│   ├── 078_b7114bcb.jpg
-│   ├── 079_241963dc.jpg
-│   ├── 080_38c2109a.jpg
-│   ├── 081_059a278c.jpg
-│   ├── 082_742073a1.jpg
-│   ├── 083_16b5e7ab.jpg
-│   ├── 084_3dcf601a.jpg
-│   ├── 085_e9f6ea07.jpg
-│   ├── 086_f052c533.jpg
-│   ├── 087_f9794152.jpg
-│   ├── 088_1fcc7b2c.jpg
-│   ├── 089_2f2e823a.jpg
-│   ├── 090_c5d1d9eb.jpg
-│   ├── 091_c3ad83af.jpg
-│   ├── 092_3943353c.jpg
-│   ├── 093_8cb84a89.jpg
-│   ├── 094_42a45a8d.jpg
-│   ├── 095_233dc3f2.jpg
-│   ├── 096_78a5a076.jpg
-│   ├── 097_11415581.jpg
-│   ├── 098_16b30dda.jpg
-│   ├── 099_d88c0793.jpg
-│   └── 100_120c14bc.jpg
-├── Kate Winslet
-│   ├── 001_5992faf7.jpg
-│   ├── 002_590bb980.jpg
-│   ├── 003_acb20793.jpg
-│   ├── 004_0816d969.jpg
-│   ├── 005_93b2fce9.jpg
-│   ├── 006_eda1948f.jpg
-│   ├── 007_572cf58c.jpg
-│   ├── 008_6c01eb52.jpg
-│   ├── 009_07c15c37.jpg
-│   ├── 010_6102c83d.jpg
-│   ├── 011_dbc62ba7.jpg
-│   ├── 012_a2bb90dc.jpg
-│   ├── 013_b59e4acc.jpg
-│   ├── 014_76fd590c.jpg
-│   ├── 015_3a0f9ec8.jpg
-│   ├── 016_211776b6.jpg
-│   ├── 017_fb53f84d.jpg
-│   ├── 018_738a56fd.jpg
-│   ├── 019_4402a7fe.jpg
-│   ├── 020_a7a653f4.jpg
-│   ├── 021_40180588.jpg
-│   ├── 022_6cc0e508.jpg
-│   ├── 023_06dbacd1.jpg
-│   ├── 024_cc39b61d.jpg
-│   ├── 025_0131eaa3.jpg
-│   ├── 026_92cdfd7c.jpg
-│   ├── 027_f8cd6e70.jpg
-│   ├── 028_669aab36.jpg
-│   ├── 029_890b58a4.jpg
-│   ├── 030_92cca8fa.jpg
-│   ├── 031_a92db443.jpg
-│   ├── 032_e3bf7f23.jpg
-│   ├── 033_c27883e5.jpg
-│   ├── 034_60fff082.jpg
-│   ├── 035_8e23d941.jpg
-│   ├── 036_1533e4ff.jpg
-│   ├── 037_895f9cda.jpg
-│   ├── 038_74aabb03.jpg
-│   ├── 039_1fcf8174.jpg
-│   ├── 040_a52339de.jpg
-│   ├── 041_79dd00e0.jpg
-│   ├── 042_043c0405.jpg
-│   ├── 043_f14565e2.jpg
-│   ├── 044_c2d670fb.jpg
-│   ├── 045_c36430d1.jpg
-│   ├── 046_1086f507.jpg
-│   ├── 047_c6dd0c78.jpg
-│   ├── 048_453e6cb3.jpg
-│   ├── 049_6cf6b364.jpg
-│   ├── 050_0c20b215.jpg
-│   ├── 051_06409457.jpg
-│   ├── 052_0d214eb0.jpg
-│   ├── 053_e8b9dd3f.jpg
-│   ├── 054_ca0da4ca.jpg
-│   ├── 055_30dc3531.jpg
-│   ├── 056_64fde18d.jpg
-│   ├── 057_b1a0b23b.jpg
-│   ├── 058_7f95baf4.jpg
-│   ├── 059_089c6dcd.jpg
-│   ├── 060_58b1413c.jpg
-│   ├── 061_9885f065.jpg
-│   ├── 062_92c7c5ef.jpg
-│   ├── 063_c6f8603d.jpg
-│   ├── 064_1b7da2f6.jpg
-│   ├── 065_86617a5e.jpg
-│   ├── 066_9c2fdc93.jpg
-│   ├── 067_fb02357d.jpg
-│   ├── 068_712660e4.jpg
-│   ├── 069_591ac4fc.jpg
-│   ├── 070_257cc94f.jpg
-│   ├── 071_6e010995.jpg
-│   ├── 072_5372b2f8.jpg
-│   ├── 073_f39658d0.jpg
-│   ├── 074_a880665b.jpg
-│   ├── 075_98fb973f.jpg
-│   ├── 076_2e9c4a35.jpg
-│   ├── 077_9bcf9b8c.jpg
-│   ├── 078_d36c2be3.jpg
-│   ├── 079_898bcd6c.jpg
-│   ├── 080_40110c00.jpg
-│   ├── 081_e9a7882a.jpg
-│   ├── 082_4bbff9c3.jpg
-│   ├── 083_a685594b.jpg
-│   ├── 084_25462eb9.jpg
-│   ├── 085_c957f9b7.jpg
-│   ├── 086_c7665b8f.jpg
-│   ├── 087_4ec19123.jpg
-│   ├── 088_f6c2c5d2.jpg
-│   ├── 089_16077370.jpg
-│   ├── 090_f67e981f.jpg
-│   ├── 091_930fe784.jpg
-│   ├── 092_7716bdbb.jpg
-│   ├── 093_4876af22.jpg
-│   ├── 094_b043e45c.jpg
-│   ├── 095_8ffab61d.jpg
-│   ├── 096_32a79dde.jpg
-│   ├── 097_51a924c1.jpg
-│   ├── 098_f4f39b7c.jpg
-│   ├── 099_61c7b659.jpg
-│   └── 100_6cee7c73.jpg
-├── Leonardo DiCaprio
-│   ├── 001_08194468.jpg
-│   ├── 002_86e8aa58.jpg
-│   ├── 003_85990366.jpg
-│   ├── 004_af012af1.jpg
-│   ├── 005_7fe5b764.jpg
-│   ├── 006_30010640.jpg
-│   ├── 007_6ca7c622.jpg
-│   ├── 008_35daa4bc.jpg
-│   ├── 009_b86449f6.jpg
-│   ├── 010_2f9c83bc.jpg
-│   ├── 011_0549f94d.jpg
-│   ├── 012_d7aea1e6.jpg
-│   ├── 013_ca6af517.jpg
-│   ├── 014_539eee38.jpg
-│   ├── 015_2872d02b.jpg
-│   ├── 016_7b57be6a.jpg
-│   ├── 017_51311450.jpg
-│   ├── 018_2c458568.jpg
-│   ├── 019_78627223.jpg
-│   ├── 020_14f28bc8.jpg
-│   ├── 021_eecdee92.jpg
-│   ├── 022_66e94346.jpg
-│   ├── 023_0367d72c.jpg
-│   ├── 024_bf83d073.jpg
-│   ├── 025_e5920270.jpg
-│   ├── 026_ecbdaaa7.jpg
-│   ├── 027_7094e195.jpg
-│   ├── 028_38a65d29.jpg
-│   ├── 029_8522ebc8.jpg
-│   ├── 030_60acb78e.jpg
-│   ├── 031_28a211fc.jpg
-│   ├── 032_00aee064.jpg
-│   ├── 033_312ea9ed.jpg
-│   ├── 034_00c6d43e.jpg
-│   ├── 035_ab7cf1c4.jpg
-│   ├── 036_f5ea9e84.jpg
-│   ├── 037_fe4d2d8f.jpg
-│   ├── 038_b52784d4.jpg
-│   ├── 039_d49e8191.jpg
-│   ├── 040_3a2c98cd.jpg
-│   ├── 041_c91b0923.jpg
-│   ├── 042_bfbfd7d8.jpg
-│   ├── 043_93a5e582.jpg
-│   ├── 044_f13caf17.jpg
-│   ├── 045_d074e61c.jpg
-│   ├── 046_db08e5f7.jpg
-│   ├── 047_ce57f03b.jpg
-│   ├── 048_f82caaae.jpg
-│   ├── 049_37f969c1.jpg
-│   ├── 050_e7bdecc0.jpg
-│   ├── 051_38196d60.jpg
-│   ├── 052_74c7be90.jpg
-│   ├── 053_8bfac05e.jpg
-│   ├── 054_1de20f77.jpg
-│   ├── 055_ba4ace00.jpg
-│   ├── 056_13edab75.jpg
-│   ├── 057_f0c37eee.jpg
-│   ├── 058_0a6c61e9.jpg
-│   ├── 059_1027f3c2.jpg
-│   ├── 060_668ebb3f.jpg
-│   ├── 061_57c86521.jpg
-│   ├── 062_67f50ec4.jpg
-│   ├── 063_55002ecd.jpg
-│   ├── 064_397fd4d4.jpg
-│   ├── 065_e739f721.jpg
-│   ├── 066_f048ba09.jpg
-│   ├── 067_a0efbd88.jpg
-│   ├── 068_a703f85f.jpg
-│   ├── 069_b5219746.jpg
-│   ├── 070_ae3a4fa0.jpg
-│   ├── 071_a052296d.jpg
-│   ├── 072_c887ec5c.jpg
-│   ├── 073_42e32f65.jpg
-│   ├── 074_2b2a84b6.jpg
-│   ├── 075_c2c28553.jpg
-│   ├── 076_6fca3a0c.jpg
-│   ├── 077_cd8dcf22.jpg
-│   ├── 078_a7fd9be1.jpg
-│   ├── 079_6ec91919.jpg
-│   ├── 080_2bffea0b.jpg
-│   ├── 081_a32678db.jpg
-│   ├── 082_d797cdf3.jpg
-│   ├── 083_f80d8a01.jpg
-│   ├── 084_08314073.jpg
-│   ├── 085_a292bf25.jpg
-│   ├── 086_a1441427.jpg
-│   ├── 087_1382b266.jpg
-│   ├── 088_41213f8b.jpg
-│   ├── 089_8e7757ef.jpg
-│   ├── 090_b316be20.jpg
-│   ├── 091_e39f525d.jpg
-│   ├── 092_cbc6d525.jpg
-│   ├── 093_811dc474.jpg
-│   ├── 094_78e0fb7b.jpg
-│   ├── 095_7ffaffe6.jpg
-│   ├── 096_c30a9446.jpg
-│   ├── 097_1837d89e.jpg
-│   ├── 098_f0bc37c7.jpg
-│   ├── 099_c25b7b04.jpg
-│   └── 100_ec9fe97f.jpg
-├── Megan Fox
-│   ├── 001_dfb62d96.jpg
-│   ├── 002_6e289116.jpg
-│   ├── 003_61dd1e53.jpg
-│   ├── 004_6aede3d3.jpg
-│   ├── 005_9574c208.jpg
-│   ├── 006_4e33c943.jpg
-│   ├── 007_e3073d58.jpg
-│   ├── 008_74bda018.jpg
-│   ├── 009_3283c30e.jpg
-│   ├── 010_0479e335.jpg
-│   ├── 011_b2354fd0.jpg
-│   ├── 012_d461a2b5.jpg
-│   ├── 013_f4968d00.jpg
-│   ├── 014_d6e920d4.jpg
-│   ├── 015_b4a21d28.jpg
-│   ├── 016_bd51d057.jpg
-│   ├── 017_eed36648.jpg
-│   ├── 018_394cfad7.jpg
-│   ├── 019_8e696057.jpg
-│   ├── 020_467a9bd7.jpg
-│   ├── 021_2d9dd3a2.jpg
-│   ├── 022_784eea3c.jpg
-│   ├── 023_55dd20e3.jpg
-│   ├── 024_2c2a7324.jpg
-│   ├── 025_b7dee9f2.jpg
-│   ├── 026_9ebf29ab.jpg
-│   ├── 027_308c9885.jpg
-│   ├── 028_44417c0b.jpg
-│   ├── 029_19296e1d.jpg
-│   ├── 030_02e7f231.jpg
-│   ├── 031_d719ba67.jpg
-│   ├── 032_4feb9977.jpg
-│   ├── 033_4e5edeac.jpg
-│   ├── 034_27326b4e.jpg
-│   ├── 035_21c88485.jpg
-│   ├── 036_e61191e5.jpg
-│   ├── 037_f01637d6.jpg
-│   ├── 038_fe7a12d1.jpg
-│   ├── 039_45475171.jpg
-│   ├── 040_11ad3b6e.jpg
-│   ├── 041_139bb2a5.jpg
-│   ├── 042_870cbd50.jpg
-│   ├── 043_8ab0e1e6.jpg
-│   ├── 044_bad2076f.jpg
-│   ├── 045_22823571.jpg
-│   ├── 046_953d292e.jpg
-│   ├── 047_3043a87c.jpg
-│   ├── 048_aae58619.jpg
-│   ├── 049_2efe85b0.jpg
-│   ├── 050_b4742a63.jpg
-│   ├── 051_d62b71ee.jpg
-│   ├── 052_3f3b6764.jpg
-│   ├── 053_6ad198c0.jpg
-│   ├── 054_5a9566eb.jpg
-│   ├── 055_9508128d.jpg
-│   ├── 056_ce828b1f.jpg
-│   ├── 057_d2d179a5.jpg
-│   ├── 058_1b5b5422.jpg
-│   ├── 059_d09c7676.jpg
-│   ├── 060_f5a38fe0.jpg
-│   ├── 061_d844ec74.jpg
-│   ├── 062_2539f58f.jpg
-│   ├── 063_10c723ae.jpg
-│   ├── 064_61385762.jpg
-│   ├── 065_016dc8e2.jpg
-│   ├── 066_50092138.jpg
-│   ├── 067_4017d5e9.jpg
-│   ├── 068_b8b844e2.jpg
-│   ├── 069_0ffb5c63.jpg
-│   ├── 070_4de04405.jpg
-│   ├── 071_d75194ff.jpg
-│   ├── 072_5debf32c.jpg
-│   ├── 073_b7f93635.jpg
-│   ├── 074_59a9ebff.jpg
-│   ├── 075_9b57684f.jpg
-│   ├── 076_424b03b7.jpg
-│   ├── 077_de6b59a7.jpg
-│   ├── 078_6af10def.jpg
-│   ├── 079_4e33cd00.jpg
-│   ├── 080_bff10b31.jpg
-│   ├── 081_f78b8266.jpg
-│   ├── 082_768aecdd.jpg
-│   ├── 083_323ae1e8.jpg
-│   ├── 084_70354863.jpg
-│   ├── 085_2a0a4182.jpg
-│   ├── 086_b9831d16.jpg
-│   ├── 087_90c1dd76.jpg
-│   ├── 088_29b6bf25.jpg
-│   ├── 089_ae8644ab.jpg
-│   ├── 090_a2269658.jpg
-│   ├── 091_4858eb13.jpg
-│   ├── 092_bbd39177.jpg
-│   ├── 093_82a4677f.jpg
-│   ├── 094_1095eeb6.jpg
-│   ├── 095_fc25a60b.jpg
-│   ├── 096_2ca8243d.jpg
-│   ├── 097_e1dabc00.jpg
-│   ├── 098_24676238.jpg
-│   ├── 099_82722976.jpg
-│   └── 100_f0e45dd1.jpg
-├── Natalie Portman
-│   ├── 001_9cd1160a.jpg
-│   ├── 002_3a2ef5df.jpg
-│   ├── 003_13b7bb9d.jpg
-│   ├── 004_09c5d285.jpg
-│   ├── 005_f8b76ad5.jpg
-│   ├── 006_51ad8fdd.jpg
-│   ├── 007_b82eb947.jpg
-│   ├── 008_8fc20495.jpg
-│   ├── 009_3300e98f.jpg
-│   ├── 010_9f899833.jpg
-│   ├── 011_7b37bf1f.jpg
-│   ├── 012_36c352b5.jpg
-│   ├── 013_46b35530.jpg
-│   ├── 014_2c325a73.jpg
-│   ├── 015_d425c0eb.jpg
-│   ├── 016_b170ab55.jpg
-│   ├── 017_22f7f808.jpg
-│   ├── 018_cadc0487.jpg
-│   ├── 019_58c32d1b.jpg
-│   ├── 020_c1a8bc2c.jpg
-│   ├── 021_0b9bd77d.jpg
-│   ├── 022_0b6f73be.jpg
-│   ├── 023_b70934ce.jpg
-│   ├── 024_036921f7.jpg
-│   ├── 025_c55c4e11.jpg
-│   ├── 026_588e5bb5.jpg
-│   ├── 027_ffa4c67b.jpg
-│   ├── 028_0021b8a3.jpg
-│   ├── 029_2f4ca9e5.jpg
-│   ├── 030_ff4d2ab8.jpg
-│   ├── 031_972f207f.jpg
-│   ├── 032_79db7bb4.jpg
-│   ├── 033_34c27ce3.jpg
-│   ├── 034_c658f190.jpg
-│   ├── 035_2238b9ea.jpg
-│   ├── 036_b81fcbb5.jpg
-│   ├── 037_aa4ba2b1.jpg
-│   ├── 038_4930b73f.jpg
-│   ├── 039_defb8d63.jpg
-│   ├── 040_d80d3727.jpg
-│   ├── 041_e75de60a.jpg
-│   ├── 042_8168b9f8.jpg
-│   ├── 043_a95c3f60.jpg
-│   ├── 044_775d6581.jpg
-│   ├── 045_2538be49.jpg
-│   ├── 046_87ab3cfe.jpg
-│   ├── 047_d39de18c.jpg
-│   ├── 048_9f118a78.jpg
-│   ├── 049_f7490e79.jpg
-│   ├── 050_4bfee337.jpg
-│   ├── 051_9dbec6e1.jpg
-│   ├── 052_f9072013.jpg
-│   ├── 053_5b6de4ba.jpg
-│   ├── 054_f0cd83d5.jpg
-│   ├── 055_39a3d190.jpg
-│   ├── 056_666b6673.jpg
-│   ├── 057_a633d34a.jpg
-│   ├── 058_75c1a7f6.jpg
-│   ├── 059_c13d7734.jpg
-│   ├── 060_d89f212b.jpg
-│   ├── 061_029fc37f.jpg
-│   ├── 062_e1d9ac7c.jpg
-│   ├── 063_1fb10bab.jpg
-│   ├── 064_f261e561.jpg
-│   ├── 065_3fcffc66.jpg
-│   ├── 066_6d963e5e.jpg
-│   ├── 067_706a358a.jpg
-│   ├── 068_f1faa56e.jpg
-│   ├── 069_c9e3207d.jpg
-│   ├── 070_b83e7724.jpg
-│   ├── 071_7621368b.jpg
-│   ├── 072_7dbad240.jpg
-│   ├── 073_dfbed64d.jpg
-│   ├── 074_f835bfaf.jpg
-│   ├── 075_2b6154c6.jpg
-│   ├── 076_2d7a6078.jpg
-│   ├── 077_e589a0e2.jpg
-│   ├── 078_15befce2.jpg
-│   ├── 079_61aaf003.jpg
-│   ├── 080_12cefe70.jpg
-│   ├── 081_bdc0cced.jpg
-│   ├── 082_6883328f.jpg
-│   ├── 083_7fc7beca.jpg
-│   ├── 084_9db2a724.jpg
-│   ├── 085_5abcaccb.jpg
-│   ├── 086_e6cb087e.jpg
-│   ├── 087_dabfb9e0.jpg
-│   ├── 088_c6c7b0b2.jpg
-│   ├── 089_7a22dd1d.jpg
-│   ├── 090_d2b11902.jpg
-│   ├── 091_6985bf33.jpg
-│   ├── 092_a67b993f.jpg
-│   ├── 093_dbb553bf.jpg
-│   ├── 094_6aec42c7.jpg
-│   ├── 095_00690f89.jpg
-│   ├── 096_e119e862.jpg
-│   ├── 097_ec4fe2e9.jpg
-│   ├── 098_d82741fc.jpg
-│   ├── 099_75aa5bcc.jpg
-│   └── 100_f11d5057.jpg
-├── Nicole Kidman
-│   ├── 001_504d320d.jpg
-│   ├── 002_36285f46.jpg
-│   ├── 003_98a0852a.jpg
-│   ├── 004_3491d187.jpg
-│   ├── 005_0623ac96.jpg
-│   ├── 006_04d74e12.jpg
-│   ├── 007_76dc423a.jpg
-│   ├── 008_3bfedab8.jpg
-│   ├── 009_8844bacc.jpg
-│   ├── 010_ce5bd8a2.jpg
-│   ├── 011_71969f29.jpg
-│   ├── 012_b26d9a9d.jpg
-│   ├── 013_2bff574a.jpg
-│   ├── 014_bbe9116e.jpg
-│   ├── 015_d6354178.jpg
-│   ├── 016_a669f24c.jpg
-│   ├── 017_110dcc6a.jpg
-│   ├── 018_9d776351.jpg
-│   ├── 019_43561f73.jpg
-│   ├── 020_36cd1f03.jpg
-│   ├── 021_7b2a627c.jpg
-│   ├── 022_04cbae20.jpg
-│   ├── 023_559a07b6.jpg
-│   ├── 024_482f43ed.jpg
-│   ├── 025_77aaff05.jpg
-│   ├── 026_0d302cfc.jpg
-│   ├── 027_6ef3705e.jpg
-│   ├── 028_febcaba9.jpg
-│   ├── 029_cb46b2bb.jpg
-│   ├── 030_ea2a7db1.jpg
-│   ├── 031_55e30033.jpg
-│   ├── 032_86343336.jpg
-│   ├── 033_8bed6926.jpg
-│   ├── 034_45ff908d.jpg
-│   ├── 035_2f9d5c12.jpg
-│   ├── 036_8dc5a93c.jpg
-│   ├── 037_cff9f22d.jpg
-│   ├── 038_0eaf6e02.jpg
-│   ├── 039_06b7f1ea.jpg
-│   ├── 040_dec66c8a.jpg
-│   ├── 041_0ab40c12.jpg
-│   ├── 042_daa8a279.jpg
-│   ├── 043_ff5dfc8f.jpg
-│   ├── 044_6662648a.jpg
-│   ├── 045_dc66ee1c.jpg
-│   ├── 046_511d5603.jpg
-│   ├── 047_73f5796f.jpg
-│   ├── 048_1ed346ac.jpg
-│   ├── 049_4d4c9c4e.jpg
-│   ├── 050_2b2e6e7f.jpg
-│   ├── 051_0a2d66b7.jpg
-│   ├── 052_365b9921.jpg
-│   ├── 053_37764f06.jpg
-│   ├── 054_5ab3e260.jpg
-│   ├── 055_1c893dab.jpg
-│   ├── 056_3a21c6af.jpg
-│   ├── 057_72a1674e.jpg
-│   ├── 058_a5eb69fb.jpg
-│   ├── 059_09cd1b4d.jpg
-│   ├── 060_58a7a47c.jpg
-│   ├── 061_edc107ca.jpg
-│   ├── 062_01fbd0fa.jpg
-│   ├── 063_34aa92fe.jpg
-│   ├── 064_1828c4f6.jpg
-│   ├── 065_d10379ec.jpg
-│   ├── 066_08ec842b.jpg
-│   ├── 067_1c283466.jpg
-│   ├── 068_7c776799.jpg
-│   ├── 069_12ae7288.jpg
-│   ├── 070_a4bd7cf0.jpg
-│   ├── 071_e190c3a2.jpg
-│   ├── 072_d81ec336.jpg
-│   ├── 073_0684f60d.jpg
-│   ├── 074_f13e769d.jpg
-│   ├── 075_4b3fac46.jpg
-│   ├── 076_a3e008c1.jpg
-│   ├── 077_98e4d427.jpg
-│   ├── 078_191f4273.jpg
-│   ├── 079_e3bf147b.jpg
-│   ├── 080_af0ab42d.jpg
-│   ├── 081_412ea8f5.jpg
-│   ├── 082_60cd659d.jpg
-│   ├── 083_b9c10851.jpg
-│   ├── 084_1eb9844d.jpg
-│   ├── 085_8f8cc791.jpg
-│   ├── 086_9b7a99a3.jpg
-│   ├── 087_32eed8da.jpg
-│   ├── 088_fce81ee7.jpg
-│   ├── 089_09b45d05.jpg
-│   ├── 090_8252f095.jpg
-│   ├── 091_d4af6789.jpg
-│   ├── 092_62cd3fd3.jpg
-│   ├── 093_874dd692.jpg
-│   ├── 094_4c44e0ab.jpg
-│   ├── 095_bf0ae200.jpg
-│   ├── 096_5c89f563.jpg
-│   ├── 097_d6f6f9cf.jpg
-│   ├── 098_5224652a.jpg
-│   ├── 099_015d5f74.jpg
-│   └── 100_8a6e3419.jpg
-├── Robert Downey Jr
-│   ├── 001_a51bb26a.jpg
-│   ├── 002_cc92e159.jpg
-│   ├── 003_e18853f8.jpg
-│   ├── 004_29776ffe.jpg
-│   ├── 005_8af3cada.jpg
-│   ├── 006_c26122bd.jpg
-│   ├── 007_ecb8599e.jpg
-│   ├── 008_79cd0b7b.jpg
-│   ├── 009_49237aa0.jpg
-│   ├── 010_991a88dc.jpg
-│   ├── 011_da108a07.jpg
-│   ├── 012_e3dd7d69.jpg
-│   ├── 013_9e49009e.jpg
-│   ├── 014_75f93e62.jpg
-│   ├── 015_76c98a92.jpg
-│   ├── 016_375490e8.jpg
-│   ├── 017_fd82d064.jpg
-│   ├── 018_0d23eccd.jpg
-│   ├── 019_ac261615.jpg
-│   ├── 020_b12140b8.jpg
-│   ├── 021_d1cfd3e9.jpg
-│   ├── 022_64141160.jpg
-│   ├── 023_51dce41c.jpg
-│   ├── 024_db7504a3.jpg
-│   ├── 025_467e0866.jpg
-│   ├── 026_76e88f4c.jpg
-│   ├── 027_25f404f4.jpg
-│   ├── 028_10053075.jpg
-│   ├── 029_02077e81.jpg
-│   ├── 030_adb3aa0e.jpg
-│   ├── 031_f2f3733f.jpg
-│   ├── 032_ac85b92c.jpg
-│   ├── 033_255948c8.jpg
-│   ├── 034_71739e5a.jpg
-│   ├── 035_e4be5129.jpg
-│   ├── 036_1b97e72c.jpg
-│   ├── 037_342fdd2c.jpg
-│   ├── 038_165ebb58.jpg
-│   ├── 039_bfbbf1e4.jpg
-│   ├── 040_91c31d91.jpg
-│   ├── 041_b77c7671.jpg
-│   ├── 042_6ac9e24e.jpg
-│   ├── 043_993b1247.jpg
-│   ├── 044_faec2086.jpg
-│   ├── 045_caf1e891.jpg
-│   ├── 046_a658cf42.jpg
-│   ├── 047_389fe7b8.jpg
-│   ├── 048_d7765620.jpg
-│   ├── 049_0f461a3e.jpg
-│   ├── 050_7509d1bb.jpg
-│   ├── 051_8bed72f0.jpg
-│   ├── 052_08084521.jpg
-│   ├── 053_8075590e.jpg
-│   ├── 054_d500397d.jpg
-│   ├── 055_51880515.jpg
-│   ├── 056_f2f25510.jpg
-│   ├── 057_8572457a.jpg
-│   ├── 058_4ed85318.jpg
-│   ├── 059_01c01e72.jpg
-│   ├── 060_19a80cff.jpg
-│   ├── 061_b36635a2.jpg
-│   ├── 062_81d4fb18.jpg
-│   ├── 063_fe99146b.jpg
-│   ├── 064_9ac818ed.jpg
-│   ├── 065_343bfe69.jpg
-│   ├── 066_0bdb9ac3.jpg
-│   ├── 067_fb66d8ac.jpg
-│   ├── 068_72330c63.jpg
-│   ├── 069_0548213f.jpg
-│   ├── 070_6192068e.jpg
-│   ├── 071_a9b71352.jpg
-│   ├── 072_0dbe44e4.jpg
-│   ├── 073_9d58f7ef.jpg
-│   ├── 074_a86aab43.jpg
-│   ├── 075_dff1c336.jpg
-│   ├── 076_318ed434.jpg
-│   ├── 077_a908452a.jpg
-│   ├── 078_adefb117.jpg
-│   ├── 079_91098298.jpg
-│   ├── 080_f5386479.jpg
-│   ├── 081_725684cb.jpg
-│   ├── 082_d9295121.jpg
-│   ├── 083_f284dc2b.jpg
-│   ├── 084_f5991991.jpg
-│   ├── 085_b44c8d35.jpg
-│   ├── 086_9b44c502.jpg
-│   ├── 087_7c6523e6.jpg
-│   ├── 088_ff699567.jpg
-│   ├── 089_b11d4b97.jpg
-│   ├── 090_d347e279.jpg
-│   ├── 091_5307a177.jpg
-│   ├── 092_c27c41de.jpg
-│   ├── 093_8bbca2a0.jpg
-│   ├── 094_087829ab.jpg
-│   ├── 095_dd07ab81.jpg
-│   ├── 096_84100579.jpg
-│   ├── 097_833dba65.jpg
-│   ├── 098_b78efdc8.jpg
-│   ├── 099_0d04ca3f.jpg
-│   └── 100_dcb749ca.jpg
-├── Sandra Bullock
-│   ├── 001_5ef3e95c.jpg
-│   ├── 002_24fab375.jpg
-│   ├── 003_0e3303fc.jpg
-│   ├── 004_78847874.jpg
-│   ├── 005_b0b4e2fa.jpg
-│   ├── 006_96ea405c.jpg
-│   ├── 007_5b97655c.jpg
-│   ├── 008_f9ffe0c5.jpg
-│   ├── 009_41aa3ed9.jpg
-│   ├── 010_09f6d2fe.jpg
-│   ├── 011_96913041.jpg
-│   ├── 012_9585a2f6.jpg
-│   ├── 013_3ef4eccf.jpg
-│   ├── 014_fe364387.jpg
-│   ├── 015_8a94d8c7.jpg
-│   ├── 016_206a880f.jpg
-│   ├── 017_8108b7ce.jpg
-│   ├── 018_20e2b978.jpg
-│   ├── 019_7a6470ab.jpg
-│   ├── 020_3af33d4e.jpg
-│   ├── 021_7ae7b9a5.jpg
-│   ├── 022_1c07f2df.jpg
-│   ├── 023_7214d0b2.jpg
-│   ├── 024_9385dcfc.jpg
-│   ├── 025_d5418b1e.jpg
-│   ├── 026_e5342024.jpg
-│   ├── 027_f5294957.jpg
-│   ├── 028_5388c983.jpg
-│   ├── 029_c1a6907a.jpg
-│   ├── 030_642eaf93.jpg
-│   ├── 031_ad150d21.jpg
-│   ├── 032_f3773aa6.jpg
-│   ├── 033_bc82f2a9.jpg
-│   ├── 034_3c156ed0.jpg
-│   ├── 035_bc2e1105.jpg
-│   ├── 036_701f7b42.jpg
-│   ├── 037_c035b16e.jpg
-│   ├── 038_254f6d4c.jpg
-│   ├── 039_7654fd34.jpg
-│   ├── 040_4b9bc437.jpg
-│   ├── 041_642b1b15.jpg
-│   ├── 042_d91db350.jpg
-│   ├── 043_4f352240.jpg
-│   ├── 044_49497c96.jpg
-│   ├── 045_24ebd253.jpg
-│   ├── 046_89b5683b.jpg
-│   ├── 047_afa9bc7d.jpg
-│   ├── 048_ee0ebb84.jpg
-│   ├── 049_0ba44f0d.jpg
-│   ├── 050_4bdc1f8a.jpg
-│   ├── 051_6e09f63c.jpg
-│   ├── 052_18640959.jpg
-│   ├── 053_ae92d5b1.jpg
-│   ├── 054_81a12509.jpg
-│   ├── 055_7e5055b5.jpg
-│   ├── 056_7b1ade09.jpg
-│   ├── 057_bec7ded3.jpg
-│   ├── 058_35da9cd6.jpg
-│   ├── 059_b5b38942.jpg
-│   ├── 060_a274185c.jpg
-│   ├── 061_694af034.jpg
-│   ├── 062_f2c308de.jpg
-│   ├── 063_8e71347c.jpg
-│   ├── 064_84cdff70.jpg
-│   ├── 065_164f7ee0.jpg
-│   ├── 066_54b75717.jpg
-│   ├── 067_259ec75e.jpg
-│   ├── 068_4b87f13b.jpg
-│   ├── 069_1b7a9cf8.jpg
-│   ├── 070_c3d751bb.jpg
-│   ├── 071_45baaf8f.jpg
-│   ├── 072_6abd70dd.jpg
-│   ├── 073_b0bfca72.jpg
-│   ├── 074_6e18fec0.jpg
-│   ├── 075_4b6e8283.jpg
-│   ├── 076_469143b0.jpg
-│   ├── 077_d8ba3326.jpg
-│   ├── 078_d9a9ca25.jpg
-│   ├── 079_c4558d9a.jpg
-│   ├── 080_abc596b4.jpg
-│   ├── 081_9039f6c1.jpg
-│   ├── 082_24911cfe.jpg
-│   ├── 083_d310d201.jpg
-│   ├── 084_6b81d36b.jpg
-│   ├── 085_69f8d759.jpg
-│   ├── 086_1d515df9.jpg
-│   ├── 087_16446f73.jpg
-│   ├── 088_0b2e9007.jpg
-│   ├── 089_15cc8ac7.jpg
-│   ├── 090_f3644e6b.jpg
-│   ├── 091_37b0b664.jpg
-│   ├── 092_8c255f73.jpg
-│   ├── 093_acd4a718.jpg
-│   ├── 094_b654a685.jpg
-│   ├── 095_bcb2e593.jpg
-│   ├── 096_4eb6b8b7.jpg
-│   ├── 097_783b21f0.jpg
-│   ├── 098_529825da.jpg
-│   ├── 099_d22b8b8b.jpg
-│   └── 100_e1433988.jpg
-├── Scarlett Johansson
-│   ├── 001_cb004eea.jpg
-│   ├── 002_ea6e259d.jpg
-│   ├── 003_b416eed5.jpg
-│   ├── 004_bb16ac65.jpg
-│   ├── 005_1fc7405f.jpg
-│   ├── 006_07bd8618.jpg
-│   ├── 007_c72ff5ba.jpg
-│   ├── 008_10846cce.jpg
-│   ├── 009_fc574624.jpg
-│   ├── 010_4eb6eabe.jpg
-│   ├── 011_32193038.jpg
-│   ├── 012_be8f222c.jpg
-│   ├── 013_125e020a.jpg
-│   ├── 014_d5c7b58f.jpg
-│   ├── 015_bca34e2c.jpg
-│   ├── 016_3e4f9139.jpg
-│   ├── 017_4f3f64e7.jpg
-│   ├── 018_a532251b.jpg
-│   ├── 019_9e00e190.jpg
-│   ├── 020_cce4e0e0.jpg
-│   ├── 021_0b380404.jpg
-│   ├── 022_65ffb673.jpg
-│   ├── 023_e57cc529.jpg
-│   ├── 024_6c2e4da8.jpg
-│   ├── 025_cd625bef.jpg
-│   ├── 026_f4a75554.jpg
-│   ├── 027_cdf02996.jpg
-│   ├── 028_f7fab378.jpg
-│   ├── 029_75cdebc2.jpg
-│   ├── 030_16328494.jpg
-│   ├── 031_750d847e.jpg
-│   ├── 032_7c1161c1.jpg
-│   ├── 033_e49f1cf2.jpg
-│   ├── 034_bc5b43ee.jpg
-│   ├── 035_b51d7dae.jpg
-│   ├── 036_829e603f.jpg
-│   ├── 037_ec9df32c.jpg
-│   ├── 038_e44106ce.jpg
-│   ├── 039_f69978ec.jpg
-│   ├── 040_9848047c.jpg
-│   ├── 041_9913ca04.jpg
-│   ├── 042_81d1cfae.jpg
-│   ├── 043_46a213d0.jpg
-│   ├── 044_df20e34a.jpg
-│   ├── 045_6b008fbc.jpg
-│   ├── 046_83629801.jpg
-│   ├── 047_6ec9d887.jpg
-│   ├── 048_85dcb79b.jpg
-│   ├── 049_8398d25d.jpg
-│   ├── 050_c8461888.jpg
-│   ├── 051_f852bd6d.jpg
-│   ├── 052_89d1073b.jpg
-│   ├── 053_ec47a4c0.jpg
-│   ├── 054_e93bb861.jpg
-│   ├── 055_f6e1bf43.jpg
-│   ├── 056_ec9b544d.jpg
-│   ├── 057_317143a9.jpg
-│   ├── 058_90a2b4d3.jpg
-│   ├── 059_07020e9d.jpg
-│   ├── 060_003a8f0c.jpg
-│   ├── 061_bf06c582.jpg
-│   ├── 062_c5a26020.jpg
-│   ├── 063_61a5b737.jpg
-│   ├── 064_4da75fb3.jpg
-│   ├── 065_6b64e773.jpg
-│   ├── 066_8e7dd66e.jpg
-│   ├── 067_590b9254.jpg
-│   ├── 068_45cbb6a4.jpg
-│   ├── 069_da4a375a.jpg
-│   ├── 070_f5ece24f.jpg
-│   ├── 071_9a0f4b21.jpg
-│   ├── 072_c7f23b07.jpg
-│   ├── 073_884e445b.jpg
-│   ├── 074_75c0c81a.jpg
-│   ├── 075_e0b91ee3.jpg
-│   ├── 076_6aac7281.jpg
-│   ├── 077_776d5e0f.jpg
-│   ├── 078_6b17a035.jpg
-│   ├── 079_9f634689.jpg
-│   ├── 080_d7addbd8.jpg
-│   ├── 081_f92d604e.jpg
-│   ├── 082_094c1df4.jpg
-│   ├── 083_b9787470.jpg
-│   ├── 084_96fadaf8.jpg
-│   ├── 085_72293c6d.jpg
-│   ├── 086_38ca81dd.jpg
-│   ├── 087_bb9186aa.jpg
-│   ├── 088_116c6971.jpg
-│   ├── 089_244148b6.jpg
-│   ├── 090_8e8d0b5c.jpg
-│   ├── 091_764fb4f6.jpg
-│   ├── 092_4c27282f.jpg
-│   ├── 093_fda0f117.jpg
-│   ├── 094_ad3f1b0c.jpg
-│   ├── 095_0c6b7820.jpg
-│   ├── 096_9d0cd927.jpg
-│   ├── 097_ca9cfda8.jpg
-│   ├── 098_c71a52d0.jpg
-│   ├── 099_1046eb6d.jpg
-│   ├── 100_0bc6635b.jpg
-│   ├── 101_7850b100.jpg
-│   ├── 102_97fca716.jpg
-│   ├── 103_c4026864.jpg
-│   ├── 104_71469b69.jpg
-│   ├── 105_0e19a5e1.jpg
-│   ├── 106_7d93e0c4.jpg
-│   ├── 107_76e3d093.jpg
-│   ├── 108_e118d7c8.jpg
-│   ├── 109_66b77708.jpg
-│   ├── 110_9b23a9ba.jpg
-│   ├── 111_13e0f9a5.jpg
-│   ├── 112_710c6176.jpg
-│   ├── 113_049adfc0.jpg
-│   ├── 114_4d4c877f.jpg
-│   ├── 115_b22320d3.jpg
-│   ├── 116_24bd5bec.jpg
-│   ├── 117_3aea85fd.jpg
-│   ├── 118_78748ac9.jpg
-│   ├── 119_139bab99.jpg
-│   ├── 120_e5229f43.jpg
-│   ├── 121_2cd88d49.jpg
-│   ├── 122_15d9b213.jpg
-│   ├── 123_827bf807.jpg
-│   ├── 124_2c2d9b34.jpg
-│   ├── 125_b66015af.jpg
-│   ├── 126_27b87531.jpg
-│   ├── 127_9894295d.jpg
-│   ├── 128_40ed3346.jpg
-│   ├── 129_a47a690d.jpg
-│   ├── 130_b42dfae6.jpg
-│   ├── 131_fc6adb6b.jpg
-│   ├── 132_a2dd114f.jpg
-│   ├── 133_9e5b6dda.jpg
-│   ├── 134_736d1702.jpg
-│   ├── 135_a0327bd7.jpg
-│   ├── 136_2b8c824e.jpg
-│   ├── 137_29b565f9.jpg
-│   ├── 138_c2c0dc1f.jpg
-│   ├── 139_30ec33f4.jpg
-│   ├── 140_080f3112.jpg
-│   ├── 141_7d6d4cc8.jpg
-│   ├── 142_5d78bc85.jpg
-│   ├── 143_6b2feb16.jpg
-│   ├── 144_99c39c61.jpg
-│   ├── 145_e968cdd5.jpg
-│   ├── 146_bcd22d45.jpg
-│   ├── 147_dd6adc82.jpg
-│   ├── 148_747f02af.jpg
-│   ├── 149_0668be95.jpg
-│   ├── 150_7d4d26a4.jpg
-│   ├── 151_5ddc0980.jpg
-│   ├── 152_a5f9d1a6.jpg
-│   ├── 153_e68fb09b.jpg
-│   ├── 154_42de3f25.jpg
-│   ├── 155_a52e96fe.jpg
-│   ├── 156_6bd9b374.jpg
-│   ├── 157_8843fa75.jpg
-│   ├── 158_b3e56fdd.jpg
-│   ├── 159_cc64ec9b.jpg
-│   ├── 160_c8047b80.jpg
-│   ├── 161_e9edc289.jpg
-│   ├── 162_e3501030.jpg
-│   ├── 163_b87ecc32.jpg
-│   ├── 164_18440a62.jpg
-│   ├── 165_561e5653.jpg
-│   ├── 166_1a464355.jpg
-│   ├── 167_b2390a04.jpg
-│   ├── 168_aaaf41c4.jpg
-│   ├── 169_b57b3732.jpg
-│   ├── 170_1156035a.jpg
-│   ├── 171_5f2cac37.jpg
-│   ├── 172_adae6b48.jpg
-│   ├── 173_39ab0a7f.jpg
-│   ├── 174_b300c293.jpg
-│   ├── 175_7a73f9a3.jpg
-│   ├── 176_09070ef2.jpg
-│   ├── 177_51e7fd9e.jpg
-│   ├── 178_db9db324.jpg
-│   ├── 179_d219493a.jpg
-│   ├── 180_5521d15f.jpg
-│   ├── 181_52a40655.jpg
-│   ├── 182_56820995.jpg
-│   ├── 183_065be5ce.jpg
-│   ├── 184_2137d05c.jpg
-│   ├── 185_d369de0c.jpg
-│   ├── 186_ab679730.jpg
-│   ├── 187_b430a570.jpg
-│   ├── 188_ebfc6465.jpg
-│   ├── 189_89822da8.jpg
-│   ├── 190_1d7fca25.jpg
-│   ├── 191_6b48d25b.jpg
-│   ├── 192_6f142457.jpg
-│   ├── 193_ccc81566.jpg
-│   ├── 194_3253d10f.jpg
-│   ├── 195_dc745cfd.jpg
-│   ├── 196_08de561a.jpg
-│   ├── 197_ed22acef.jpg
-│   ├── 198_e056989e.jpg
-│   ├── 199_67b0ebbd.jpg
-│   └── 200_d8491f8c.jpg
-├── Tom Cruise
-│   ├── 001_08212dcd.jpg
-│   ├── 002_6749a2c4.jpg
-│   ├── 003_ed3fb7b1.jpg
-│   ├── 004_dc64d954.jpg
-│   ├── 005_2464c583.jpg
-│   ├── 006_46519378.jpg
-│   ├── 007_0a40d399.jpg
-│   ├── 008_4d5e67ae.jpg
-│   ├── 009_1f22d945.jpg
-│   ├── 010_18d7b27c.jpg
-│   ├── 011_0dda409c.jpg
-│   ├── 012_900c5b05.jpg
-│   ├── 013_712a38d6.jpg
-│   ├── 014_50bc41b8.jpg
-│   ├── 015_8adbc3ae.jpg
-│   ├── 016_9959338f.jpg
-│   ├── 017_e1b1872c.jpg
-│   ├── 018_cae0c8ec.jpg
-│   ├── 019_99363fad.jpg
-│   ├── 020_e616c0af.jpg
-│   ├── 021_f04e960b.jpg
-│   ├── 022_43b050c3.jpg
-│   ├── 023_dd4e8918.jpg
-│   ├── 024_e7356978.jpg
-│   ├── 025_72e3b32b.jpg
-│   ├── 026_f06834e9.jpg
-│   ├── 027_7c6c360c.jpg
-│   ├── 028_a41d259d.jpg
-│   ├── 029_ea3de34c.jpg
-│   ├── 030_377fefef.jpg
-│   ├── 031_df3204d3.jpg
-│   ├── 032_5934eb7a.jpg
-│   ├── 033_d891acbd.jpg
-│   ├── 034_ed2c8762.jpg
-│   ├── 035_34c306d1.jpg
-│   ├── 036_f47a2dc9.jpg
-│   ├── 037_463cf3bd.jpg
-│   ├── 038_02f8e0ee.jpg
-│   ├── 039_107ec01f.jpg
-│   ├── 040_ca0a46b5.jpg
-│   ├── 041_e2eff4e4.jpg
-│   ├── 042_495b3b2e.jpg
-│   ├── 043_be7cc0ea.jpg
-│   ├── 044_8ce8a143.jpg
-│   ├── 045_0b1b7a65.jpg
-│   ├── 046_9ba44e0e.jpg
-│   ├── 047_e8a911aa.jpg
-│   ├── 048_21c4f84a.jpg
-│   ├── 049_78b42871.jpg
-│   ├── 050_278ec040.jpg
-│   ├── 051_566647e1.jpg
-│   ├── 052_60af6c54.jpg
-│   ├── 053_3804bf81.jpg
-│   ├── 054_5e6a651d.jpg
-│   ├── 055_3fd4465f.jpg
-│   ├── 056_158d5258.jpg
-│   ├── 057_e3da0420.jpg
-│   ├── 058_a119b343.jpg
-│   ├── 059_6b515be7.jpg
-│   ├── 060_b53036a3.jpg
-│   ├── 061_aa29ec4f.jpg
-│   ├── 062_d4b7903f.jpg
-│   ├── 063_5b917fac.jpg
-│   ├── 064_871302d1.jpg
-│   ├── 065_22f91b1e.jpg
-│   ├── 066_60ea35c5.jpg
-│   ├── 067_8dcd661e.jpg
-│   ├── 068_02e157e1.jpg
-│   ├── 069_be9dbc40.jpg
-│   ├── 070_86a8dd4b.jpg
-│   ├── 071_0ebe70f4.jpg
-│   ├── 072_dccafedf.jpg
-│   ├── 073_dc7ca0db.jpg
-│   ├── 074_f29224ac.jpg
-│   ├── 075_eed20fb4.jpg
-│   ├── 076_d4ee20ae.jpg
-│   ├── 077_58e430f4.jpg
-│   ├── 078_076c27b8.jpg
-│   ├── 079_fd41500f.jpg
-│   ├── 080_566ea9e9.jpg
-│   ├── 081_d6521f1f.jpg
-│   ├── 082_1ac0f1ee.jpg
-│   ├── 083_63bb9285.jpg
-│   ├── 084_31281f33.jpg
-│   ├── 085_698d9a21.jpg
-│   ├── 086_8a3c6af8.jpg
-│   ├── 087_8fff57dd.jpg
-│   ├── 088_fde7e34b.jpg
-│   ├── 089_20b122f3.jpg
-│   ├── 090_8f4eb0e6.jpg
-│   ├── 091_a9736a22.jpg
-│   ├── 092_53648816.jpg
-│   ├── 093_7e0d43d2.jpg
-│   ├── 094_2f713c67.jpg
-│   ├── 095_08f36cce.jpg
-│   ├── 096_b45f1da1.jpg
-│   ├── 097_914cebdd.jpg
-│   ├── 098_3790f566.jpg
-│   ├── 099_705dbe8c.jpg
-│   └── 100_32a5d9d1.jpg
-├── Tom Hanks
-│   ├── 001_986d6c22.jpg
-│   ├── 002_f6b26479.jpg
-│   ├── 003_21d0aae6.jpg
-│   ├── 004_a5881d85.jpg
-│   ├── 005_dac94cfe.jpg
-│   ├── 006_a28f75e7.jpg
-│   ├── 007_ba0aa044.jpg
-│   ├── 008_74cd0628.jpg
-│   ├── 009_474a6b2e.jpg
-│   ├── 010_2181b5f4.jpg
-│   ├── 011_1c3b7dfd.jpg
-│   ├── 012_39efc245.jpg
-│   ├── 013_b87334b3.jpg
-│   ├── 014_ff388296.jpg
-│   ├── 015_782498ae.jpg
-│   ├── 016_edfda289.jpg
-│   ├── 017_e4dd8745.jpg
-│   ├── 018_b7231fad.jpg
-│   ├── 019_c332c45a.jpg
-│   ├── 020_0847e879.jpg
-│   ├── 021_b7e22acc.jpg
-│   ├── 022_df2ce089.jpg
-│   ├── 023_2029f686.jpg
-│   ├── 024_2c8389f0.jpg
-│   ├── 025_ff5fcfbd.jpg
-│   ├── 026_bb842452.jpg
-│   ├── 027_82e30afe.jpg
-│   ├── 028_123163e1.jpg
-│   ├── 029_169c07b0.jpg
-│   ├── 030_04d77ac9.jpg
-│   ├── 031_1d57bbbf.jpg
-│   ├── 032_64d86c5b.jpg
-│   ├── 033_71aad839.jpg
-│   ├── 034_c2570ac6.jpg
-│   ├── 035_0902e9ca.jpg
-│   ├── 036_5c1a5498.jpg
-│   ├── 037_5211d423.jpg
-│   ├── 038_339bfc70.jpg
-│   ├── 039_d0c3aa09.jpg
-│   ├── 040_a8df71eb.jpg
-│   ├── 041_8f1aa118.jpg
-│   ├── 042_1276f85d.jpg
-│   ├── 043_8093149b.jpg
-│   ├── 044_de4952a5.jpg
-│   ├── 045_b472dfb1.jpg
-│   ├── 046_d84ceb59.jpg
-│   ├── 047_fa46a4c7.jpg
-│   ├── 048_043d84fd.jpg
-│   ├── 049_2924cbf0.jpg
-│   ├── 050_9269f010.jpg
-│   ├── 051_fc2e65a8.jpg
-│   ├── 052_4fb52c63.jpg
-│   ├── 053_5fde0a5b.jpg
-│   ├── 054_e2ea18b5.jpg
-│   ├── 055_31123ada.jpg
-│   ├── 056_869073c6.jpg
-│   ├── 057_153bf359.jpg
-│   ├── 058_450266ba.jpg
-│   ├── 059_c7c906d9.jpg
-│   ├── 060_78fae615.jpg
-│   ├── 061_cb7738fd.jpg
-│   ├── 062_41f18a02.jpg
-│   ├── 063_c13c362e.jpg
-│   ├── 064_898b4b7e.jpg
-│   ├── 065_10c32ecc.jpg
-│   ├── 066_72271d5a.jpg
-│   ├── 067_15f0e6bb.jpg
-│   ├── 068_0c16cd68.jpg
-│   ├── 069_fcdc8fc0.jpg
-│   ├── 070_316ffc8a.jpg
-│   ├── 071_4de68b99.jpg
-│   ├── 072_7deadeff.jpg
-│   ├── 073_dcdc4ed3.jpg
-│   ├── 074_ab0c61a6.jpg
-│   ├── 075_0268d466.jpg
-│   ├── 076_66977623.jpg
-│   ├── 077_351b17d6.jpg
-│   ├── 078_8d2a598e.jpg
-│   ├── 079_f5cc99a5.jpg
-│   ├── 080_13b6a4b6.jpg
-│   ├── 081_ff5f08ea.jpg
-│   ├── 082_41697615.jpg
-│   ├── 083_1696e0ba.jpg
-│   ├── 084_96ce3be4.jpg
-│   ├── 085_2a8883ca.jpg
-│   ├── 086_e7072dbb.jpg
-│   ├── 087_6be1cb96.jpg
-│   ├── 088_78e9691e.jpg
-│   ├── 089_c8ef8eee.jpg
-│   ├── 090_3c8ed08d.jpg
-│   ├── 091_da40c2a6.jpg
-│   ├── 092_de7a5a68.jpg
-│   ├── 093_b1decaaa.jpg
-│   ├── 094_ea1110a3.jpg
-│   ├── 095_2939d9c5.jpg
-│   ├── 096_eb059e84.jpg
-│   ├── 097_0c9b7ced.jpg
-│   ├── 098_8b5a1524.jpg
-│   ├── 099_1b1c4625.jpg
-│   └── 100_b712e7ca.jpg
-└── Will Smith
-    ├── 001_beebcee2.jpg
-    ├── 002_078f6fe5.jpg
-    ├── 003_936c5a43.jpg
-    ├── 004_af9b4c7c.jpg
-    ├── 005_37066c18.jpg
-    ├── 006_bbb6978e.jpg
-    ├── 007_9656ae64.jpg
-    ├── 008_cdaf39e7.jpg
-    ├── 009_a023db5b.jpg
-    ├── 010_8bd7dba1.jpg
-    ├── 011_0e0e8b1c.jpg
-    ├── 012_19e90fb6.jpg
-    ├── 013_19a43131.jpg
-    ├── 014_f512d81c.jpg
-    ├── 015_8da65114.jpg
-    ├── 016_d9c576a4.jpg
-    ├── 017_bb6ad7d6.jpg
-    ├── 018_d5d389eb.jpg
-    ├── 019_33ab99af.jpg
-    ├── 020_8e6bdc45.jpg
-    ├── 021_3cf2aa92.jpg
-    ├── 022_c9c4cb9f.jpg
-    ├── 023_cb306a1a.jpg
-    ├── 024_b222784a.jpg
-    ├── 025_0dc3ad3d.jpg
-    ├── 026_4f5bfb2c.jpg
-    ├── 027_803986e2.jpg
-    ├── 028_05df393f.jpg
-    ├── 029_09dcae68.jpg
-    ├── 030_df8c8fad.jpg
-    ├── 031_7ad763d7.jpg
-    ├── 032_2899cee6.jpg
-    ├── 033_241ed413.jpg
-    ├── 034_32b04ae9.jpg
-    ├── 035_9e22f213.jpg
-    ├── 036_8751d89b.jpg
-    ├── 037_17e4f89a.jpg
-    ├── 038_b28dda4c.jpg
-    ├── 039_3daa67cf.jpg
-    ├── 040_630a0d6a.jpg
-    ├── 041_bcfa1766.jpg
-    ├── 042_f6cff42f.jpg
-    ├── 043_33815e76.jpg
-    ├── 044_988edbe9.jpg
-    ├── 045_810b690c.jpg
-    ├── 046_6d5b1ed6.jpg
-    ├── 047_dc7e1839.jpg
-    ├── 048_bf9c2b11.jpg
-    ├── 049_15a71c48.jpg
-    ├── 050_f5bd72ba.jpg
-    ├── 051_1f3aede9.jpg
-    ├── 052_f15c0c78.jpg
-    ├── 053_8405b30f.jpg
-    ├── 054_cbee29ae.jpg
-    ├── 055_f9cbb53e.jpg
-    ├── 056_abd6e06b.jpg
-    ├── 057_faaa39ed.jpg
-    ├── 058_38b80eed.jpg
-    ├── 059_181bfc6b.jpg
-    ├── 060_8bb5cac3.jpg
-    ├── 061_4385aa8d.jpg
-    ├── 062_07fcfec7.jpg
-    ├── 063_46f560ca.jpg
-    ├── 064_88de03f4.jpg
-    ├── 065_5cb55293.jpg
-    ├── 066_5d45a68f.jpg
-    ├── 067_9e09ea61.jpg
-    ├── 068_b778f382.jpg
-    ├── 069_80468bd5.jpg
-    ├── 070_6743629d.jpg
-    ├── 071_5f7cdaaf.jpg
-    ├── 072_4a17b7fb.jpg
-    ├── 073_f04cd664.jpg
-    ├── 074_61fe25d9.jpg
-    ├── 075_65ffca63.jpg
-    ├── 076_d36850ba.jpg
-    ├── 077_eb907a5f.jpg
-    ├── 078_44637281.jpg
-    ├── 079_8575a4bc.jpg
-    ├── 080_94d3ede6.jpg
-    ├── 081_8dc3b149.jpg
-    ├── 082_ed9a24cc.jpg
-    ├── 083_a0692bc1.jpg
-    ├── 084_0d8b77bc.jpg
-    ├── 085_97ab4600.jpg
-    ├── 086_bd951ea7.jpg
-    ├── 087_6eba84a6.jpg
-    ├── 088_d6c5d9f4.jpg
-    ├── 089_97f39eb8.jpg
-    ├── 090_e959664a.jpg
-    ├── 091_082508dd.jpg
-    ├── 092_498e6999.jpg
-    ├── 093_dc555290.jpg
-    ├── 094_664a03cd.jpg
-    ├── 095_8a2dfab4.jpg
-    ├── 096_0881f6e7.jpg
-    ├── 097_5c18be93.jpg
-    ├── 098_6f416b6a.jpg
-    ├── 099_d652e3b6.jpg
-    └── 100_89cbf87f.jpg
-
-18 directories, 1800 files
 
 ```
 
@@ -9267,6 +7607,183 @@ This is a binary file of the type: Binary
 
 This is a binary file of the type: Binary
 
+# README.md
+
+```md
+# MacFaceSwap
+
+**MacFaceSwap** is an interactive, fun, and professional desktop application for live face-swapping and video manipulation using AI. Built with PyQt6, OpenCV, and advanced face-processing techniques, it provides a robust platform for face detection, processing, and swapping in real-time.
+
+---
+
+## Features
+
+- **Live Face Swapping:** Swap faces in real-time from camera feeds.
+- **Predefined Celebrity Faces:** Choose from a gallery of preloaded celebrity faces for swapping.
+- **Custom Face Uploads:** Upload and use your own images for face swapping.
+- **Face Bracket Toggle:** Enable or disable face brackets on the live video feed.
+- **Popout Video Window:** View the live feed in a separate, popout window.
+- **User-Friendly Interface:** Modern design with vibrant colors and interactive controls.
+
+---
+
+## Requirements
+
+- Python 3.10+
+- Virtual Environment (recommended)
+
+### Python Dependencies:
+
+Install dependencies via `pip`:
+\`\`\`bash
+pip install PyQt6 opencv-python qtawesome numpy
+\`\`\`
+
+---
+
+## Installation
+
+1. **Clone the Repository:**
+   \`\`\`bash
+   git clone https://github.com/your-repo/MacFaceSwap.git
+   cd MacFaceSwap
+   \`\`\`
+
+2. **Set Up Virtual Environment:**
+   \`\`\`bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   \`\`\`
+
+3. **Install Dependencies:**
+   \`\`\`bash
+   pip install -r requirements.txt
+   \`\`\`
+
+4. **Add Resources:**
+   Ensure the following directories are in place:
+   - `resources/icons/`: Add icons for buttons.
+   - `images/`: Add predefined face images (organized in subdirectories for each face).
+
+---
+
+## Usage
+
+1. **Run the Application:**
+   \`\`\`bash
+   python src/main.py
+   \`\`\`
+
+2. **Features in the UI:**
+   - **Camera Selection:** Select and toggle camera feeds.
+   - **Load Source Face:** Upload your image for face swapping.
+   - **Open Face Gallery:** Choose from predefined celebrity faces.
+   - **Toggle Face Brackets:** Enable or disable face detection brackets.
+   - **Popout Video:** View the video feed in a separate window.
+
+3. **Quit the Application:**
+   Close the window or press `Ctrl + Q`.
+
+---
+
+## Project Structure
+
+\`\`\`
+MacFaceSwap/
+├── src/
+│   ├── core/
+│   │   ├── face_processor.py   # Face processing logic
+│   │   ├── video_handler.py    # Camera and video feed handling
+│   ├── ui/
+│   │   ├── main_window.py      # Main application interface
+│   │   ├── face_gallery.py     # Face gallery window
+│   │   ├── video_window.py     # Popout video window
+│   └── main.py                 # Entry point for the application
+├── resources/
+│   ├── icons/                  # Icons for UI buttons
+│   └── images/                 # Predefined celebrity face images
+├── README.md                   # Project documentation
+├── requirements.txt            # Python dependencies
+├── setup.py                    # Installation setup
+└── run.sh                      # Shortcut to start the application
+\`\`\`
+
+---
+
+## How to Add Predefined Faces
+
+1. **Create Subdirectories for Each Celebrity:**
+   Place images in the `images` directory, organized by celebrity name:
+   \`\`\`
+   images/
+   ├── Tom_Hanks/
+   │   ├── image1.jpg
+   │   ├── image2.jpg
+   ├── Scarlett_Johansson/
+   │   ├── image1.jpg
+   │   ├── image2.jpg
+   \`\`\`
+
+2. **Update the Application:**
+   The application will dynamically load these images into the gallery.
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+- **Blank Popout Window:**
+  Ensure `toggle_video_window` connects the video feed to the popout window.
+- **Distorted Gallery Images:**
+  Verify that images are loaded and processed correctly in `face_gallery.py`.
+- **Face Bracket KeyError:**
+  Ensure `face` and `embedding` keys are correctly set in the source face data.
+
+### Debugging
+
+Run the application in verbose mode:
+\`\`\`bash
+python src/main.py
+\`\`\`
+
+Check logs for errors and adjust as necessary.
+
+---
+
+## Contributing
+
+1. Fork the repository.
+2. Create a feature branch:
+   \`\`\`bash
+   git checkout -b feature/your-feature
+   \`\`\`
+3. Commit your changes:
+   \`\`\`bash
+   git commit -m "Add your feature"
+   \`\`\`
+4. Push to your branch:
+   \`\`\`bash
+   git push origin feature/your-feature
+   \`\`\`
+5. Submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Acknowledgments
+
+- **PyQt6:** For the powerful GUI toolkit.
+- **OpenCV:** For robust video processing.
+- **Font Awesome:** For providing icons via `qtawesome`.
+
+```
+
 # requirements.txt
 
 ```txt
@@ -9491,34 +8008,6 @@ python src/main.py
 
 ```
 
-# setup copy.py
-
-```py
-# setup.py
-from setuptools import setup
-
-APP = ['src/main.py']
-DATA_FILES = [
-    ('models', ['models/inswapper_128.onnx', 'models/GFPGANv1.4.pth']),
-    ('resources', ['resources/Info.plist'])
-]
-
-OPTIONS = {
-    'argv_emulation': True,
-    'packages': ['cv2', 'numpy', 'insightface', 'onnxruntime'],
-    'plist': 'resources/Info.plist',  # Reference to our Info.plist file
-    'iconfile': 'resources/icon.icns', 
-}
-
-setup(
-    app=APP,
-    data_files=DATA_FILES,
-    options={'py2app': OPTIONS},
-    setup_requires=['py2app'],
-    name="MacFaceSwap"
-)
-```
-
 # setup.py
 
 ```py
@@ -9645,10 +8134,6 @@ models/*.pth
 EOL
 
 ```
-
-# src.svg
-
-This is a file of the type: SVG Image
 
 # src/__init__.py
 
@@ -9989,39 +8474,51 @@ class FaceProcessor:
             
             # Preprocess target embedding
             target_embedding = self.preprocess_embedding(target_embedding)
-            print(f"\nProcessed target embedding - mean: {np.mean(target_embedding):.3f}, std: {np.std(target_embedding):.3f}")
             
             for mapping_id, mapping in self.face_mappings.items():
-                if 'source_face' not in mapping or mapping['source_face'] is None:
+                if 'source_face' not in mapping:
                     continue
+                    
+                source_data = mapping['source_face']
                 
-                source_face = mapping['source_face']
-                if 'embedding' not in source_face:
-                    continue
-                
-                # Preprocess source embedding
-                source_embedding = self.preprocess_embedding(source_face['embedding'])
-                print(f"Processed source embedding - mean: {np.mean(source_embedding):.3f}, std: {np.std(source_embedding):.3f}")
-                
-                # Calculate cosine similarity
-                similarity = float(np.dot(target_embedding, source_embedding))
-                print(f"Raw similarity score: {similarity:.3f}")
-                
-                # Additional similarity metrics
-                l2_dist = np.linalg.norm(target_embedding - source_embedding)
-                print(f"L2 distance: {l2_dist:.3f}")
-                
-                # Adjust similarity score
-                adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
-                print(f"Adjusted similarity score: {adjusted_similarity:.3f}")
-                
-                if adjusted_similarity > best_similarity:
-                    best_similarity = adjusted_similarity
-                    best_match = {
-                        'mapping_id': mapping_id,
-                        'source_face': source_face['face'],
-                        'similarity': adjusted_similarity
-                    }
+                # Check if we have multiple embeddings
+                if 'all_embeddings' in source_data:
+                    # Compare with each embedding
+                    similarities = []
+                    for idx, emb in enumerate(source_data['all_embeddings']):
+                        source_embedding = self.preprocess_embedding(emb)
+                        similarity = float(np.dot(target_embedding, source_embedding))
+                        l2_dist = np.linalg.norm(target_embedding - source_embedding)
+                        adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
+                        similarities.append((adjusted_similarity, idx))
+                    
+                    # Get the best matching face
+                    if similarities:
+                        best_local_similarity, best_idx = max(similarities)
+                        if best_local_similarity > best_similarity:
+                            best_similarity = best_local_similarity
+                            best_match = {
+                                'mapping_id': mapping_id,
+                                'source_face': source_data['all_faces'][best_idx],
+                                'similarity': best_local_similarity
+                            }
+                else:
+                    # Fall back to single embedding comparison
+                    if 'embedding' not in source_data:
+                        continue
+                        
+                    source_embedding = self.preprocess_embedding(source_data['embedding'])
+                    similarity = float(np.dot(target_embedding, source_embedding))
+                    l2_dist = np.linalg.norm(target_embedding - source_embedding)
+                    adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
+                    
+                    if adjusted_similarity > best_similarity:
+                        best_similarity = adjusted_similarity
+                        best_match = {
+                            'mapping_id': mapping_id,
+                            'source_face': source_data['face'],
+                            'similarity': adjusted_similarity
+                        }
             
             if best_match:
                 print(f"\nFound match with similarity: {best_similarity:.3f}")
@@ -10029,7 +8526,7 @@ class FaceProcessor:
                 print(f"\nNo match found above threshold ({self.similarity_threshold})")
             
             return best_match
-        
+            
         except Exception as e:
             print(f"Error in find_best_match: {str(e)}")
             import traceback
@@ -10064,11 +8561,6 @@ class FaceProcessor:
                 return frame
             
             # Only draw detection boxes if debug mode is enabled
-            if self.debug_mode:
-                for face in current_faces:
-                    x1, y1, x2, y2 = map(int, face['bbox'])
-                    cv2.rectangle(result, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            
             swapped = result.copy()
             swap_successful = False
             
@@ -10084,9 +8576,10 @@ class FaceProcessor:
                         )
                         swap_successful = True
                         
-                        # Draw swap indicator if debug mode is enabled
+                        # Draw swap indicator ONLY if debug mode is enabled
                         if self.debug_mode:
-                            x1, y1 = map(int, face['bbox'][:2])
+                            x1, y1, x2, y2 = map(int, face['bbox'])
+                            cv2.rectangle(swapped, (x1, y1), (x2, y2), (0, 255, 0), 2)
                             cv2.putText(
                                 swapped,
                                 f"Swapped ({match['similarity']:.2f})",
@@ -10326,6 +8819,7 @@ def preprocess_celebrities(face_processor, images_dir):
     """Preprocess celebrity images and return mappings for the gallery."""
     import os
     import cv2
+    import numpy as np
 
     def load_celebrity_images(images_dir):
         """Load celebrity images from the specified directory."""
@@ -10347,15 +8841,38 @@ def preprocess_celebrities(face_processor, images_dir):
     predefined_faces = {}
 
     for celebrity, images in celebrity_images.items():
-        # Use the first image for gallery display
-        preview_image = images[0]
-        preview_data = face_processor.analyze_face(cv2.imread(preview_image))
+        print(f"\nProcessing {celebrity}...")
+        embeddings = []
+        valid_faces = []
+        face_images = []
 
-        if preview_data:
+        # Process each image for the celebrity
+        for img_path in images:
+            try:
+                image = cv2.imread(img_path)
+                if image is not None:
+                    face_data = face_processor.analyze_face(image)
+                    if face_data:
+                        embeddings.append(face_data['embedding'])
+                        valid_faces.append(face_data['face'])
+                        face_images.append(face_data['image'])
+            except Exception as e:
+                print(f"Error processing {img_path}: {str(e)}")
+
+        if embeddings:
+            # Create an average embedding from all valid faces
+            avg_embedding = np.mean(embeddings, axis=0)
+            # Normalize the average embedding
+            avg_embedding = avg_embedding / np.linalg.norm(avg_embedding)
+            
             predefined_faces[celebrity] = {
-                "image": preview_image,
-                "embedding": preview_data['embedding'],
+                "preview_image": images[0],  # Use first image for gallery preview
+                "embedding": avg_embedding,  # Use average embedding
+                "all_embeddings": embeddings,  # Keep all embeddings for matching
+                "all_faces": valid_faces,  # Keep all face objects for swapping
+                "face_images": face_images  # Keep processed face images
             }
+            print(f"Processed {len(embeddings)} faces for {celebrity}")
 
     return predefined_faces
 
@@ -10946,7 +9463,8 @@ class MainWindow(QMainWindow):
         self.video_window = None  # Add this line
         self.init_ui()
         self.setup_styles()
-        self.show_face_brackets = True  # Default state is "show brackets"
+        self.show_face_brackets = False  # Set initial state
+        self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
@@ -10982,12 +9500,10 @@ class MainWindow(QMainWindow):
     def toggle_face_brackets(self):
         """Toggle the visibility of face brackets in the live video feed."""
         self.show_face_brackets = not self.show_face_brackets
-        button_text = "Show Face Brackets" if not self.show_face_brackets else "Hide Face Brackets"
+        button_text = "Hide Face Brackets" if self.show_face_brackets else "Show Face Brackets"
         self.face_bracket_button.setText(button_text)
-        self.face_bracket_button.setIcon(
-            qta.icon('fa.check-square-o' if self.show_face_brackets else 'fa.square-o')
-        )
-        print(f"Face brackets {'enabled' if self.show_face_brackets else 'disabled'}")
+        # Update the debug mode in face processor
+        self.face_processor.set_debug_mode(self.show_face_brackets)
         
     def init_ui(self):
         self.setWindowTitle("MacFaceSwap")
@@ -11276,32 +9792,29 @@ class MainWindow(QMainWindow):
         frame = self.video_handler.get_latest_frame()
         if frame is None:
             return
-            
+
         if self.face_processor and hasattr(self.face_processor, 'process_frame'):
             processed_frame = self.face_processor.process_frame(frame)
             if processed_frame is not None:
                 frame = processed_frame
-        
-        # Convert frame while preserving original dimensions
+
+        if not self.show_face_brackets:
+            # Clear face brackets if the toggle is off
+            frame = self.clear_brackets(frame)
+
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        height, width = frame.shape[:2]
-        
-        qt_image = QImage(rgb_frame.data, width, height, 
-                         rgb_frame.strides[0], 
-                         QImage.Format.Format_RGB888)
-        
-        # Scale once, using original frame dimensions
-        fixed_width = 640  # Base width
-        ratio = fixed_width / width
-        fixed_height = int(height * ratio)
-        
-        self.video_label.setPixmap(
-            QPixmap.fromImage(qt_image).scaled(
-                fixed_width, fixed_height,
-                Qt.AspectRatioMode.IgnoreAspectRatio,
-                Qt.TransformationMode.FastTransformation
-            )
+        h, w = frame.shape[:2]
+        bytes_per_line = 3 * w
+        qt_image = QImage(rgb_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+        pixmap = QPixmap.fromImage(qt_image).scaled(
+            640, 480, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
         )
+        self.video_label.setPixmap(pixmap)
+        
+    def clear_brackets(self, frame):
+        """Clear face brackets from the frame."""
+        # If your face processor adds face brackets, modify this function to remove them.
+        return frame
 
     def closeEvent(self, event):
         """Handle application closing"""
@@ -11443,33 +9956,36 @@ class MainWindow(QMainWindow):
         """)
         return group
     
-    def set_source_face(self, image, embedding=None):
+    def set_source_face(self, image, data=None):
         """Set the source face and update the UI."""
         if image is None:
             QMessageBox.warning(self, "Error", "No valid image provided")
             return
-        
-        if embedding is None:
-        # Analyze the face if no embedding is provided
+
+        if data is None:
+            # Single image processing
             face_data = self.face_processor.analyze_face(image)
             if not face_data:
                 QMessageBox.warning(self, "Error", "No face detected in the image")
                 return
-            embedding = face_data['embedding']
-            image = face_data['image']
-            face = face_data['face']  # Extract the face
+                
+            self.source_face = {
+                'face': face_data['face'],
+                'embedding': face_data['embedding'],
+                'image': face_data['image']
+            }
         else:
-            # If embedding is provided (gallery), extract face bounding box
-            face_data = self.face_processor.analyze_face(image)
-            face = face_data['face'] if face_data else None
-
-        # Set source face data
-        self.source_face = {
-            'image': image,
-            'embedding': embedding,
-            'face': face,  # Ensure 'face' key is set
-        }
-        self.update_preview(image)
+            # Celebrity with multiple faces
+            self.source_face = {
+                'face': data.get('all_faces', [None])[0],  # First face for preview
+                'embedding': data['embedding'],  # Average embedding
+                'all_faces': data['all_faces'],  # All face objects
+                'all_embeddings': data['all_embeddings'],  # All embeddings
+                'image': cv2.imread(data['preview_image'])  # Preview image
+            }
+            
+        # Update the preview with the first/main image
+        self.update_preview(self.source_face['image'])
         self.set_frame_processor()
         print("Source face updated successfully")
 

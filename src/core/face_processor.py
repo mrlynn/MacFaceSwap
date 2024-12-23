@@ -12,19 +12,21 @@ import time
 
 class FaceProcessor:
     def __init__(self):
-        """Initialize face processing components"""
+        """Initialize face processing components with enhanced quality settings"""
         try:
             print("\nInitializing FaceProcessor...")
-            self.face_mappings = {}  # Initialize face mappings
+            self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
             
-            # Initialize face analyzer
+            # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
                 name='buffalo_l',
-                providers=[self.execution_provider]
+                providers=[self.execution_provider],
+                allowed_modules=['detection', 'recognition']
             )
+            # Increase detection size for better quality
             self.face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
             print("Face analyzer ready")
             
@@ -34,35 +36,28 @@ class FaceProcessor:
             if not os.path.exists(model_path):
                 raise FileNotFoundError(f"Model not found: {model_path}")
             
-            print(f"Loading model from: {model_path}")
-            print(f"Using execution provider: {self.execution_provider}")
-            
             self.face_swapper = insightface.model_zoo.get_model(
                 model_path,
                 providers=[self.execution_provider]
             )
             
-            # Verify face swapper loaded correctly
-            if self.face_swapper is None:
-                raise RuntimeError("Face swapper failed to initialize")
+            # Enhanced similarity settings
+            self.similarity_threshold = 0.2  # Lower threshold for better matching
+            self.cache_size = 10  # Increased cache size
+            self.process_every_n_frames = 1  # Process every frame
             
-            print("Face swapper loaded successfully")
-            print(f"Model shape: {self.face_swapper.get_input_shape() if hasattr(self.face_swapper, 'get_input_shape') else 'Unknown'}")
+            # Face detection settings
+            self.detection_threshold = 0.6  # Increased confidence threshold
+            self.min_face_size = 30  # Minimum face size to process
             
-            # Initialize tracking variables
-            self.face_cache = {}
-            self.cache_size = 5
-            self.last_detection = None
-            self.detection_threshold = 0.3
-            self.similarity_threshold = 0.1
-            self.debug_mode = True
+            # Image enhancement settings
+            self.use_face_enhancement = True
+            self.enhancement_level = 1.0  # Adjustable enhancement strength
             
-            print("FaceProcessor initialization complete")
+            print("FaceProcessor initialization complete with enhanced settings")
             
         except Exception as e:
             print(f"Error initializing FaceProcessor: {str(e)}")
-            import traceback
-            traceback.print_exc()
             raise
 
     def set_face_mappings(self, mappings: Dict[str, Any]) -> None:
@@ -122,39 +117,51 @@ class FaceProcessor:
             
             # Preprocess target embedding
             target_embedding = self.preprocess_embedding(target_embedding)
-            print(f"\nProcessed target embedding - mean: {np.mean(target_embedding):.3f}, std: {np.std(target_embedding):.3f}")
             
             for mapping_id, mapping in self.face_mappings.items():
-                if 'source_face' not in mapping or mapping['source_face'] is None:
+                if 'source_face' not in mapping:
                     continue
+                    
+                source_data = mapping['source_face']
                 
-                source_face = mapping['source_face']
-                if 'embedding' not in source_face:
-                    continue
-                
-                # Preprocess source embedding
-                source_embedding = self.preprocess_embedding(source_face['embedding'])
-                print(f"Processed source embedding - mean: {np.mean(source_embedding):.3f}, std: {np.std(source_embedding):.3f}")
-                
-                # Calculate cosine similarity
-                similarity = float(np.dot(target_embedding, source_embedding))
-                print(f"Raw similarity score: {similarity:.3f}")
-                
-                # Additional similarity metrics
-                l2_dist = np.linalg.norm(target_embedding - source_embedding)
-                print(f"L2 distance: {l2_dist:.3f}")
-                
-                # Adjust similarity score
-                adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
-                print(f"Adjusted similarity score: {adjusted_similarity:.3f}")
-                
-                if adjusted_similarity > best_similarity:
-                    best_similarity = adjusted_similarity
-                    best_match = {
-                        'mapping_id': mapping_id,
-                        'source_face': source_face['face'],
-                        'similarity': adjusted_similarity
-                    }
+                # Check if we have multiple embeddings
+                if 'all_embeddings' in source_data:
+                    # Compare with each embedding
+                    similarities = []
+                    for idx, emb in enumerate(source_data['all_embeddings']):
+                        source_embedding = self.preprocess_embedding(emb)
+                        similarity = float(np.dot(target_embedding, source_embedding))
+                        l2_dist = np.linalg.norm(target_embedding - source_embedding)
+                        adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
+                        similarities.append((adjusted_similarity, idx))
+                    
+                    # Get the best matching face
+                    if similarities:
+                        best_local_similarity, best_idx = max(similarities)
+                        if best_local_similarity > best_similarity:
+                            best_similarity = best_local_similarity
+                            best_match = {
+                                'mapping_id': mapping_id,
+                                'source_face': source_data['all_faces'][best_idx],
+                                'similarity': best_local_similarity
+                            }
+                else:
+                    # Fall back to single embedding comparison
+                    if 'embedding' not in source_data:
+                        continue
+                        
+                    source_embedding = self.preprocess_embedding(source_data['embedding'])
+                    similarity = float(np.dot(target_embedding, source_embedding))
+                    l2_dist = np.linalg.norm(target_embedding - source_embedding)
+                    adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
+                    
+                    if adjusted_similarity > best_similarity:
+                        best_similarity = adjusted_similarity
+                        best_match = {
+                            'mapping_id': mapping_id,
+                            'source_face': source_data['face'],
+                            'similarity': adjusted_similarity
+                        }
             
             if best_match:
                 print(f"\nFound match with similarity: {best_similarity:.3f}")
@@ -162,7 +169,7 @@ class FaceProcessor:
                 print(f"\nNo match found above threshold ({self.similarity_threshold})")
             
             return best_match
-        
+            
         except Exception as e:
             print(f"Error in find_best_match: {str(e)}")
             import traceback
@@ -185,7 +192,8 @@ class FaceProcessor:
             return 'CoreMLExecutionProvider'
         return 'CPUExecutionProvider'
 
-    def process_frame(self, frame: np.ndarray) -> np.ndarray:
+    def process_frame(self, frame):
+        """Process frame with enhanced quality settings"""
         if frame is None:
             return frame
         
@@ -196,30 +204,40 @@ class FaceProcessor:
             if not current_faces:
                 return frame
             
-            # Only draw detection boxes if debug mode is enabled
-            if self.debug_mode:
-                for face in current_faces:
-                    x1, y1, x2, y2 = map(int, face['bbox'])
-                    cv2.rectangle(result, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            
             swapped = result.copy()
             swap_successful = False
             
             for face in current_faces:
+                # Skip small faces
+                bbox_width = face['bbox'][2] - face['bbox'][0]
+                if bbox_width < self.min_face_size:
+                    continue
+                    
                 match = self.find_best_match(face['embedding'])
-                if match:
+                if match and match['similarity'] > self.similarity_threshold:
                     try:
+                        # Apply face swap with enhanced settings
                         swapped = self.face_swapper.get(
                             swapped,
                             face['face'],
                             match['source_face'],
                             paste_back=True
                         )
+                        
+                        # Apply face enhancement if enabled
+                        if self.use_face_enhancement:
+                            swapped = self.enhance_face_region(
+                                swapped,
+                                face['bbox'],
+                                self.enhancement_level
+                            )
+                            
                         swap_successful = True
                         
                         # Draw swap indicator if debug mode is enabled
                         if self.debug_mode:
-                            x1, y1 = map(int, face['bbox'][:2])
+                            x1, y1, x2, y2 = map(int, face['bbox'])
+                            cv2.rectangle(swapped, (x1, y1), (x2, y2), (0, 255, 0), 2)
                             cv2.putText(
                                 swapped,
                                 f"Swapped ({match['similarity']:.2f})",
@@ -455,39 +473,91 @@ class FaceProcessor:
             print(f"Face swapper test failed: {str(e)}")
             return False
 
-def preprocess_celebrities(face_processor, images_dir):
+    def enhance_face_region(self, image, bbox, strength=1.0):
+        """Apply enhancement to the face region"""
+        try:
+            x1, y1, x2, y2 = map(int, bbox)
+            face_region = image[y1:y2, x1:x2]
+            
+            # Apply subtle sharpening
+            kernel = np.array([[-1,-1,-1],
+                             [-1, 9,-1],
+                             [-1,-1,-1]]) * strength
+            sharpened = cv2.filter2D(face_region, -1, kernel)
+            
+            # Blend the sharpened region with original
+            enhanced = cv2.addWeighted(face_region, 0.7, sharpened, 0.3, 0)
+            
+            # Place enhanced region back
+            result = image.copy()
+            result[y1:y2, x1:x2] = enhanced
+            return result
+            
+        except Exception as e:
+            print(f"Error enhancing face region: {e}")
+            return image
+
+def preprocess_celebrities(face_processor, images_dir, max_images_per_celebrity=3):
     """Preprocess celebrity images and return mappings for the gallery."""
     import os
     import cv2
+    import numpy as np
+    import random
 
-    def load_celebrity_images(images_dir):
-        """Load celebrity images from the specified directory."""
+    def load_celebrity_images(images_dir, max_images):
+        """Load a limited number of celebrity images from the specified directory."""
         celebrities = {}
         for celebrity in os.listdir(images_dir):
             celebrity_dir = os.path.join(images_dir, celebrity)
             if os.path.isdir(celebrity_dir):
                 # Collect all images in the celebrity's directory
-                images = [
+                all_images = [
                     os.path.join(celebrity_dir, file)
                     for file in os.listdir(celebrity_dir)
                     if file.lower().endswith(('.png', '.jpg', '.jpeg'))
                 ]
-                if images:
-                    celebrities[celebrity] = images
+                if all_images:
+                    # Randomly select up to max_images
+                    selected_images = random.sample(all_images, min(max_images, len(all_images)))
+                    celebrities[celebrity] = selected_images
         return celebrities
 
-    celebrity_images = load_celebrity_images(images_dir)
+    print("\nLoading celebrity images...")
+    celebrity_images = load_celebrity_images(images_dir, max_images_per_celebrity)
     predefined_faces = {}
 
     for celebrity, images in celebrity_images.items():
-        # Use the first image for gallery display
-        preview_image = images[0]
-        preview_data = face_processor.analyze_face(cv2.imread(preview_image))
+        print(f"\nProcessing {celebrity}...")
+        embeddings = []
+        valid_faces = []
+        preview_image = None
 
-        if preview_data:
+        # Process each image for the celebrity
+        for img_path in images:
+            try:
+                image = cv2.imread(img_path)
+                if image is not None:
+                    face_data = face_processor.analyze_face(image)
+                    if face_data:
+                        embeddings.append(face_data['embedding'])
+                        valid_faces.append(face_data['face'])
+                        if preview_image is None:
+                            preview_image = img_path  # Store the first successful image path
+            except Exception as e:
+                print(f"Error processing {img_path}: {str(e)}")
+
+        if embeddings and preview_image:
+            # Create an average embedding from all valid faces
+            avg_embedding = np.mean(embeddings, axis=0)
+            # Normalize the average embedding
+            avg_embedding = avg_embedding / np.linalg.norm(avg_embedding)
+            
             predefined_faces[celebrity] = {
-                "image": preview_image,
-                "embedding": preview_data['embedding'],
+                "preview_image": preview_image,  # Store the image path
+                "embedding": avg_embedding,
+                "all_embeddings": embeddings,
+                "all_faces": valid_faces
             }
+            print(f"Processed {len(embeddings)} faces for {celebrity}")
 
     return predefined_faces

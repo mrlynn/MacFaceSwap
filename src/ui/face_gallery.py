@@ -1,7 +1,7 @@
 # src/ui/face_gallery.py
 
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QGridLayout, QPushButton, QLabel
-from PyQt6.QtGui import QPixmap, QImage, QIcon  # Import QIcon
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QGridLayout, QPushButton, QLabel, QScrollArea, QWidget
+from PyQt6.QtGui import QPixmap, QImage, QIcon
 from PyQt6.QtCore import Qt
 import cv2
 
@@ -12,57 +12,67 @@ class FaceGallery(QDialog):
         self.setMinimumSize(800, 600)
         self.predefined_faces = predefined_faces
         self.selected_face = None
+        self.init_ui()
 
+    def init_ui(self):
         layout = QVBoxLayout(self)
-        grid_layout = QGridLayout()
-        layout.addLayout(grid_layout)
+        
+        # Add scroll area
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        layout.addWidget(scroll)
+        
+        # Create container widget for scroll area
+        container = QWidget()
+        grid_layout = QGridLayout(container)
+        scroll.setWidget(container)
 
+        # Add faces to grid
         row, col = 0, 0
         for name, data in self.predefined_faces.items():
-            # Create a button with the face image
-            button = QPushButton()
-            button.setFixedSize(150, 150)
-            pixmap = self.load_face_image(data['image'])
-            # button.setIcon(pixmap)
-            button.setIcon(self.load_face_image(data['image']))
-            button.setIconSize(button.size())
-            button.clicked.connect(lambda _, n=name: self.select_face(n))
-            grid_layout.addWidget(button, row, col)
-
-            # Label for the face name
-            label = QLabel(name)
-            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            grid_layout.addWidget(label, row + 1, col)
-
-            col += 1
-            if col > 3:  # 4 columns
-                col = 0
-                row += 2
-
-    def load_face_image(self, file_path):
-        """Load and return a QIcon from the image path."""
-        image = cv2.imread(file_path)
-
-        # Verify the image was loaded
-        if image is None:
-            print(f"Failed to load image: {file_path}")
-            return QIcon()
-
-        # Convert BGR (OpenCV) to RGB (Qt)
-        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-        # Create a QImage from the RGB image
-        h, w, ch = rgb_image.shape
-        bytes_per_line = ch * w
-        q_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
-
-        # Scale the QImage and convert to QPixmap
-        pixmap = QPixmap.fromImage(q_image).scaled(
-            150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
-        )
-
-        # Wrap the QPixmap in a QIcon
-        return QIcon(pixmap)
+            try:
+                # Create frame for each celebrity
+                frame = QWidget()
+                frame_layout = QVBoxLayout(frame)
+                
+                # Create image button
+                button = QPushButton()
+                button.setFixedSize(150, 150)
+                
+                # Load and set image
+                if 'preview_image' in data:
+                    image = cv2.imread(data['preview_image'])
+                    if image is not None:
+                        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                        h, w = image.shape[:2]
+                        q_image = QImage(image.data, w, h, w * 3, QImage.Format.Format_RGB888)
+                        pixmap = QPixmap.fromImage(q_image)
+                        scaled_pixmap = pixmap.scaled(
+                            150, 150,
+                            Qt.AspectRatioMode.KeepAspectRatio,
+                            Qt.TransformationMode.SmoothTransformation
+                        )
+                        button.setIcon(QIcon(scaled_pixmap))
+                        button.setIconSize(button.size())
+                
+                button.clicked.connect(lambda checked, n=name: self.select_face(n))
+                frame_layout.addWidget(button)
+                
+                # Add name label
+                label = QLabel(name)
+                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                frame_layout.addWidget(label)
+                
+                grid_layout.addWidget(frame, row, col)
+                
+                # Update grid position
+                col += 1
+                if col > 3:
+                    col = 0
+                    row += 1
+                    
+            except Exception as e:
+                print(f"Error adding {name} to gallery: {str(e)}")
 
     def select_face(self, name):
         self.selected_face = name

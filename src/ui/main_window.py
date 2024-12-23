@@ -2,7 +2,8 @@
 
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-    QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider
+    QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
+    QCheckBox
 )
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QImage, QPixmap
@@ -23,7 +24,8 @@ class MainWindow(QMainWindow):
         self.video_window = None  # Add this line
         self.init_ui()
         self.setup_styles()
-        self.show_face_brackets = True  # Default state is "show brackets"
+        self.show_face_brackets = False  # Set initial state
+        self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
@@ -59,12 +61,10 @@ class MainWindow(QMainWindow):
     def toggle_face_brackets(self):
         """Toggle the visibility of face brackets in the live video feed."""
         self.show_face_brackets = not self.show_face_brackets
-        button_text = "Show Face Brackets" if not self.show_face_brackets else "Hide Face Brackets"
+        button_text = "Hide Face Brackets" if self.show_face_brackets else "Show Face Brackets"
         self.face_bracket_button.setText(button_text)
-        self.face_bracket_button.setIcon(
-            qta.icon('fa.check-square-o' if self.show_face_brackets else 'fa.square-o')
-        )
-        print(f"Face brackets {'enabled' if self.show_face_brackets else 'disabled'}")
+        # Update the debug mode in face processor
+        self.face_processor.set_debug_mode(self.show_face_brackets)
         
     def init_ui(self):
         self.setWindowTitle("MacFaceSwap")
@@ -146,6 +146,29 @@ class MainWindow(QMainWindow):
         settings_layout.addWidget(threshold_widget)
         sidebar_layout.addLayout(settings_layout)
 
+        # Quality controls
+        quality_group = QGroupBox("Quality Settings")
+        quality_layout = QVBoxLayout()
+
+        # Enhancement toggle
+        self.enhancement_toggle = QCheckBox("Enable Face Enhancement")
+        self.enhancement_toggle.setChecked(True)
+        self.enhancement_toggle.stateChanged.connect(self.toggle_enhancement)
+        quality_layout.addWidget(self.enhancement_toggle)
+
+        # Enhancement strength slider
+        strength_layout = QHBoxLayout()
+        strength_layout.addWidget(QLabel("Enhancement:"))
+        self.enhancement_slider = QSlider(Qt.Orientation.Horizontal)
+        self.enhancement_slider.setRange(0, 100)
+        self.enhancement_slider.setValue(50)
+        self.enhancement_slider.valueChanged.connect(self.update_enhancement)
+        strength_layout.addWidget(self.enhancement_slider)
+        quality_layout.addLayout(strength_layout)
+
+        quality_group.setLayout(quality_layout)
+        sidebar_layout.addWidget(quality_group)
+
         sidebar_layout.addStretch()
 
         # Source preview
@@ -202,15 +225,32 @@ class MainWindow(QMainWindow):
 
     def open_face_gallery(self):
         """Open the gallery pop-out window."""
-        from src.ui.face_gallery import FaceGallery  # Ensure you import FaceGallery
-        
-        gallery = FaceGallery(self.predefined_faces, self)
-        if gallery.exec():  # Modal dialog
-            selected_face = gallery.selected_face
-            if selected_face:
-                face_data = self.predefined_faces[selected_face]
-                self.set_source_face(cv2.imread(face_data['image']), face_data['embedding'])
-                print(f"Selected face: {selected_face}")
+        try:
+            from src.ui.face_gallery import FaceGallery
+            
+            if not self.predefined_faces:
+                print("No predefined faces available")
+                QMessageBox.warning(self, "Error", "No predefined faces available")
+                return
+                
+            print(f"Opening gallery with {len(self.predefined_faces)} faces")
+            gallery = FaceGallery(self.predefined_faces, self)
+            
+            if gallery.exec():  # Modal dialog
+                selected_face = gallery.selected_face
+                if selected_face and selected_face in self.predefined_faces:
+                    face_data = self.predefined_faces[selected_face]
+                    image = cv2.imread(face_data['preview_image'])
+                    if image is not None:
+                        self.set_source_face(image, face_data)
+                        print(f"Selected face: {selected_face}")
+                    else:
+                        print(f"Failed to load image for {selected_face}")
+                        QMessageBox.warning(self, "Error", f"Failed to load image for {selected_face}")
+                
+        except Exception as e:
+            print(f"Error opening face gallery: {str(e)}")
+            QMessageBox.warning(self, "Error", f"Error opening face gallery: {str(e)}")
 
     def setup_styles(self):
         self.setStyleSheet("""
@@ -517,32 +557,43 @@ class MainWindow(QMainWindow):
         """)
         return group
     
-    def set_source_face(self, image, embedding=None):
+    def set_source_face(self, image, data=None):
         """Set the source face and update the UI."""
         if image is None:
             QMessageBox.warning(self, "Error", "No valid image provided")
             return
-        
-        if embedding is None:
-        # Analyze the face if no embedding is provided
+
+        if data is None:
+            # Single image processing
             face_data = self.face_processor.analyze_face(image)
             if not face_data:
                 QMessageBox.warning(self, "Error", "No face detected in the image")
                 return
-            embedding = face_data['embedding']
-            image = face_data['image']
-            face = face_data['face']  # Extract the face
+                
+            self.source_face = {
+                'face': face_data['face'],
+                'embedding': face_data['embedding'],
+                'image': face_data['image']
+            }
         else:
-            # If embedding is provided (gallery), extract face bounding box
-            face_data = self.face_processor.analyze_face(image)
-            face = face_data['face'] if face_data else None
-
-        # Set source face data
-        self.source_face = {
-            'image': image,
-            'embedding': embedding,
-            'face': face,  # Ensure 'face' key is set
-        }
-        self.update_preview(image)
+            # Celebrity with multiple faces
+            self.source_face = {
+                'face': data.get('all_faces', [None])[0],  # First face for preview
+                'embedding': data['embedding'],  # Average embedding
+                'all_faces': data['all_faces'],  # All face objects
+                'all_embeddings': data['all_embeddings'],  # All embeddings
+                'image': cv2.imread(data['preview_image'])  # Preview image
+            }
+            
+        # Update the preview with the first/main image
+        self.update_preview(self.source_face['image'])
         self.set_frame_processor()
         print("Source face updated successfully")
+
+    def toggle_enhancement(self, state):
+        """Toggle face enhancement"""
+        self.face_processor.use_face_enhancement = bool(state)
+
+    def update_enhancement(self, value):
+        """Update enhancement strength"""
+        self.face_processor.enhancement_level = value / 50.0  # Scale to 0-2 range
