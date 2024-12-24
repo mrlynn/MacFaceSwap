@@ -443,27 +443,53 @@ class MainWindow(QMainWindow):
                     print("Camera started successfully")
                 else:
                     print("Failed to start camera")
+                    
+    def process_frame(self, frame):
+        """Process frame with face swapping and route to appropriate display"""
+        if frame is None:
+            return None
+            
+        try:
+            # Apply face swapping if processor is available
+            if self.face_processor and hasattr(self.face_processor, 'process_frame'):
+                processed_frame = self.face_processor.process_frame(frame)
+                if processed_frame is not None:
+                    frame = processed_frame
+
+            # Clear face brackets if the toggle is off
+            if not self.show_face_brackets:
+                frame = self.clear_brackets(frame)
+                
+            # Update both main window and popout window if it exists
+            if self.video_window:
+                self.video_window.update_frame(frame)
+                
+            return frame
+            
+        except Exception as e:
+            print(f"Error processing frame: {str(e)}")
+            return frame
 
     def update_frame(self):
+        """Update the video frame in the main window"""
         frame = self.video_handler.get_latest_frame()
         if frame is None:
             return
-
-        if self.face_processor and hasattr(self.face_processor, 'process_frame'):
-            processed_frame = self.face_processor.process_frame(frame)
-            if processed_frame is not None:
-                frame = processed_frame
-
-        if not self.show_face_brackets:
-            # Clear face brackets if the toggle is off
-            frame = self.clear_brackets(frame)
-
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        h, w = frame.shape[:2]
+            
+        # Process the frame
+        processed_frame = self.process_frame(frame)
+        if processed_frame is None:
+            return
+            
+        # Convert and display the frame
+        rgb_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
+        h, w = processed_frame.shape[:2]
         bytes_per_line = 3 * w
         qt_image = QImage(rgb_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
         pixmap = QPixmap.fromImage(qt_image).scaled(
-            640, 480, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
+            640, 480, 
+            Qt.AspectRatioMode.KeepAspectRatio, 
+            Qt.TransformationMode.SmoothTransformation
         )
         self.video_label.setPixmap(pixmap)
         
@@ -583,22 +609,24 @@ class MainWindow(QMainWindow):
         print(f"Detection box display {'enabled' if checked else 'disabled'}")
 
     def toggle_video_window(self):
-        """Toggle the video window"""
+        """Toggle the video window while maintaining face swapping"""
         try:
             if self.video_window is None:
                 from src.ui.video_window import VideoWindow
-                self.video_window = VideoWindow(self)  # Set parent to main window
+                self.video_window = VideoWindow(self)
                 self.video_window.closed.connect(self.on_video_window_closed)
                 self.video_window.show()
                 self.popout_button.setText("Close Video Window")
-
-                # Route video frames to the popout window
-                self.video_handler.set_processing_callback(self.video_window.update_frame)
+                
+                # Update video handler callback to process frames
+                self.video_handler.set_processing_callback(self.process_frame)
             else:
                 self.video_window.close()
                 self.video_window = None
                 self.popout_button.setText("Popout Video")
-                self.video_handler.set_processing_callback(self.update_frame)
+                
+                # Reset video handler callback
+                self.video_handler.set_processing_callback(self.process_frame)
         except Exception as e:
             print(f"Error toggling video window: {str(e)}")
 
