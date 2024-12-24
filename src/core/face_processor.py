@@ -9,6 +9,7 @@ import insightface
 from insightface.app import FaceAnalysis
 import platform
 import time
+from src import get_resource_path
 
 class FaceProcessor:
     def __init__(self):
@@ -18,7 +19,9 @@ class FaceProcessor:
             self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
-            
+            self.prev_face_positions = []
+            self.position_smoothing_window = 3
+            self.position_threshold = 10.0  # pixels
             # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
@@ -42,14 +45,20 @@ class FaceProcessor:
             )
             
             # Enhanced similarity settings
-            self.similarity_threshold = 0.2  # Lower threshold for better matching
+            self.similarity_threshold = 0.1  # Lower threshold for better matching
             self.cache_size = 10  # Increased cache size
             self.process_every_n_frames = 1  # Process every frame
             
             # Face detection settings
-            self.detection_threshold = 0.6  # Increased confidence threshold
-            self.min_face_size = 30  # Minimum face size to process
-            
+            self.detection_threshold = 0.5  # Increased confidence threshold
+            self.min_face_size = 20  # Minimum face size to process
+
+            # Add face tracking
+            self.last_face_location = None
+            self.last_successful_swap = None
+            self.face_track_threshold = 50  # pixels
+            self.stable_frames_required = 3
+            self.stable_frame_count = 0            
             # Image enhancement settings
             self.use_face_enhancement = True
             self.enhancement_level = 1.0  # Adjustable enhancement strength
@@ -59,6 +68,53 @@ class FaceProcessor:
         except Exception as e:
             print(f"Error initializing FaceProcessor: {str(e)}")
             raise
+        
+    def smooth_face_position(self, current_bbox):
+        """Apply temporal smoothing to face positions"""
+        if not self.prev_face_positions:
+            self.prev_face_positions.append(current_bbox)
+            return current_bbox
+            
+        # Convert to center point
+        curr_center = [(current_bbox[0] + current_bbox[2])/2, 
+                    (current_bbox[1] + current_bbox[3])/2]
+                    
+        # Calculate smoothed position
+        smoothed_center = curr_center
+        if len(self.prev_face_positions) > 0:
+            prev_centers = [[(box[0] + box[2])/2, (box[1] + box[3])/2] 
+                        for box in self.prev_face_positions]
+            
+            # Check if movement is within threshold
+            prev_center = prev_centers[-1]
+            movement = np.sqrt((curr_center[0] - prev_center[0])**2 + 
+                            (curr_center[1] - prev_center[1])**2)
+                            
+            if movement < self.position_threshold:
+                # Apply smoothing
+                weights = np.linspace(0.5, 1.0, len(prev_centers) + 1)
+                weights = weights / weights.sum()
+                
+                smoothed_x = np.average([c[0] for c in prev_centers + [curr_center]], 
+                                    weights=weights)
+                smoothed_y = np.average([c[1] for c in prev_centers + [curr_center]], 
+                                    weights=weights)
+                smoothed_center = [smoothed_x, smoothed_y]
+        
+        # Update position history
+        self.prev_face_positions.append(current_bbox)
+        if len(self.prev_face_positions) > self.position_smoothing_window:
+            self.prev_face_positions.pop(0)
+            
+        # Convert back to bbox
+        width = current_bbox[2] - current_bbox[0]
+        height = current_bbox[3] - current_bbox[1]
+        return [
+            smoothed_center[0] - width/2,
+            smoothed_center[1] - height/2,
+            smoothed_center[0] + width/2,
+            smoothed_center[1] + height/2
+        ]
 
     def set_face_mappings(self, mappings: Dict[str, Any]) -> None:
         """Update the face mappings dictionary with validation"""
@@ -113,7 +169,7 @@ class FaceProcessor:
                 return None
             
             best_match = None
-            best_similarity = self.similarity_threshold
+            best_similarity = 0  # Start from 0 instead of threshold
             
             # Preprocess target embedding
             target_embedding = self.preprocess_embedding(target_embedding)
@@ -125,7 +181,7 @@ class FaceProcessor:
                 source_data = mapping['source_face']
                 
                 # Check if we have multiple embeddings
-                if 'all_embeddings' in source_data:
+                if 'all_embeddings' in source_data and source_data['all_embeddings']:
                     # Compare with each embedding
                     similarities = []
                     for idx, emb in enumerate(source_data['all_embeddings']):
@@ -135,16 +191,15 @@ class FaceProcessor:
                         adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
                         similarities.append((adjusted_similarity, idx))
                     
-                    # Get the best matching face
-                    if similarities:
-                        best_local_similarity, best_idx = max(similarities)
-                        if best_local_similarity > best_similarity:
-                            best_similarity = best_local_similarity
-                            best_match = {
-                                'mapping_id': mapping_id,
-                                'source_face': source_data['all_faces'][best_idx],
-                                'similarity': best_local_similarity
-                            }
+                    max_similarity, best_idx = max(similarities)
+
+                    if max_similarity > best_similarity:
+                        best_similarity = max_similarity
+                        best_match = {
+                            'mapping_id': mapping_id,
+                            'source_face': source_data['all_faces'][best_idx],
+                            'similarity': max_similarity
+                        }
                 else:
                     # Fall back to single embedding comparison
                     if 'embedding' not in source_data:
@@ -193,30 +248,29 @@ class FaceProcessor:
         return 'CPUExecutionProvider'
 
     def process_frame(self, frame):
-        """Process frame with enhanced quality settings"""
         if frame is None:
             return frame
-        
+            
         try:
             result = frame.copy()
             current_faces = self.detect_faces(frame)
             
             if not current_faces:
                 return frame
-            
+                
             swapped = result.copy()
             swap_successful = False
             
+            # Properly indented for loop block
             for face in current_faces:
-                # Skip small faces
-                bbox_width = face['bbox'][2] - face['bbox'][0]
-                if bbox_width < self.min_face_size:
-                    continue
-                    
+                # Apply position smoothing
+                smoothed_bbox = self.smooth_face_position(face['bbox'])
+                face['bbox'] = smoothed_bbox
+                
                 match = self.find_best_match(face['embedding'])
                 if match and match['similarity'] > self.similarity_threshold:
                     try:
-                        # Apply face swap with enhanced settings
+                        # Apply face swap with enhanced settings and smoothed position
                         swapped = self.face_swapper.get(
                             swapped,
                             face['face'],
@@ -224,33 +278,20 @@ class FaceProcessor:
                             paste_back=True
                         )
                         
-                        # Apply face enhancement if enabled
+                        # Apply additional stabilization if enabled
                         if self.use_face_enhancement:
                             swapped = self.enhance_face_region(
-                                swapped,
-                                face['bbox'],
+                                swapped, 
+                                smoothed_bbox,
                                 self.enhancement_level
                             )
                             
                         swap_successful = True
                         
-                        # Draw swap indicator if debug mode is enabled
-                        if self.debug_mode:
-                            x1, y1, x2, y2 = map(int, face['bbox'])
-                            cv2.rectangle(swapped, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                            cv2.putText(
-                                swapped,
-                                f"Swapped ({match['similarity']:.2f})",
-                                (x1, y1 - 10),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                0.5,
-                                (0, 255, 0),
-                                2
-                            )
                     except Exception as e:
                         print(f"Error in face swap: {e}")
                         continue
-                    
+                        
             return swapped if swap_successful else result
             
         except Exception as e:
@@ -507,6 +548,7 @@ def preprocess_celebrities(face_processor, images_dir, max_images_per_celebrity=
     def load_celebrity_images(images_dir, max_images):
         """Load a limited number of celebrity images from the specified directory."""
         celebrities = {}
+        images_dir = get_resource_path('images')
         for celebrity in os.listdir(images_dir):
             celebrity_dir = os.path.join(images_dir, celebrity)
             if os.path.isdir(celebrity_dir):

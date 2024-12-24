@@ -1,14 +1,3 @@
-# .aidigestignore
-
-```
-build/
-dist/
-.eggs
-__pycache__/
-venv/
-
-```
-
 # .gitignore
 
 ```
@@ -188,59 +177,49 @@ cython_debug/
 
 ```
 
-# DeepLiveCam.spec
+# build.sh
 
-```spec
-# -*- mode: python ; coding: utf-8 -*-
+```sh
+#!/bin/bash
 
+# Exit on error
+set -e
 
-a = Analysis(
-    ['src/main.py'],
-    pathex=['./src'],
-    binaries=[],
-    datas=[
-        ('resources/icon.icns', 'resources/icon.icns'),  # Example for individual files
-        ('resources/installer_background.png', 'resources/installer_background.png'),
-        ('models/inswapper_128.onnx', 'models/'),
-        ('models/GFPGANv1.4.pth', 'models/'),
-    ],    
-    hiddenimports=['cv2', 'numpy', 'PyQt6', 'insightface'],
-    hookspath=[],
-    hooksconfig={},
-    runtime_hooks=[],
-    excludes=[],
-    noarchive=False,
-    optimize=0,
-)
-pyz = PYZ(a.pure)
+echo "Starting build process..."
 
-exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.datas,
-    [],
-    name='DeepLiveCam',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
-)
-app = BUNDLE(
-    exe,
-    name='DeepLiveCam.app',
-    icon=None,
-    bundle_identifier=None,
-)
+# Ensure we're in the project root
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$PROJECT_ROOT"
 
+# Create and activate virtual environment if it doesn't exist
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv venv
+fi
+
+source venv/bin/activate
+
+# Upgrade pip
+echo "Upgrading pip..."
+pip install --upgrade pip
+
+# Install requirements
+echo "Installing requirements..."
+pip install -r requirements.txt
+
+# Install PyInstaller
+echo "Installing PyInstaller..."
+pip install pyinstaller
+
+# Clean previous builds
+echo "Cleaning previous builds..."
+rm -rf build dist
+
+# Build the app
+echo "Building application with PyInstaller..."
+pyinstaller MacFaceSwap.spec
+
+echo "Build complete! App is located in dist/MacFaceSwap.app"
 ```
 
 # images/Angelina Jolie/001_fe3347c0.jpg
@@ -7504,85 +7483,33 @@ if __name__ == '__main__':
     init_project()
 ```
 
-# MacFaceSwap.spec
+# make_dmg.sh
 
-```spec
-# -*- mode: python ; coding: utf-8 -*-
+```sh
+#!/bin/bash
 
-block_cipher = None
-
-a = Analysis(
-    ['src/main.py'],
-    pathex=['src'],
-    binaries=[],
-    datas=[
-        ('models/inswapper_128.onnx', 'models'),
-        ('models/GFPGANv1.4.pth', 'models'),
-        ('resources/icon.icns', 'resources')
-    ],
-    hookspath=[],
-    hooksconfig={},
-    runtime_hooks=[],
-    hiddenimports=[
-        'cv2',
-        'numpy',
-        'onnxruntime',
-        'insightface',
-        'PyQt6',
-        'PyQt6.QtCore',
-        'PyQt6.QtGui',
-        'PyQt6.QtWidgets',
-        'matplotlib',
-        'matplotlib.backends.backend_qt5agg'
-    ],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
-    noarchive=False,
-)
-
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
-
-exe = EXE(
-    pyz,
-    a.scripts,
-    [],
-    exclude_binaries=True,
-    name='MacFaceSwap',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=True,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
-    icon='resources/icon.icns'
-)
-
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='MacFaceSwap'
-)
-
-app = BUNDLE(
-    coll,
-    name='MacFaceSwap.app',
-    icon='resources/icon.icns',
-    bundle_identifier='com.mlynnorg.macfaceswap',
-    info_plist={
-        'NSHighResolutionCapable': True,
-        'NSCameraUsageDescription': 'MacFaceSwap needs access to your camera for face swapping functionality.',
-    }
-)
+# Create DMG after building app
+if [ -d "dist/MacFaceSwap.app" ]; then
+    echo "Creating DMG..."
+    
+    # Install create-dmg if not already installed
+    if ! command -v create-dmg &> /dev/null; then
+        brew install create-dmg
+    fi
+    
+    # Create DMG
+    create-dmg \
+        --volname "MacFaceSwap" \
+        --volicon "resources/icon.icns" \
+        --window-pos 200 120 \
+        --window-size 800 400 \
+        --icon-size 100 \
+        --icon "MacFaceSwap.app" 200 190 \
+        --hide-extension "MacFaceSwap.app" \
+        --app-drop-link 600 185 \
+        "dist/MacFaceSwap.dmg" \
+        "dist/MacFaceSwap.app"
+fi
 ```
 
 # models/GFPGANv1.4.pth
@@ -8364,19 +8291,23 @@ import time
 
 class FaceProcessor:
     def __init__(self):
-        """Initialize face processing components"""
+        """Initialize face processing components with enhanced quality settings"""
         try:
             print("\nInitializing FaceProcessor...")
-            self.face_mappings = {}  # Initialize face mappings
+            self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
-            
-            # Initialize face analyzer
+            self.prev_face_positions = []
+            self.position_smoothing_window = 3
+            self.position_threshold = 10.0  # pixels
+            # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
                 name='buffalo_l',
-                providers=[self.execution_provider]
+                providers=[self.execution_provider],
+                allowed_modules=['detection', 'recognition']
             )
+            # Increase detection size for better quality
             self.face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
             print("Face analyzer ready")
             
@@ -8386,36 +8317,82 @@ class FaceProcessor:
             if not os.path.exists(model_path):
                 raise FileNotFoundError(f"Model not found: {model_path}")
             
-            print(f"Loading model from: {model_path}")
-            print(f"Using execution provider: {self.execution_provider}")
-            
             self.face_swapper = insightface.model_zoo.get_model(
                 model_path,
                 providers=[self.execution_provider]
             )
             
-            # Verify face swapper loaded correctly
-            if self.face_swapper is None:
-                raise RuntimeError("Face swapper failed to initialize")
+            # Enhanced similarity settings
+            self.similarity_threshold = 0.1  # Lower threshold for better matching
+            self.cache_size = 10  # Increased cache size
+            self.process_every_n_frames = 1  # Process every frame
             
-            print("Face swapper loaded successfully")
-            print(f"Model shape: {self.face_swapper.get_input_shape() if hasattr(self.face_swapper, 'get_input_shape') else 'Unknown'}")
+            # Face detection settings
+            self.detection_threshold = 0.5  # Increased confidence threshold
+            self.min_face_size = 20  # Minimum face size to process
+
+            # Add face tracking
+            self.last_face_location = None
+            self.last_successful_swap = None
+            self.face_track_threshold = 50  # pixels
+            self.stable_frames_required = 3
+            self.stable_frame_count = 0            
+            # Image enhancement settings
+            self.use_face_enhancement = True
+            self.enhancement_level = 1.0  # Adjustable enhancement strength
             
-            # Initialize tracking variables
-            self.face_cache = {}
-            self.cache_size = 5
-            self.last_detection = None
-            self.detection_threshold = 0.3
-            self.similarity_threshold = 0.1
-            self.debug_mode = True
-            
-            print("FaceProcessor initialization complete")
+            print("FaceProcessor initialization complete with enhanced settings")
             
         except Exception as e:
             print(f"Error initializing FaceProcessor: {str(e)}")
-            import traceback
-            traceback.print_exc()
             raise
+        
+    def smooth_face_position(self, current_bbox):
+        """Apply temporal smoothing to face positions"""
+        if not self.prev_face_positions:
+            self.prev_face_positions.append(current_bbox)
+            return current_bbox
+            
+        # Convert to center point
+        curr_center = [(current_bbox[0] + current_bbox[2])/2, 
+                    (current_bbox[1] + current_bbox[3])/2]
+                    
+        # Calculate smoothed position
+        smoothed_center = curr_center
+        if len(self.prev_face_positions) > 0:
+            prev_centers = [[(box[0] + box[2])/2, (box[1] + box[3])/2] 
+                        for box in self.prev_face_positions]
+            
+            # Check if movement is within threshold
+            prev_center = prev_centers[-1]
+            movement = np.sqrt((curr_center[0] - prev_center[0])**2 + 
+                            (curr_center[1] - prev_center[1])**2)
+                            
+            if movement < self.position_threshold:
+                # Apply smoothing
+                weights = np.linspace(0.5, 1.0, len(prev_centers) + 1)
+                weights = weights / weights.sum()
+                
+                smoothed_x = np.average([c[0] for c in prev_centers + [curr_center]], 
+                                    weights=weights)
+                smoothed_y = np.average([c[1] for c in prev_centers + [curr_center]], 
+                                    weights=weights)
+                smoothed_center = [smoothed_x, smoothed_y]
+        
+        # Update position history
+        self.prev_face_positions.append(current_bbox)
+        if len(self.prev_face_positions) > self.position_smoothing_window:
+            self.prev_face_positions.pop(0)
+            
+        # Convert back to bbox
+        width = current_bbox[2] - current_bbox[0]
+        height = current_bbox[3] - current_bbox[1]
+        return [
+            smoothed_center[0] - width/2,
+            smoothed_center[1] - height/2,
+            smoothed_center[0] + width/2,
+            smoothed_center[1] + height/2
+        ]
 
     def set_face_mappings(self, mappings: Dict[str, Any]) -> None:
         """Update the face mappings dictionary with validation"""
@@ -8470,7 +8447,7 @@ class FaceProcessor:
                 return None
             
             best_match = None
-            best_similarity = self.similarity_threshold
+            best_similarity = 0  # Start from 0 instead of threshold
             
             # Preprocess target embedding
             target_embedding = self.preprocess_embedding(target_embedding)
@@ -8482,7 +8459,7 @@ class FaceProcessor:
                 source_data = mapping['source_face']
                 
                 # Check if we have multiple embeddings
-                if 'all_embeddings' in source_data:
+                if 'all_embeddings' in source_data and source_data['all_embeddings']:
                     # Compare with each embedding
                     similarities = []
                     for idx, emb in enumerate(source_data['all_embeddings']):
@@ -8492,16 +8469,15 @@ class FaceProcessor:
                         adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
                         similarities.append((adjusted_similarity, idx))
                     
-                    # Get the best matching face
-                    if similarities:
-                        best_local_similarity, best_idx = max(similarities)
-                        if best_local_similarity > best_similarity:
-                            best_similarity = best_local_similarity
-                            best_match = {
-                                'mapping_id': mapping_id,
-                                'source_face': source_data['all_faces'][best_idx],
-                                'similarity': best_local_similarity
-                            }
+                    max_similarity, best_idx = max(similarities)
+
+                    if max_similarity > best_similarity:
+                        best_similarity = max_similarity
+                        best_match = {
+                            'mapping_id': mapping_id,
+                            'source_face': source_data['all_faces'][best_idx],
+                            'similarity': max_similarity
+                        }
                 else:
                     # Fall back to single embedding comparison
                     if 'embedding' not in source_data:
@@ -8549,50 +8525,51 @@ class FaceProcessor:
             return 'CoreMLExecutionProvider'
         return 'CPUExecutionProvider'
 
-    def process_frame(self, frame: np.ndarray) -> np.ndarray:
+    def process_frame(self, frame):
         if frame is None:
             return frame
-        
+            
         try:
             result = frame.copy()
             current_faces = self.detect_faces(frame)
             
             if not current_faces:
                 return frame
-            
-            # Only draw detection boxes if debug mode is enabled
+                
             swapped = result.copy()
             swap_successful = False
             
+            # Properly indented for loop block
             for face in current_faces:
+                # Apply position smoothing
+                smoothed_bbox = self.smooth_face_position(face['bbox'])
+                face['bbox'] = smoothed_bbox
+                
                 match = self.find_best_match(face['embedding'])
-                if match:
+                if match and match['similarity'] > self.similarity_threshold:
                     try:
+                        # Apply face swap with enhanced settings and smoothed position
                         swapped = self.face_swapper.get(
                             swapped,
                             face['face'],
                             match['source_face'],
                             paste_back=True
                         )
+                        
+                        # Apply additional stabilization if enabled
+                        if self.use_face_enhancement:
+                            swapped = self.enhance_face_region(
+                                swapped, 
+                                smoothed_bbox,
+                                self.enhancement_level
+                            )
+                            
                         swap_successful = True
                         
-                        # Draw swap indicator ONLY if debug mode is enabled
-                        if self.debug_mode:
-                            x1, y1, x2, y2 = map(int, face['bbox'])
-                            cv2.rectangle(swapped, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                            cv2.putText(
-                                swapped,
-                                f"Swapped ({match['similarity']:.2f})",
-                                (x1, y1 - 10),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                0.5,
-                                (0, 255, 0),
-                                2
-                            )
                     except Exception as e:
                         print(f"Error in face swap: {e}")
                         continue
-                    
+                        
             return swapped if swap_successful else result
             
         except Exception as e:
@@ -8815,36 +8792,64 @@ class FaceProcessor:
             print(f"Face swapper test failed: {str(e)}")
             return False
 
-def preprocess_celebrities(face_processor, images_dir):
+    def enhance_face_region(self, image, bbox, strength=1.0):
+        """Apply enhancement to the face region"""
+        try:
+            x1, y1, x2, y2 = map(int, bbox)
+            face_region = image[y1:y2, x1:x2]
+            
+            # Apply subtle sharpening
+            kernel = np.array([[-1,-1,-1],
+                             [-1, 9,-1],
+                             [-1,-1,-1]]) * strength
+            sharpened = cv2.filter2D(face_region, -1, kernel)
+            
+            # Blend the sharpened region with original
+            enhanced = cv2.addWeighted(face_region, 0.7, sharpened, 0.3, 0)
+            
+            # Place enhanced region back
+            result = image.copy()
+            result[y1:y2, x1:x2] = enhanced
+            return result
+            
+        except Exception as e:
+            print(f"Error enhancing face region: {e}")
+            return image
+
+def preprocess_celebrities(face_processor, images_dir, max_images_per_celebrity=3):
     """Preprocess celebrity images and return mappings for the gallery."""
     import os
     import cv2
     import numpy as np
+    import random
 
-    def load_celebrity_images(images_dir):
-        """Load celebrity images from the specified directory."""
+    def load_celebrity_images(images_dir, max_images):
+        """Load a limited number of celebrity images from the specified directory."""
         celebrities = {}
         for celebrity in os.listdir(images_dir):
             celebrity_dir = os.path.join(images_dir, celebrity)
             if os.path.isdir(celebrity_dir):
                 # Collect all images in the celebrity's directory
-                images = [
+                all_images = [
                     os.path.join(celebrity_dir, file)
                     for file in os.listdir(celebrity_dir)
                     if file.lower().endswith(('.png', '.jpg', '.jpeg'))
                 ]
-                if images:
-                    celebrities[celebrity] = images
+                if all_images:
+                    # Randomly select up to max_images
+                    selected_images = random.sample(all_images, min(max_images, len(all_images)))
+                    celebrities[celebrity] = selected_images
         return celebrities
 
-    celebrity_images = load_celebrity_images(images_dir)
+    print("\nLoading celebrity images...")
+    celebrity_images = load_celebrity_images(images_dir, max_images_per_celebrity)
     predefined_faces = {}
 
     for celebrity, images in celebrity_images.items():
         print(f"\nProcessing {celebrity}...")
         embeddings = []
         valid_faces = []
-        face_images = []
+        preview_image = None
 
         # Process each image for the celebrity
         for img_path in images:
@@ -8855,22 +8860,22 @@ def preprocess_celebrities(face_processor, images_dir):
                     if face_data:
                         embeddings.append(face_data['embedding'])
                         valid_faces.append(face_data['face'])
-                        face_images.append(face_data['image'])
+                        if preview_image is None:
+                            preview_image = img_path  # Store the first successful image path
             except Exception as e:
                 print(f"Error processing {img_path}: {str(e)}")
 
-        if embeddings:
+        if embeddings and preview_image:
             # Create an average embedding from all valid faces
             avg_embedding = np.mean(embeddings, axis=0)
             # Normalize the average embedding
             avg_embedding = avg_embedding / np.linalg.norm(avg_embedding)
             
             predefined_faces[celebrity] = {
-                "preview_image": images[0],  # Use first image for gallery preview
-                "embedding": avg_embedding,  # Use average embedding
-                "all_embeddings": embeddings,  # Keep all embeddings for matching
-                "all_faces": valid_faces,  # Keep all face objects for swapping
-                "face_images": face_images  # Keep processed face images
+                "preview_image": preview_image,  # Store the image path
+                "embedding": avg_embedding,
+                "all_embeddings": embeddings,
+                "all_faces": valid_faces
             }
             print(f"Processed {len(embeddings)} faces for {celebrity}")
 
@@ -9059,9 +9064,14 @@ class VideoHandler:
 
     def _capture_loop(self):
         """Main capture loop running in separate thread"""
+        frame_counter = 0
         while self.is_running and self.camera and self.camera.isOpened():
             ret, frame = self.camera.read()
             if not ret or frame is None:
+                continue
+                
+            frame_counter += 1
+            if frame_counter % self.process_every_n_frames != 0:
                 continue
                 
             processed_frame = frame.copy()
@@ -9076,7 +9086,7 @@ class VideoHandler:
             
             # Thread-safe frame update
             with self.frame_lock:
-                self.current_frame = frame
+                self.current_frame = processed_frame
         
     def _update_fps(self):
         """Update FPS calculation"""
@@ -9192,8 +9202,8 @@ if __name__ == '__main__':
 ```py
 # src/ui/face_gallery.py
 
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QGridLayout, QPushButton, QLabel
-from PyQt6.QtGui import QPixmap, QImage, QIcon  # Import QIcon
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QGridLayout, QPushButton, QLabel, QScrollArea, QWidget
+from PyQt6.QtGui import QPixmap, QImage, QIcon
 from PyQt6.QtCore import Qt
 import cv2
 
@@ -9204,62 +9214,71 @@ class FaceGallery(QDialog):
         self.setMinimumSize(800, 600)
         self.predefined_faces = predefined_faces
         self.selected_face = None
+        self.init_ui()
 
+    def init_ui(self):
         layout = QVBoxLayout(self)
-        grid_layout = QGridLayout()
-        layout.addLayout(grid_layout)
+        
+        # Add scroll area
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        layout.addWidget(scroll)
+        
+        # Create container widget for scroll area
+        container = QWidget()
+        grid_layout = QGridLayout(container)
+        scroll.setWidget(container)
 
+        # Add faces to grid
         row, col = 0, 0
         for name, data in self.predefined_faces.items():
-            # Create a button with the face image
-            button = QPushButton()
-            button.setFixedSize(150, 150)
-            pixmap = self.load_face_image(data['image'])
-            # button.setIcon(pixmap)
-            button.setIcon(self.load_face_image(data['image']))
-            button.setIconSize(button.size())
-            button.clicked.connect(lambda _, n=name: self.select_face(n))
-            grid_layout.addWidget(button, row, col)
-
-            # Label for the face name
-            label = QLabel(name)
-            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            grid_layout.addWidget(label, row + 1, col)
-
-            col += 1
-            if col > 3:  # 4 columns
-                col = 0
-                row += 2
-
-    def load_face_image(self, file_path):
-        """Load and return a QIcon from the image path."""
-        image = cv2.imread(file_path)
-
-        # Verify the image was loaded
-        if image is None:
-            print(f"Failed to load image: {file_path}")
-            return QIcon()
-
-        # Convert BGR (OpenCV) to RGB (Qt)
-        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-        # Create a QImage from the RGB image
-        h, w, ch = rgb_image.shape
-        bytes_per_line = ch * w
-        q_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
-
-        # Scale the QImage and convert to QPixmap
-        pixmap = QPixmap.fromImage(q_image).scaled(
-            150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
-        )
-
-        # Wrap the QPixmap in a QIcon
-        return QIcon(pixmap)
+            try:
+                # Create frame for each celebrity
+                frame = QWidget()
+                frame_layout = QVBoxLayout(frame)
+                
+                # Create image button
+                button = QPushButton()
+                button.setFixedSize(150, 150)
+                
+                # Load and set image
+                if 'preview_image' in data:
+                    image = cv2.imread(data['preview_image'])
+                    if image is not None:
+                        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                        h, w = image.shape[:2]
+                        q_image = QImage(image.data, w, h, w * 3, QImage.Format.Format_RGB888)
+                        pixmap = QPixmap.fromImage(q_image)
+                        scaled_pixmap = pixmap.scaled(
+                            150, 150,
+                            Qt.AspectRatioMode.KeepAspectRatio,
+                            Qt.TransformationMode.SmoothTransformation
+                        )
+                        button.setIcon(QIcon(scaled_pixmap))
+                        button.setIconSize(button.size())
+                
+                button.clicked.connect(lambda checked, n=name: self.select_face(n))
+                frame_layout.addWidget(button)
+                
+                # Add name label
+                label = QLabel(name)
+                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                frame_layout.addWidget(label)
+                
+                grid_layout.addWidget(frame, row, col)
+                
+                # Update grid position
+                col += 1
+                if col > 3:
+                    col = 0
+                    row += 1
+                    
+            except Exception as e:
+                print(f"Error adding {name} to gallery: {str(e)}")
 
     def select_face(self, name):
         self.selected_face = name
         self.accept()
-
 ```
 
 # src/ui/face_mapping.py
@@ -9442,7 +9461,8 @@ class FaceMappingRow(QFrame):
 
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-    QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider
+    QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
+    QCheckBox
 )
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QImage, QPixmap
@@ -9585,6 +9605,29 @@ class MainWindow(QMainWindow):
         settings_layout.addWidget(threshold_widget)
         sidebar_layout.addLayout(settings_layout)
 
+        # Quality controls
+        quality_group = QGroupBox("Quality Settings")
+        quality_layout = QVBoxLayout()
+
+        # Enhancement toggle
+        self.enhancement_toggle = QCheckBox("Enable Face Enhancement")
+        self.enhancement_toggle.setChecked(True)
+        self.enhancement_toggle.stateChanged.connect(self.toggle_enhancement)
+        quality_layout.addWidget(self.enhancement_toggle)
+
+        # Enhancement strength slider
+        strength_layout = QHBoxLayout()
+        strength_layout.addWidget(QLabel("Enhancement:"))
+        self.enhancement_slider = QSlider(Qt.Orientation.Horizontal)
+        self.enhancement_slider.setRange(0, 100)
+        self.enhancement_slider.setValue(50)
+        self.enhancement_slider.valueChanged.connect(self.update_enhancement)
+        strength_layout.addWidget(self.enhancement_slider)
+        quality_layout.addLayout(strength_layout)
+
+        quality_group.setLayout(quality_layout)
+        sidebar_layout.addWidget(quality_group)
+
         sidebar_layout.addStretch()
 
         # Source preview
@@ -9641,15 +9684,32 @@ class MainWindow(QMainWindow):
 
     def open_face_gallery(self):
         """Open the gallery pop-out window."""
-        from src.ui.face_gallery import FaceGallery  # Ensure you import FaceGallery
-        
-        gallery = FaceGallery(self.predefined_faces, self)
-        if gallery.exec():  # Modal dialog
-            selected_face = gallery.selected_face
-            if selected_face:
-                face_data = self.predefined_faces[selected_face]
-                self.set_source_face(cv2.imread(face_data['image']), face_data['embedding'])
-                print(f"Selected face: {selected_face}")
+        try:
+            from src.ui.face_gallery import FaceGallery
+            
+            if not self.predefined_faces:
+                print("No predefined faces available")
+                QMessageBox.warning(self, "Error", "No predefined faces available")
+                return
+                
+            print(f"Opening gallery with {len(self.predefined_faces)} faces")
+            gallery = FaceGallery(self.predefined_faces, self)
+            
+            if gallery.exec():  # Modal dialog
+                selected_face = gallery.selected_face
+                if selected_face and selected_face in self.predefined_faces:
+                    face_data = self.predefined_faces[selected_face]
+                    image = cv2.imread(face_data['preview_image'])
+                    if image is not None:
+                        self.set_source_face(image, face_data)
+                        print(f"Selected face: {selected_face}")
+                    else:
+                        print(f"Failed to load image for {selected_face}")
+                        QMessageBox.warning(self, "Error", f"Failed to load image for {selected_face}")
+                
+        except Exception as e:
+            print(f"Error opening face gallery: {str(e)}")
+            QMessageBox.warning(self, "Error", f"Error opening face gallery: {str(e)}")
 
     def setup_styles(self):
         self.setStyleSheet("""
@@ -9988,6 +10048,14 @@ class MainWindow(QMainWindow):
         self.update_preview(self.source_face['image'])
         self.set_frame_processor()
         print("Source face updated successfully")
+
+    def toggle_enhancement(self, state):
+        """Toggle face enhancement"""
+        self.face_processor.use_face_enhancement = bool(state)
+
+    def update_enhancement(self, value):
+        """Update enhancement strength"""
+        self.face_processor.enhancement_level = value / 50.0  # Scale to 0-2 range
 
 ```
 

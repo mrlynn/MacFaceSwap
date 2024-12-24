@@ -150,9 +150,14 @@ class VideoHandler:
 
     def _capture_loop(self):
         """Main capture loop running in separate thread"""
+        frame_counter = 0
         while self.is_running and self.camera and self.camera.isOpened():
             ret, frame = self.camera.read()
             if not ret or frame is None:
+                continue
+                
+            frame_counter += 1
+            if frame_counter % self.process_every_n_frames != 0:
                 continue
                 
             processed_frame = frame.copy()
@@ -167,7 +172,7 @@ class VideoHandler:
             
             # Thread-safe frame update
             with self.frame_lock:
-                self.current_frame = frame
+                self.current_frame = processed_frame
         
     def _update_fps(self):
         """Update FPS calculation"""
