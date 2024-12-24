@@ -33,10 +33,10 @@ echo "Installing additional dependencies..."
 pip install matplotlib==3.7.1  # Use a specific version known to work
 pip install PyQt6 QtAwesome insightface onnxruntime-silicon
 
-# build.sh addition (before pyinstaller command)
+# Verify project structure
 echo "Verifying project structure..."
 if [ ! -d "images" ]; then
-    echo "ERROR: 'images' directory not found!"
+    echo "ERROR: 'images' directory not found in project root!"
     exit 1
 fi
 
@@ -44,10 +44,10 @@ fi
 echo "Building application..."
 pyinstaller MacFaceSwap.spec
 
-# After pyinstaller command
+# Check the built application structure
 echo "Verifying built application structure..."
 if [ ! -d "dist/MacFaceSwap.app/Contents/Resources/images" ]; then
-    echo "WARNING: 'images' directory not found in built application!"
+    echo "WARNING: 'images' directory not found in built application! Expected at Contents/Resources/images"
 fi
 
 echo "Build complete! Check the dist directory for MacFaceSwap.app"
