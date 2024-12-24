@@ -36,6 +36,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+.DS_Store
 
 # Installer logs
 pip-log.txt
@@ -185,41 +186,54 @@ cython_debug/
 # Exit on error
 set -e
 
-echo "Starting build process..."
+echo "Starting clean build process..."
 
 # Ensure we're in the project root
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_ROOT"
 
-# Create and activate virtual environment if it doesn't exist
-if [ ! -d "venv" ]; then
-    echo "Creating virtual environment..."
-    python3 -m venv venv
+# Clean previous builds and cache
+echo "Cleaning previous builds..."
+rm -rf build dist __pycache__ *.pyc
+find . -type d -name "__pycache__" -exec rm -r {} +
+
+# Ensure clean virtual environment
+echo "Setting up virtual environment..."
+if [ -d "venv" ]; then
+    rm -rf venv
 fi
 
+python3 -m venv venv
 source venv/bin/activate
 
-# Upgrade pip
-echo "Upgrading pip..."
+# Install dependencies
+echo "Installing dependencies..."
 pip install --upgrade pip
-
-# Install requirements
-echo "Installing requirements..."
 pip install -r requirements.txt
 
-# Install PyInstaller
-echo "Installing PyInstaller..."
-pip install pyinstaller
+# Ensure matplotlib and key dependencies are installed
+echo "Installing additional dependencies..."
+pip install matplotlib==3.7.1  # Use a specific version known to work
+pip install PyQt6 QtAwesome insightface onnxruntime-silicon
 
-# Clean previous builds
-echo "Cleaning previous builds..."
-rm -rf build dist
+# build.sh addition (before pyinstaller command)
+echo "Verifying project structure..."
+if [ ! -d "images" ]; then
+    echo "ERROR: 'images' directory not found!"
+    exit 1
+fi
 
-# Build the app
-echo "Building application with PyInstaller..."
+# Build the application
+echo "Building application..."
 pyinstaller MacFaceSwap.spec
 
-echo "Build complete! App is located in dist/MacFaceSwap.app"
+# After pyinstaller command
+echo "Verifying built application structure..."
+if [ ! -d "dist/MacFaceSwap.app/Contents/Resources/images" ]; then
+    echo "WARNING: 'images' directory not found in built application!"
+fi
+
+echo "Build complete! Check the dist directory for MacFaceSwap.app"
 ```
 
 # images/Angelina Jolie/001_fe3347c0.jpg
@@ -8065,7 +8079,21 @@ EOL
 # src/__init__.py
 
 ```py
+# src/__init__.py
+import os
+import sys
 
+def get_bundle_dir():
+    """Get the directory where resources are stored"""
+    if getattr(sys, 'frozen', False):
+        # Running in a bundle
+        return sys._MEIPASS
+    # Running in normal Python environment
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def get_resource_path(relative_path):
+    """Get absolute path to resource"""
+    return os.path.join(get_bundle_dir(), relative_path)
 ```
 
 # src/core/__init__.py
@@ -8288,6 +8316,7 @@ import insightface
 from insightface.app import FaceAnalysis
 import platform
 import time
+from src import get_resource_path
 
 class FaceProcessor:
     def __init__(self):
@@ -8826,6 +8855,7 @@ def preprocess_celebrities(face_processor, images_dir, max_images_per_celebrity=
     def load_celebrity_images(images_dir, max_images):
         """Load a limited number of celebrity images from the specified directory."""
         celebrities = {}
+        images_dir = get_resource_path('images')
         for celebrity in os.listdir(images_dir):
             celebrity_dir = os.path.join(images_dir, celebrity)
             if os.path.isdir(celebrity_dir):

@@ -75,5 +75,8 @@ class FaceGallery(QDialog):
                 print(f"Error adding {name} to gallery: {str(e)}")
 
     def select_face(self, name):
+        """Face selection with debug output"""
+        print(f"\nFace Gallery - Selected: {name}")
         self.selected_face = name
+        print("Accepting dialog...")
         self.accept()

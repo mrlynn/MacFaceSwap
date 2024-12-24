@@ -7,9 +7,28 @@ import numpy as np
 from typing import Optional, List, Dict, Any, Tuple
 import insightface
 from insightface.app import FaceAnalysis
+from insightface.app.common import Face
 import platform
 import time
 from src import get_resource_path
+
+class ExtendedFace(Face):
+    """Extended Face class that allows for normalized embedding storage"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._normed_embedding = None
+    
+    @property
+    def normed_embedding(self):
+        if self._normed_embedding is None and hasattr(self, 'embedding'):
+            # Ensure embedding is float32
+            embedding = self.embedding.astype(np.float32)
+            self._normed_embedding = embedding / np.linalg.norm(embedding)
+        return self._normed_embedding
+    
+    @normed_embedding.setter
+    def normed_embedding(self, value):
+        self._normed_embedding = value.astype(np.float32) if value is not None else None
 
 class FaceProcessor:
     def __init__(self):
@@ -19,9 +38,7 @@ class FaceProcessor:
             self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
-            self.prev_face_positions = []
-            self.position_smoothing_window = 3
-            self.position_threshold = 10.0  # pixels
+            self._similarity_threshold = 0.2  # Lower default threshold
             # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
@@ -29,7 +46,10 @@ class FaceProcessor:
                 providers=[self.execution_provider],
                 allowed_modules=['detection', 'recognition']
             )
-            # Increase detection size for better quality
+            self.prev_face_positions = []
+            self.position_smoothing_window = 3
+            self.position_threshold = 10.0  # pixels
+
             self.face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
             print("Face analyzer ready")
             
@@ -62,7 +82,8 @@ class FaceProcessor:
             # Image enhancement settings
             self.use_face_enhancement = True
             self.enhancement_level = 1.0  # Adjustable enhancement strength
-            
+            self.similarity_threshold = 0.5
+
             print("FaceProcessor initialization complete with enhanced settings")
             
         except Exception as e:
@@ -119,23 +140,39 @@ class FaceProcessor:
     def set_face_mappings(self, mappings: Dict[str, Any]) -> None:
         """Update the face mappings dictionary with validation"""
         print("\nSetting face mappings:")
+        print(f"Received {len(mappings)} mappings")
+        
         self.face_mappings = {}
         
         for mapping_id, mapping in mappings.items():
-            print(f"\nValidating mapping {mapping_id}:")
-            if 'source_face' in mapping and mapping['source_face'] is not None:
-                source_face = mapping['source_face']
-                if 'face' in source_face and 'embedding' in source_face:
-                    print("- Source face complete with embedding")
-                    print(f"- Embedding shape: {source_face['embedding'].shape}")
-                    print(f"- Embedding norm: {np.linalg.norm(source_face['embedding'])}")
-                    self.face_mappings[mapping_id] = mapping
+            print(f"\nProcessing mapping {mapping_id}:")
+            try:
+                if 'source_face' in mapping and mapping['source_face'] is not None:
+                    source_face = mapping['source_face']
+                    print(f"Source face keys: {list(source_face.keys())}")
+                    
+                    # Verify we have the minimum required data
+                    if 'embedding' not in source_face:
+                        print("No embedding found in source face")
+                        continue
+                        
+                    # Store the mapping
+                    self.face_mappings[mapping_id] = {
+                        'source_face': source_face
+                    }
+                    print(f"Successfully added mapping {mapping_id}")
                 else:
-                    print("- Source face missing face or embedding data")
-            else:
-                print("- No source face data")
+                    print("No source_face data in mapping")
+                    
+            except Exception as e:
+                print(f"Error processing mapping {mapping_id}: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                continue
                 
-        print(f"\nTotal valid mappings: {len(self.face_mappings)}")
+        print(f"\nTotal face mappings stored: {len(self.face_mappings)}")
+        for mapping_id in self.face_mappings:
+            print(f"- {mapping_id}")
         
     def detect_faces(self, frame: np.ndarray) -> List[dict]:
         """Detect and analyze faces in a frame"""
@@ -161,70 +198,88 @@ class FaceProcessor:
             traceback.print_exc()
             return []
         
+    # Update in src/core/face_processor.py
+
     def find_best_match(self, target_embedding: np.ndarray) -> Optional[Dict[str, Any]]:
         """Find the best matching source face for a target embedding"""
         try:
+            print("\n=== Starting Face Matching Process ===")
+            print(f"Current similarity threshold: {self.similarity_threshold}")
+            print(f"Number of face mappings: {len(self.face_mappings)}")
+            print("Available mappings:", list(self.face_mappings.keys()))
+
             if not self.face_mappings:
                 print("No face mappings available")
                 return None
-            
+
+            if target_embedding is None:
+                print("Target embedding is None")
+                return None
+
+            # Convert and normalize target embedding
+            if isinstance(target_embedding, list):
+                target_embedding = np.array(target_embedding)
+            target_embedding = target_embedding.astype(np.float32)
+            target_embedding = target_embedding / np.linalg.norm(target_embedding)
+
+            print("\nTarget Embedding Stats:")
+            print(f"Shape: {target_embedding.shape}")
+            print(f"Norm: {np.linalg.norm(target_embedding):.4f}")
+
             best_match = None
-            best_similarity = 0  # Start from 0 instead of threshold
-            
-            # Preprocess target embedding
-            target_embedding = self.preprocess_embedding(target_embedding)
-            
+            best_similarity = -1
+
             for mapping_id, mapping in self.face_mappings.items():
+                print(f"\nProcessing mapping {mapping_id}:")
+                
                 if 'source_face' not in mapping:
+                    print("- No source_face in mapping")
                     continue
                     
                 source_data = mapping['source_face']
+                print("- Source face keys:", list(source_data.keys()))
                 
-                # Check if we have multiple embeddings
-                if 'all_embeddings' in source_data and source_data['all_embeddings']:
-                    # Compare with each embedding
-                    similarities = []
-                    for idx, emb in enumerate(source_data['all_embeddings']):
-                        source_embedding = self.preprocess_embedding(emb)
-                        similarity = float(np.dot(target_embedding, source_embedding))
-                        l2_dist = np.linalg.norm(target_embedding - source_embedding)
-                        adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
-                        similarities.append((adjusted_similarity, idx))
-                    
-                    max_similarity, best_idx = max(similarities)
+                source_embedding = source_data.get('embedding')
+                if source_embedding is None:
+                    print("- No embedding in source face")
+                    continue
 
-                    if max_similarity > best_similarity:
-                        best_similarity = max_similarity
-                        best_match = {
-                            'mapping_id': mapping_id,
-                            'source_face': source_data['all_faces'][best_idx],
-                            'similarity': max_similarity
-                        }
-                else:
-                    # Fall back to single embedding comparison
-                    if 'embedding' not in source_data:
-                        continue
-                        
-                    source_embedding = self.preprocess_embedding(source_data['embedding'])
-                    similarity = float(np.dot(target_embedding, source_embedding))
-                    l2_dist = np.linalg.norm(target_embedding - source_embedding)
-                    adjusted_similarity = (1.0 - l2_dist/2.0) * similarity
-                    
-                    if adjusted_similarity > best_similarity:
-                        best_similarity = adjusted_similarity
-                        best_match = {
-                            'mapping_id': mapping_id,
-                            'source_face': source_data['face'],
-                            'similarity': adjusted_similarity
-                        }
-            
+                # Convert and normalize source embedding
+                if isinstance(source_embedding, list):
+                    source_embedding = np.array(source_embedding)
+                source_embedding = source_embedding.astype(np.float32)
+                source_embedding = source_embedding / np.linalg.norm(source_embedding)
+
+                # Calculate similarity
+                similarity = abs(float(np.dot(target_embedding, source_embedding)))
+                
+                print(f"- Calculated similarity: {similarity:.4f}")
+
+                if similarity > best_similarity:
+                    best_similarity = similarity
+                    best_match = {
+                        'mapping_id': mapping_id,
+                        'source_face': source_data,
+                        'similarity': similarity
+                    }
+                    print(f"- New best match! Similarity: {similarity:.4f}")
+
             if best_match:
-                print(f"\nFound match with similarity: {best_similarity:.3f}")
+                print(f"\nFinal Best Match:")
+                print(f"- Mapping ID: {best_match['mapping_id']}")
+                print(f"- Similarity: {best_match['similarity']:.4f}")
+                print(f"- Threshold: {self.similarity_threshold}")
+                
+                if best_match['similarity'] > self.similarity_threshold:
+                    print("Match ACCEPTED")
+                    return best_match
+                else:
+                    print("Match REJECTED (below threshold)")
             else:
-                print(f"\nNo match found above threshold ({self.similarity_threshold})")
-            
-            return best_match
-            
+                print("\nNo matches found")
+
+            return None
+
         except Exception as e:
             print(f"Error in find_best_match: {str(e)}")
             import traceback
@@ -246,8 +301,120 @@ class FaceProcessor:
         if platform.processor() == 'arm':
             return 'CoreMLExecutionProvider'
         return 'CPUExecutionProvider'
+    
+    # def reconstruct_face(self, face_dict):
+    #     """Reconstruct a Face object from a dictionary representation"""
+    #     try:
+    #         if face_dict is None:
+    #             print("Face dict is None")
+    #             return None
+
+    #         print("\nReconstructing face:")
+    #         print(f"Input data: {type(face_dict)}")
+            
+    #         # Create a basic Face object (with empty image)
+    #         face = Face()
+            
+    #         if isinstance(face_dict, dict):
+    #             print("Processing face dictionary...")
+                
+    #             # Handle nested face_dict structure
+    #             if 'face_dict' in face_dict:
+    #                 face_data = face_dict['face_dict']
+    #             else:
+    #                 face_data = face_dict
+                    
+    #             # Set required attributes
+    #             if 'embedding' in face_data:
+    #                 face.embedding = np.array(face_data['embedding'])
+    #                 face.normed_embedding = face.embedding / np.linalg.norm(face.embedding)
+    #                 face.embedding_norm = np.linalg.norm(face.embedding)
+    #                 print("Set embedding attributes")
+                    
+    #             if 'bbox' in face_data:
+    #                 face.bbox = np.array(face_data['bbox'])
+    #                 print("Set bbox")
+                    
+    #             if 'kps' in face_data:
+    #                 face.kps = np.array(face_data['kps'])
+    #                 print("Set keypoints")
+                    
+    #             if 'landmark_2d_106' in face_data:
+    #                 face.landmark_2d_106 = np.array(face_data['landmark_2d_106'])
+    #                 print("Set landmarks")
+                    
+    #             # Set additional required attributes
+    #             face.det_score = face_data.get('det_score', 0.99)  # Default high score
+    #             face.pose = face_data.get('pose', np.zeros(3))     # Default neutral pose
+    #             face.num_det = 1                                   # Single detection
+                
+    #             print("\nReconstructed face verification:")
+    #             print(f"- Has bbox: {hasattr(face, 'bbox')}")
+    #             print(f"- Has embedding: {hasattr(face, 'embedding')}")
+    #             print(f"- Has normed_embedding: {hasattr(face, 'normed_embedding')}")
+    #             if hasattr(face, 'embedding'):
+    #                 print(f"- Embedding shape: {face.embedding.shape}")
+    #                 print(f"- Embedding norm: {face.embedding_norm:.4f}")
+                
+    #             return face
+                    
+    #         else:
+    #             print(f"Invalid face_dict type: {type(face_dict)}")
+    #             return None
+                
+    #     except Exception as e:
+    #         print(f"Error reconstructing face: {str(e)}")
+    #         import traceback
+    #         traceback.print_exc()
+    #         return None
+
+    def reconstruct_face(self, source_face):
+        """
+        Reconstructs a face from a dictionary representation for face swapping
+        Args:
+            self: FaceProcessor instance
+            source_face: Dictionary containing face data and embedding info
+        Returns:
+            ExtendedFace: Face object with computed normed_embedding
+        """
+        try:
+            # Get the actual face dictionary from the nested structure
+            face_dict = source_face.get('face_dict', {})
+            
+            # Create new face object
+            face = ExtendedFace()
+            
+            # Set face properties from the face dictionary
+            for key, value in face_dict.items():
+                if key == 'embedding':
+                    # Ensure embedding is float32
+                    value = np.array(value, dtype=np.float32)
+                elif key == 'normed_embedding':
+                    continue  # Skip normed_embedding as it will be calculated
+                elif isinstance(value, np.ndarray):
+                    # Convert any numpy arrays to float32
+                    value = value.astype(np.float32)
+                setattr(face, key, value)
+            
+            # If embedding wasn't in face_dict but exists in source_face, use that
+            if not hasattr(face, 'embedding') and 'embedding' in source_face:
+                face.embedding = np.array(source_face['embedding'], dtype=np.float32)
+            
+            # Verify embedding exists and compute normalized version
+            if hasattr(face, 'embedding'):
+                _ = face.normed_embedding  # This will trigger the property to compute the normalized embedding
+                return face
+            else:
+                print("No embedding found in face data")
+                return None
+                
+        except Exception as e:
+            print(f"Error reconstructing face: {str(e)}")
+            return None
+
 
     def process_frame(self, frame):
+        """Process a frame for face swapping"""
         if frame is None:
             return frame
             
@@ -261,41 +428,52 @@ class FaceProcessor:
             swapped = result.copy()
             swap_successful = False
             
-            # Properly indented for loop block
-            for face in current_faces:
-                # Apply position smoothing
-                smoothed_bbox = self.smooth_face_position(face['bbox'])
-                face['bbox'] = smoothed_bbox
+            for face_data in current_faces:
+                # Ensure face_data embedding is float32
+                if 'embedding' in face_data:
+                    face_data['embedding'] = np.array(face_data['embedding'], dtype=np.float32)
                 
-                match = self.find_best_match(face['embedding'])
+                match = self.find_best_match(face_data['embedding'])
                 if match and match['similarity'] > self.similarity_threshold:
                     try:
-                        # Apply face swap with enhanced settings and smoothed position
-                        swapped = self.face_swapper.get(
-                            swapped,
-                            face['face'],
-                            match['source_face'],
-                            paste_back=True
-                        )
+                        print("\nGot a match, preparing face swap...")
+                        source_face = match['source_face']
                         
-                        # Apply additional stabilization if enabled
-                        if self.use_face_enhancement:
-                            swapped = self.enhance_face_region(
-                                swapped, 
-                                smoothed_bbox,
-                                self.enhancement_level
+                        # Add source embedding to the face dict if not present
+                        if isinstance(source_face, dict) and 'face_dict' in source_face:
+                            if 'embedding' not in source_face['face_dict']:
+                                source_face['face_dict']['embedding'] = np.array(source_face['embedding'], dtype=np.float32)
+                        
+                        # Ensure we have a proper Face object
+                        if not isinstance(source_face, Face):
+                            print("Reconstructing face from dictionary...")
+                            source_face = self.reconstruct_face(source_face)
+                        
+                        if source_face is not None:
+                            print("Attempting face swap...")
+                            swapped = self.face_swapper.get(
+                                swapped,
+                                face_data['face'],
+                                source_face,
+                                paste_back=True
                             )
+                            swap_successful = True
+                            print("Face swap successful!")
+                        else:
+                            print("Failed to reconstruct source face")
                             
-                        swap_successful = True
-                        
                     except Exception as e:
-                        print(f"Error in face swap: {e}")
+                        print(f"Error in face swap: {str(e)}")
+                        import traceback
+                        traceback.print_exc()
                         continue
                         
             return swapped if swap_successful else result
             
         except Exception as e:
-            print(f"Error in process_frame: {e}")
+            print(f"Error in process_frame: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return frame
 
     def extract_face(self, frame: np.ndarray, bbox) -> Optional[np.ndarray]:
@@ -307,38 +485,47 @@ class FaceProcessor:
             print(f"Error extracting face: {str(e)}")
             return None
         
-    def analyze_face(self, frame: np.ndarray) -> Optional[Dict[str, Any]]:
-        """Analyze a face in an image with detailed debugging"""
-        print("\nAnalyzing source face image...")
-        
-        faces = self.detect_faces(frame)
-        if not faces:
-            print("No faces detected in source image")
-            return None
-        
-        print(f"Detected {len(faces)} faces in source image")
-        face_data = faces[0]  # Get the first detected face
-        
-        # Debug face data
-        print("\nFace data details:")
-        print(f"- Bounding box: {face_data['bbox']}")
-        print(f"- Embedding shape: {face_data['embedding'].shape}")
-        print(f"- Embedding norm: {np.linalg.norm(face_data['embedding'])}")
-        print(f"- Embedding min/max: {face_data['embedding'].min():.3f}/{face_data['embedding'].max():.3f}")
-        
-        # Extract face region
-        face_img = self.extract_face(frame, face_data['bbox'])
-        
-        if face_img is not None:
-            result = {
-                'face': face_data['face'],
-                'embedding': face_data['embedding'],
-                'image': face_img
+    def analyze_face(self, image):
+        """Analyze a face in an image"""
+        try:
+            print("\nAnalyzing face...")
+            faces = self.face_analyzer.get(image)
+            
+            if not faces:
+                print("No faces detected")
+                return None
+                
+            face = faces[0]  # Get the first face
+            face_dict = {
+                'embedding': face.embedding.tolist() if hasattr(face, 'embedding') else None,
+                'bbox': face.bbox.tolist() if hasattr(face, 'bbox') else None,
+                'kps': face.kps.tolist() if hasattr(face, 'kps') else None,
+                'det_score': float(face.det_score) if hasattr(face, 'det_score') else None,
+                'landmark_2d_106': face.landmark_2d_106.tolist() if hasattr(face, 'landmark_2d_106') else None,
+                'pose': face.pose.tolist() if hasattr(face, 'pose') else None,
+                'gender': face.gender if hasattr(face, 'gender') else -1,
+                'num_det': face.num_det if hasattr(face, 'num_det') else 1
             }
-            print("Face analysis complete - data extracted successfully")
-            return result
-        else:
-            print("Failed to extract face image")
+            
+            print(f"Face data extracted:")
+            for key, value in face_dict.items():
+                if value is not None:
+                    if isinstance(value, list):
+                        print(f"- {key}: list of length {len(value)}")
+                    else:
+                        print(f"- {key}: {type(value)}")
+                        
+            return {
+                'face': face,  # Keep original face object for immediate use
+                'face_dict': face_dict,  # Store serializable dict for later
+                'embedding': face.embedding,
+                'image': image
+            }
+            
+        except Exception as e:
+            print(f"Error analyzing face: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return None
 
     def set_source_face(self, image: np.ndarray) -> bool:
@@ -409,20 +596,45 @@ class FaceProcessor:
         self.debug_mode = enabled
         print(f"Debug mode {'enabled' if enabled else 'disabled'}")
 
-    def preprocess_embedding(self, embedding: np.ndarray) -> np.ndarray:
+    def preprocess_embedding(self, embedding: np.ndarray) -> Optional[np.ndarray]:
         """Preprocess face embedding for better matching"""
-        # Ensure embedding is float32
-        embedding = embedding.astype(np.float32)
-        
-        # L2 normalization
-        norm = np.linalg.norm(embedding)
-        if norm > 0:
-            embedding = embedding / norm
+        try:
+            print("\nPreprocessing embedding...")
             
-        # Optional: Zero mean
-        embedding = embedding - np.mean(embedding)
-        
-        return embedding
+            # Convert to numpy array if needed
+            if isinstance(embedding, list):
+                print("Converting list to numpy array")
+                embedding = np.array(embedding)
+            
+            if embedding is None:
+                print("Embedding is None")
+                return None
+                
+            if not isinstance(embedding, np.ndarray):
+                print(f"Unexpected embedding type: {type(embedding)}")
+                return None
+
+            # Ensure embedding is float32
+            embedding = embedding.astype(np.float32)
+            print(f"Converted to float32, shape: {embedding.shape}")
+            
+            # L2 normalization
+            norm = np.linalg.norm(embedding)
+            print(f"Initial norm: {norm}")
+            
+            if norm > 0:
+                embedding = embedding / norm
+                print(f"Normalized, new norm: {np.linalg.norm(embedding)}")
+                return embedding
+            else:
+                print("Zero norm encountered")
+                return None
+                
+        except Exception as e:
+            print(f"Error preprocessing embedding: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return None
 
     def _match_faces_between_frames(self, current_faces, previous_faces):
         """Check if faces in current frame match previous frame"""

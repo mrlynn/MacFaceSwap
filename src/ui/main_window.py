@@ -1,5 +1,5 @@
 # src/ui/main_window.py
-
+import os
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
     QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
@@ -14,6 +14,8 @@ import qtawesome as qta
 from src.core.face_processor import FaceProcessor, preprocess_celebrities
 from src.core.video_handler import VideoHandler
 from src.ui.face_mapping import FaceMappingWidget
+from src.core.mapping_loader import load_celebrity_mappings
+from src.core.face_processor import preprocess_celebrities
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -27,11 +29,36 @@ class MainWindow(QMainWindow):
         self.show_face_brackets = False  # Set initial state
         self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
+        self.face_processor.similarity_threshold = 0.5  # Start with 0.5 as default
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
-        # Load celebrity images
-        images_dir = "images"  # Path to your images directory
-        self.predefined_faces = preprocess_celebrities(self.face_processor, images_dir)
+        
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        mapping_file = os.path.join(project_root, "resources", "celebrity_mappings.pkl")
+        print(f"Project root: {project_root}")
+        print(f"Looking for mapping file at: {mapping_file}")
+        
+        # Try to load pre-computed mappings
+        print("\nAttempting to load pre-computed mappings...")
+        self.predefined_faces = load_celebrity_mappings(mapping_file)
+        
+        if self.predefined_faces is not None:
+            print("\nSuccessfully loaded pre-computed mappings:")
+            print(f"Number of celebrities: {len(self.predefined_faces)}")
+            print("Celebrity names:", list(self.predefined_faces.keys()))
+            print("Data structure for first celebrity:")
+            first_celeb = next(iter(self.predefined_faces.items()))
+            print(f"- Name: {first_celeb[0]}")
+            print(f"- Keys in data: {first_celeb[1].keys()}")
+        else:
+            print("\nFalling back to real-time processing...")
+            images_dir = os.path.join(project_root, "images")
+            print(f"Processing images from: {images_dir}")
+            self.predefined_faces = preprocess_celebrities(self.face_processor, images_dir)
+            print(f"Real-time processing complete. Processed {len(self.predefined_faces)} celebrities")
+        
+        print("\nInitializing UI...")
+
         self.setStyleSheet("""
             QMainWindow {
                 background: qlineargradient(
@@ -135,7 +162,9 @@ class MainWindow(QMainWindow):
         threshold_layout.addWidget(QLabel("Similarity:"))
         self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
         self.threshold_slider.setRange(0, 100)
-        self.threshold_slider.setValue(int(self.face_processor.similarity_threshold * 100))
+        initial_threshold = 20  # 0.2 as default
+        self.threshold_slider.setValue(initial_threshold)
+        print(f"Initial similarity threshold set to: {initial_threshold/100.0:.2f}")
         self.threshold_slider.valueChanged.connect(self.update_threshold)
         threshold_layout.addWidget(self.threshold_slider)
         
@@ -224,33 +253,59 @@ class MainWindow(QMainWindow):
         sidebar_layout.addWidget(self.gallery_button)
 
     def open_face_gallery(self):
-        """Open the gallery pop-out window."""
+        """Open the gallery pop-out window with debug output."""
         try:
             from src.ui.face_gallery import FaceGallery
+            
+            print("\nOpening Face Gallery:")
+            print(f"Number of predefined faces: {len(self.predefined_faces)}")
+            print("Available celebrities:", list(self.predefined_faces.keys()))
             
             if not self.predefined_faces:
                 print("No predefined faces available")
                 QMessageBox.warning(self, "Error", "No predefined faces available")
                 return
-                
-            print(f"Opening gallery with {len(self.predefined_faces)} faces")
+            
             gallery = FaceGallery(self.predefined_faces, self)
             
             if gallery.exec():  # Modal dialog
                 selected_face = gallery.selected_face
+                print(f"\nSelected celebrity: {selected_face}")
+                
                 if selected_face and selected_face in self.predefined_faces:
                     face_data = self.predefined_faces[selected_face]
-                    image = cv2.imread(face_data['preview_image'])
-                    if image is not None:
-                        self.set_source_face(image, face_data)
-                        print(f"Selected face: {selected_face}")
+                    print("\nPre-processed face data:")
+                    print(f"Keys available: {list(face_data.keys())}")
+                    
+                    if 'preview_image' in face_data:
+                        image = cv2.imread(face_data['preview_image'])
+                        if image is not None:
+                            print("Successfully loaded preview image")
+                            
+                            # Create face mapping
+                            self.source_face = {
+                                'face': face_data.get('face_dict', {}),
+                                'embedding': np.array(face_data['embedding']) if 'embedding' in face_data else None,
+                                'all_embeddings': [np.array(emb) for emb in face_data['all_embeddings']] if 'all_embeddings' in face_data else None,
+                                'image': image
+                            }
+                            
+                            # Update the UI and processor
+                            self.update_preview(image)
+                            
+                            print("\nSetting up face processor:")
+                            self.set_frame_processor()
+                            print("Face processor setup completed")
+                        else:
+                            print(f"Failed to load image: {face_data['preview_image']}")
                     else:
-                        print(f"Failed to load image for {selected_face}")
-                        QMessageBox.warning(self, "Error", f"Failed to load image for {selected_face}")
-                
+                        print("No preview image path in face data")
+                else:
+                    print(f"Invalid selection or face not found: {selected_face}")
         except Exception as e:
-            print(f"Error opening face gallery: {str(e)}")
-            QMessageBox.warning(self, "Error", f"Error opening face gallery: {str(e)}")
+            print(f"Error in open_face_gallery: {str(e)}")
+            import traceback
+            traceback.print_exc()
 
     def setup_styles(self):
         self.setStyleSheet("""
@@ -436,29 +491,46 @@ class MainWindow(QMainWindow):
         print("Source face cleared")
 
     def set_frame_processor(self):
-        """Set up frame processing based on current source face"""
+        """Set up frame processing based on current source face."""
         if self.source_face:
-            print("\nSetting up face processor with source face...")
+            print("\nSetting up frame processor:")
             print("Source face information:")
-            print(f" - Face object present: {self.source_face['face'] is not None}")
-            print(f" - Embedding shape: {self.source_face['embedding'].shape}")
+            for key, value in self.source_face.items():
+                if key == 'image':
+                    print(f"- Has image: {value is not None}")
+                elif isinstance(value, np.ndarray):
+                    print(f"- {key} shape: {value.shape}")
+                elif isinstance(value, dict):
+                    print(f"- {key} keys: {list(value.keys())}")
+                elif isinstance(value, list):
+                    print(f"- {key} length: {len(value)}")
+                else:
+                    print(f"- {key}: {type(value)}")
             
-            # Create a simple mapping with the current source face
-            self.face_processor.set_face_mappings({
+            # Create mapping with detailed debug output
+            print("\nCreating face mapping...")
+            mapping_data = {
                 'default': {
                     'source_face': {
-                        'face': self.source_face['face'],
-                        'embedding': self.source_face['embedding']
-                    },
-                    'target_face': None
+                        'face_dict': self.source_face.get('face', {}),
+                        'embedding': self.source_face['embedding'].tolist() if isinstance(self.source_face.get('embedding'), np.ndarray) else None,
+                        'all_embeddings': [emb.tolist() for emb in self.source_face['all_embeddings']] if self.source_face.get('all_embeddings') else None
+                    }
                 }
-            })
+            }
             
-            # Ensure the video handler is using the face processor
+            print("Mapping data created:")
+            print(f"Keys in mapping: {list(mapping_data['default']['source_face'].keys())}")
+            
+            print("\nSetting face mappings in processor...")
+            self.face_processor.set_face_mappings(mapping_data)
+            
+            # Connect video processing
+            print("Connecting video processor...")
             self.video_handler.set_processing_callback(self.face_processor.process_frame)
-            print("Face processor connected to video stream")
+            print("Frame processor setup complete")
         else:
-            print("Clearing face processor")
+            print("No source face available - clearing processor")
             self.video_handler.set_processing_callback(None)
 
     def toggle_debug(self, checked):
@@ -470,6 +542,9 @@ class MainWindow(QMainWindow):
     def update_threshold(self, value):
         """Update similarity threshold"""
         threshold = value / 100.0
+        print(f"\nUpdating similarity threshold:")
+        print(f"Slider value: {value}")
+        print(f"Calculated threshold: {threshold:.4f}")
         self.face_processor.similarity_threshold = threshold
         self.threshold_label.setText(f"{threshold:.2f}")
 
@@ -558,37 +633,51 @@ class MainWindow(QMainWindow):
         return group
     
     def set_source_face(self, image, data=None):
-        """Set the source face and update the UI."""
+        """Set the source face and update the UI with debug output."""
+        print("\nSetting source face:")
         if image is None:
+            print("Error: No image provided")
             QMessageBox.warning(self, "Error", "No valid image provided")
             return
 
-        if data is None:
-            # Single image processing
-            face_data = self.face_processor.analyze_face(image)
-            if not face_data:
-                QMessageBox.warning(self, "Error", "No face detected in the image")
-                return
+        try:
+            if data is None:
+                print("Processing new image (no pre-existing data)")
+                face_data = self.face_processor.analyze_face(image)
+                if not face_data:
+                    print("No face detected in image")
+                    QMessageBox.warning(self, "Error", "No face detected in the image")
+                    return
+                    
+                self.source_face = {
+                    'face': face_data['face'],
+                    'embedding': face_data['embedding'],
+                    'image': face_data['image']
+                }
+            else:
+                print("Using pre-processed face data")
+                print("Data keys:", list(data.keys()))
+                self.source_face = {
+                    'face': data.get('face_dict', {}),  # Store the face dictionary
+                    'embedding': np.array(data['embedding']) if 'embedding' in data else None,
+                    'image': None  # Will be set from preview image
+                }
                 
-            self.source_face = {
-                'face': face_data['face'],
-                'embedding': face_data['embedding'],
-                'image': face_data['image']
-            }
-        else:
-            # Celebrity with multiple faces
-            self.source_face = {
-                'face': data.get('all_faces', [None])[0],  # First face for preview
-                'embedding': data['embedding'],  # Average embedding
-                'all_faces': data['all_faces'],  # All face objects
-                'all_embeddings': data['all_embeddings'],  # All embeddings
-                'image': cv2.imread(data['preview_image'])  # Preview image
-            }
+                if 'preview_image' in data:
+                    self.source_face['image'] = cv2.imread(data['preview_image'])
+                    
+            if self.source_face['image'] is not None:
+                print("Updating preview image")
+                self.update_preview(self.source_face['image'])
+                
+            self.set_frame_processor()
+            print("Source face set successfully")
             
-        # Update the preview with the first/main image
-        self.update_preview(self.source_face['image'])
-        self.set_frame_processor()
-        print("Source face updated successfully")
+        except Exception as e:
+            print(f"Error setting source face: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            QMessageBox.warning(self, "Error", f"Error setting source face: {str(e)}")
 
     def toggle_enhancement(self, state):
         """Toggle face enhancement"""
