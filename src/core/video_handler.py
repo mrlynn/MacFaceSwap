@@ -9,6 +9,7 @@ import platform
 import signal
 import subprocess
 import sys
+from src.ui.watermark import VideoWatermark
 
 class VideoHandler:
     def __init__(self):
@@ -23,6 +24,10 @@ class VideoHandler:
         self.frame_count = 0
         self.show_fps = False
         self.capture_thread = None
+        self.watermark = VideoWatermark(
+            logo_path="resources/logo.png",
+            opacity=0.5
+        )
         
         # Frame caching for smooth transitions
         self.last_processed_frames = []
@@ -68,10 +73,11 @@ class VideoHandler:
             while time.time() - start_time < 2.0:  # 2 second timeout
                 ret, frame = cap.read()
                 if ret and frame is not None:
+                    # Apply watermark correctly using instance method
+                    frame = self.watermark.apply_watermark(frame)
                     return cap
                 time.sleep(0.1)
-                
-            # If we couldn't get a frame, release and return None
+            
             cap.release()
             return None
             
@@ -161,6 +167,9 @@ class VideoHandler:
                 continue
                 
             processed_frame = frame.copy()
+            
+            # Apply watermark before any other processing
+            processed_frame = self.watermark.apply_watermark(processed_frame)
             
             if self.processing_callback:
                 try:

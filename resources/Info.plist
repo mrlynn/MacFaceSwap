@@ -16,6 +16,8 @@
     <string>10.15</string>
     <key>NSHighResolutionCapable</key>
     <true/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>MacFaceSwap needs microphone access to record audio during video capture.</string>
     <key>NSCameraUsageDescription</key>
     <string>MacFaceSwap needs access to your camera for face swapping functionality.</string>
     <key>NSCameraUseContinuityCameraDeviceType</key>

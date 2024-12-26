@@ -3,19 +3,23 @@ import os
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
     QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
-    QCheckBox
+    QCheckBox, QTabWidget, QDialog, QTextBrowser, QMenuBar
 )
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtGui import QImage, QPixmap, QAction  # Here's where QAction belongs
 import cv2
 import numpy as np
 import qtawesome as qta
-
+import sounddevice as sd
 from src.core.face_processor import FaceProcessor, preprocess_celebrities
 from src.core.video_handler import VideoHandler
 from src.ui.face_mapping import FaceMappingWidget
 from src.core.mapping_loader import load_celebrity_mappings
 from src.core.face_processor import preprocess_celebrities
+from src.core.video_recorder import VideoRecorder
+from src.ui.watermark import VideoWatermark
+from src.ui.camera_settings import CameraSettings
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -29,10 +33,11 @@ class MainWindow(QMainWindow):
         self.show_face_brackets = False  # Set initial state
         self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
-        self.face_processor.similarity_threshold = 0.5  # Start with 0.5 as default
+        self.face_processor.similarity_threshold = 0.1  # Start with 0.5 as default
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
-        
+        self.video_recorder = VideoRecorder()
+
         project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         mapping_file = os.path.join(project_root, "resources", "celebrity_mappings.pkl")
         print(f"Project root: {project_root}")
@@ -85,6 +90,28 @@ class MainWindow(QMainWindow):
                 color: #FFFFFF;
             }
         """)
+        
+    # Update toggle_recording method
+    def toggle_recording(self):
+        if not self.video_recorder.is_recording:
+            frame = self.video_handler.get_latest_frame()
+            if frame is not None:
+                h, w = frame.shape[:2]
+                filepath = self.video_recorder.start_recording((w, h))
+                self.record_button.setText("Stop Recording")
+                self.record_button.setIcon(qta.icon('fa.stop', color='red'))
+                self.recording_status.setText("Recording...")
+                self.recording_status.setStyleSheet("color: red;")
+        else:
+            filepath = self.video_recorder.stop_recording()
+            self.record_button.setText("Start Recording")
+            self.record_button.setIcon(qta.icon('fa.circle', color='red'))
+            if filepath:
+                self.recording_status.setText(f"Saved to Downloads folder")
+                QMessageBox.information(self, "Recording Saved", 
+                    f"Your recording has been saved to:\n{filepath}")
+            self.recording_status.setStyleSheet("color: green;")
+        
     def toggle_face_brackets(self):
         """Toggle the visibility of face brackets in the live video feed."""
         self.show_face_brackets = not self.show_face_brackets
@@ -92,100 +119,144 @@ class MainWindow(QMainWindow):
         self.face_bracket_button.setText(button_text)
         # Update the debug mode in face processor
         self.face_processor.set_debug_mode(self.show_face_brackets)
-        
+                
     def init_ui(self):
         self.setWindowTitle("MacFaceSwap")
-        self.resize(1200, 800)
+        self.resize(1200, 800)  # Maintaining original size
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        layout = QHBoxLayout(central_widget)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(20)
+        main_layout = QHBoxLayout(central_widget)
+        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setSpacing(20)
 
-        # Left sidebar
+        # Create left sidebar with tabs
         sidebar = QWidget()
         sidebar.setFixedWidth(320)
         sidebar_layout = QVBoxLayout(sidebar)
-        sidebar_layout.setSpacing(24)
+        sidebar_layout.setSpacing(10)
 
-        # Camera controls
-        camera_layout = QVBoxLayout()
+        # Create tab widget
+        self.tab_widget = QTabWidget()
+        self.tab_widget.setStyleSheet("""
+            QTabWidget::pane {
+                border: 1px solid #d2d2d7;
+                border-radius: 8px;
+                background: white;
+            }
+            QTabBar::tab {
+                padding: 8px 16px;
+                margin: 2px 0;
+                border-radius: 4px;
+            }
+            QTabBar::tab:selected {
+                background: #0071e3;
+                color: white;
+            }
+        """)
+
+        # Create Camera tab without the toggle button
+        camera_tab = QWidget()
+        camera_layout = QVBoxLayout(camera_tab)
         camera_layout.setSpacing(12)
+
         camera_layout.addWidget(QLabel("Camera"))
-        
         self.camera_combo = QComboBox()
+        self.camera_combo.setToolTip("Select which camera to use for video input")
         self.update_camera_list()
         self.camera_combo.currentIndexChanged.connect(self.change_camera)
         camera_layout.addWidget(self.camera_combo)
-        
-        self.toggle_button = QPushButton("Start Camera")
-        self.toggle_button.setIcon(qta.icon('fa.camera'))  # Font Awesome camera icon
-        self.toggle_button.clicked.connect(self.toggle_camera)
-        camera_layout.addWidget(self.toggle_button)
-        sidebar_layout.addLayout(camera_layout)
 
-        # Add face bracket toggle button
-        self.face_bracket_button = QPushButton("Toggle Face Brackets")
-        self.face_bracket_button.setIcon(qta.icon('fa.square-o'))  # Add an icon for clarity
-        self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
-        sidebar_layout.addWidget(self.face_bracket_button)
-        # Face controls
-        face_layout = QVBoxLayout()
-        face_layout.setSpacing(12)
-        face_layout.addWidget(QLabel("Face Control"))
+        camera_layout.addWidget(QLabel("Audio Device"))
+        self.audio_combo = QComboBox()
+        self.audio_combo.setToolTip("Select which microphone to use for video recording")
+        self.update_audio_device_list()
+        self.audio_combo.currentIndexChanged.connect(self.change_audio_device)
+        camera_layout.addWidget(self.audio_combo)
         
+        self.camera_settings_button = QPushButton("Camera Settings")
+        self.camera_settings_button.setIcon(qta.icon('fa.cog'))
+        self.camera_settings_button.clicked.connect(self.show_camera_settings)
+        camera_layout.addWidget(self.camera_settings_button)
+        camera_layout.addStretch()
+        self.tab_widget.addTab(camera_tab, "Camera")
+
+        # Create Face Control tab
+        face_tab = QWidget()
+        face_layout = QVBoxLayout(face_tab)
+        face_layout.setSpacing(12)
+
+        face_layout.addWidget(QLabel("Face Control"))
         self.source_button = QPushButton("Load Source Face")
-        self.source_button.setIcon(qta.icon('fa.upload'))  # Upload icon
+        self.source_button.setIcon(qta.icon('fa.upload'))
         self.source_button.clicked.connect(self.load_source_face)
         face_layout.addWidget(self.source_button)
-        
+
         self.clear_button = QPushButton("Clear Face")
-        self.clear_button.setIcon(qta.icon('fa.trash'))  # Trash icon
+        self.clear_button.setIcon(qta.icon('fa.trash'))
         self.clear_button.setStyleSheet("background-color: #ff3b30; color: white;")
         self.clear_button.clicked.connect(self.clear_source_face)
         face_layout.addWidget(self.clear_button)
-        
-        sidebar_layout.addLayout(face_layout)
 
-        # Settings
-        settings_layout = QVBoxLayout()
-        settings_layout.setSpacing(12)
-        settings_layout.addWidget(QLabel("Settings"))
+        self.gallery_button = QPushButton("Open Face Gallery")
+        self.gallery_button.setIcon(qta.icon('fa.image'))
+        self.gallery_button.clicked.connect(self.open_face_gallery)
+        face_layout.addWidget(self.gallery_button)
+
+        # Face preview in Face Control tab
+        face_layout.addWidget(QLabel("Source Face Preview"))
+        self.source_preview = QLabel()
+        self.source_preview.setFixedSize(280, 280)
+        self.source_preview.setStyleSheet("""
+            background-color: #f5f5f7;
+            border-radius: 8px;
+        """)
+        self.source_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        face_layout.addWidget(self.source_preview)
         
+        face_layout.addStretch()
+        self.tab_widget.addTab(face_tab, "Face")
+
+        # Create Settings tab
+        settings_tab = QWidget()
+        settings_layout = QVBoxLayout(settings_tab)
+        settings_layout.setSpacing(12)
+
+        # Face brackets toggle
+        self.face_bracket_button = QPushButton("Toggle Face Brackets")
+        self.face_bracket_button.setIcon(qta.icon('fa.square-o'))
+        self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
+        settings_layout.addWidget(self.face_bracket_button)
+
         # Similarity threshold
         threshold_widget = QWidget()
         threshold_layout = QHBoxLayout(threshold_widget)
         threshold_layout.setContentsMargins(0, 0, 0, 0)
         threshold_layout.setSpacing(8)
-        
+
         threshold_layout.addWidget(QLabel("Similarity:"))
         self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
         self.threshold_slider.setRange(0, 100)
-        initial_threshold = 20  # 0.2 as default
+        initial_threshold = 20
         self.threshold_slider.setValue(initial_threshold)
-        print(f"Initial similarity threshold set to: {initial_threshold/100.0:.2f}")
         self.threshold_slider.valueChanged.connect(self.update_threshold)
         threshold_layout.addWidget(self.threshold_slider)
-        
+
         self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
         self.threshold_label.setFixedWidth(40)
         threshold_layout.addWidget(self.threshold_label)
-        
+
         settings_layout.addWidget(threshold_widget)
-        sidebar_layout.addLayout(settings_layout)
 
         # Quality controls
         quality_group = QGroupBox("Quality Settings")
         quality_layout = QVBoxLayout()
 
-        # Enhancement toggle
         self.enhancement_toggle = QCheckBox("Enable Face Enhancement")
         self.enhancement_toggle.setChecked(True)
         self.enhancement_toggle.stateChanged.connect(self.toggle_enhancement)
         quality_layout.addWidget(self.enhancement_toggle)
 
-        # Enhancement strength slider
         strength_layout = QHBoxLayout()
         strength_layout.addWidget(QLabel("Enhancement:"))
         self.enhancement_slider = QSlider(Qt.Orientation.Horizontal)
@@ -196,61 +267,100 @@ class MainWindow(QMainWindow):
         quality_layout.addLayout(strength_layout)
 
         quality_group.setLayout(quality_layout)
-        sidebar_layout.addWidget(quality_group)
-
-        sidebar_layout.addStretch()
-
-        # Source preview
-        preview_layout = QVBoxLayout()
-        preview_layout.addWidget(QLabel("Source Face Preview"))
-        self.source_preview = QLabel()
-        self.source_preview.setFixedSize(280, 280)
-        self.source_preview.setStyleSheet("""
-            background-color: #f5f5f7;
-            border-radius: 8px;
-        """)
-        self.source_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        preview_layout.addWidget(self.source_preview)
-        sidebar_layout.addLayout(preview_layout)
-
-        layout.addWidget(sidebar)
+        settings_layout.addWidget(quality_group)
         
-        # popout_layout = QHBoxLayout()
-        # self.popout_button = QPushButton("Popout Video")
-        # self.popout_button.clicked.connect(self.toggle_video_window)
-        # popout_layout.addWidget(self.popout_button)
-        # popout_layout.addStretch()
-        # layout.addLayout(popout_layout)
+        # Create menubar properly
+        menubar = self.menuBar()
+        help_menu = menubar.addMenu("&Help")
+        
+        # Create help action
+        help_contents = QAction("&Help Contents", self)
+        help_contents.setShortcut("F1")
+        help_contents.triggered.connect(self.show_help_dialog)
+        help_menu.addAction(help_contents)
+        
+        # Add about action
+        help_menu.addSeparator()
+        about_action = QAction("&About MacFaceSwap", self)
+        about_action.triggered.connect(self.show_about_dialog)
+        help_menu.addAction(about_action)
+        
+        settings_layout.addStretch()
+        self.tab_widget.addTab(settings_tab, "Settings")
 
-        # Video area
+        # Add tab widget to sidebar
+        sidebar_layout.addWidget(self.tab_widget)
+        main_layout.addWidget(sidebar)
+
+        # Video container with enhanced styling
         video_container = QWidget()
+        video_container.setStyleSheet("""
+            QWidget {
+                background-color: #1d1d1f;
+                border-radius: 8px;
+            }
+        """)
         video_layout = QVBoxLayout(video_container)
-        video_layout.setContentsMargins(0, 0, 0, 0)
-        
-        # Add a horizontal layout for the "Popout Video" button
-        video_controls_layout = QHBoxLayout()
-        video_controls_layout.setContentsMargins(0, 0, 0, 0)
-        video_controls_layout.addStretch()
+        video_layout.setContentsMargins(10, 10, 10, 10)
+        video_layout.setSpacing(10)
 
+        # Video controls at the top
+        video_controls = QHBoxLayout()
+        video_controls.setContentsMargins(0, 5, 0, 0)
+        video_controls.addStretch()
+
+        # Camera toggle button
+        self.toggle_button = QPushButton("Start Camera")
+        self.toggle_button.setToolTip("Start or stop the camera feed")
+        self.toggle_button.setIcon(qta.icon('fa.camera'))
+        self.toggle_button.clicked.connect(self.toggle_camera)
+        video_controls.addWidget(self.toggle_button)
+
+        # Recording button
+        self.record_button = QPushButton("Start Recording")
+        self.record_button.setIcon(qta.icon('fa.circle', color='red'))
+        self.record_button.clicked.connect(self.toggle_recording)
+        video_controls.addWidget(self.record_button)
+
+        # Popout button
         self.popout_button = QPushButton("Popout Video")
-        self.popout_button.setIcon(qta.icon('fa.window-maximize'))  # Popout icon
+        self.popout_button.setIcon(qta.icon('fa.window-maximize'))
         self.popout_button.clicked.connect(self.toggle_video_window)
-        layout.addWidget(self.popout_button)
-        video_layout.addLayout(video_controls_layout)
+        video_controls.addWidget(self.popout_button)
 
-        video_controls_layout.addWidget(self.popout_button)
+        # Add controls to video layout
+        video_layout.addLayout(video_controls)
+
+        # Video display
         self.video_label = QLabel()
         self.video_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.video_label.setStyleSheet("background-color: #1d1d1f; border-radius: 8px;")
         video_layout.addWidget(self.video_label)
-        
-        layout.addWidget(video_container)
-        layout.setStretch(1, 1)
-        
-        self.gallery_button = QPushButton("Open Face Gallery")
-        self.gallery_button.setIcon(qta.icon('fa.image'))  # Single image icon
-        self.gallery_button.clicked.connect(self.open_face_gallery)
-        sidebar_layout.addWidget(self.gallery_button)
+
+        # Recording status
+        recording_controls = QHBoxLayout()
+        recording_controls.setSpacing(10)
+        self.recording_status = QLabel("")
+        recording_controls.addWidget(self.recording_status)
+        recording_controls.addStretch()
+        video_layout.addLayout(recording_controls)
+
+        main_layout.addWidget(video_container)
+        main_layout.setStretch(1, 1)  # Video area takes up remaining space
+
+    def change_audio_device(self, index):
+        """Handle changes to the selected audio device."""
+        selected_device = self.audio_combo.currentData()  # Get the device index from the dropdown
+        if selected_device is not None:
+            self.video_recorder.audio_device = selected_device
+            print(f"Audio device manually set to: {selected_device}")
+
+    def update_audio_device_list(self):
+        """Populate the audio device dropdown."""
+        self.audio_combo.clear()
+        for i, device in enumerate(sd.query_devices()):
+            if device['max_input_channels'] > 0:  # Only include devices with input channels
+                self.audio_combo.addItem(f"{device['name']} ({device['hostapi']})", i)
 
     def open_face_gallery(self):
         """Open the gallery pop-out window with debug output."""
@@ -475,12 +585,21 @@ class MainWindow(QMainWindow):
         frame = self.video_handler.get_latest_frame()
         if frame is None:
             return
-            
+        
         # Process the frame
         processed_frame = self.process_frame(frame)
         if processed_frame is None:
             return
             
+        if self.face_processor and hasattr(self.face_processor, 'process_frame'):
+            processed_frame = self.face_processor.process_frame(frame)
+            if processed_frame is not None:
+                frame = processed_frame
+                
+                # Add frame to recording if active
+                if self.video_recorder.is_recording:
+                    self.video_recorder.add_frame(frame)
+        
         # Convert and display the frame
         rgb_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
         h, w = processed_frame.shape[:2]
@@ -714,3 +833,150 @@ class MainWindow(QMainWindow):
     def update_enhancement(self, value):
         """Update enhancement strength"""
         self.face_processor.enhancement_level = value / 50.0  # Scale to 0-2 range
+        
+    def show_help_dialog(self):
+        """Show the help contents dialog"""
+        dialog = QDialog(self)
+        dialog.setWindowTitle("MacFaceSwap Help")
+        dialog.resize(600, 400)
+        
+        layout = QVBoxLayout(dialog)
+        help_browser = QTextBrowser()
+        help_browser.setOpenExternalLinks(True)
+        
+        help_text = """
+        <h2>MacFaceSwap Help</h2>
+        
+        <h3>Getting Started</h3>
+        <p>MacFaceSwap allows you to swap faces in real-time video. Here's how to use it:</p>
+        
+        <h4>Basic Steps:</h4>
+        <ol>
+            <li>Select your camera from the Camera tab</li>
+            <li>Click "Start Camera" to begin the video feed</li>
+            <li>Load a source face using either:
+                <ul>
+                    <li>The "Load Source Face" button to use your own image</li>
+                    <li>The "Open Face Gallery" to use a celebrity face</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h4>Controls:</h4>
+        <ul>
+            <li><b>Camera Tab:</b> Select and control your camera and audio devices</li>
+            <li><b>Face Tab:</b> Load and manage source faces for swapping</li>
+            <li><b>Settings Tab:</b> Adjust face detection and enhancement settings</li>
+        </ul>
+        
+        <h4>Advanced Features:</h4>
+        <ul>
+            <li><b>Face Brackets:</b> Toggle visibility of face detection boxes</li>
+            <li><b>Similarity Threshold:</b> Adjust face matching sensitivity</li>
+            <li><b>Face Enhancement:</b> Enable/disable and adjust face enhancement quality</li>
+            <li><b>Video Recording:</b> Record your face-swapped video feed</li>
+            <li><b>Popout Video:</b> Open the video feed in a separate window</li>
+        </ul>
+        """
+        
+        help_browser.setHtml(help_text)
+        layout.addWidget(help_browser)
+        
+        dialog.exec()
+        
+    def show_about_dialog(self):
+        """Show the about dialog"""
+        QMessageBox.about(self, 
+            "About MacFaceSwap",
+            """<h3>MacFaceSwap</h3>
+            <p>A real-time face swapping application for macOS.</p>
+            <p>Features:</p>
+            <ul>
+                <li>Real-time face detection and swapping</li>
+                <li>Support for multiple cameras</li>
+                <li>Face enhancement capabilities</li>
+                <li>Video recording</li>
+                <li>Celebrity face gallery</li>
+            </ul>
+            <p>Press F1 or use Help menu for usage instructions.</p>
+            """
+        )
+            
+    def show_camera_settings(self):
+        """Show the camera settings dialog with current settings"""
+        try:
+            # Get current settings
+            if self.video_handler.camera and self.video_handler.is_running:
+                current_width = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+                current_height = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                current_fps = int(self.video_handler.camera.get(cv2.CAP_PROP_FPS))
+                current_brightness = int(self.video_handler.camera.get(cv2.CAP_PROP_BRIGHTNESS) * 100)
+            else:
+                # Use the current frame_size from VideoHandler
+                current_width, current_height = self.video_handler.frame_size
+                current_fps = 30
+                current_brightness = 50
+                
+            current_settings = {
+                'resolution': f"{current_width}x{current_height}",
+                'fps': current_fps,
+                'brightness': current_brightness,
+                'autofocus': True,
+                'threshold': self.face_processor.similarity_threshold
+            }
+            
+            print(f"Current camera settings: {current_settings}")
+            
+            settings_dialog = CameraSettings(self, current_settings)
+            if settings_dialog.exec() == QDialog.DialogCode.Accepted:
+                settings = settings_dialog.get_settings()
+                self.apply_camera_settings(settings)
+                
+        except Exception as e:
+            print(f"Error showing camera settings: {str(e)}")
+            import traceback
+            traceback.print_exc()
+
+    def apply_camera_settings(self, settings):
+        """Apply the camera settings"""
+        try:
+            # Get current camera ID
+            current_camera = self.camera_combo.currentData()
+            
+            # Parse resolution
+            width, height = map(int, settings['resolution'].split('x'))
+            
+            # Update frame size in VideoHandler
+            self.video_handler.frame_size = (width, height)
+            
+            # Stop current camera
+            self.video_handler.stop_camera()
+            
+            # Start camera with new settings
+            if self.video_handler.start_camera(current_camera):
+                # Apply additional settings if camera is running
+                if self.video_handler.camera and self.video_handler.camera.isOpened():
+                    self.video_handler.camera.set(cv2.CAP_PROP_FPS, settings['fps'])
+                    self.video_handler.camera.set(cv2.CAP_PROP_BRIGHTNESS, settings['brightness'] / 100.0)
+                    if settings['autofocus']:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 1)
+                    else:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+                        
+                # Update threshold
+                if 'threshold' in settings:
+                    self.face_processor.similarity_threshold = settings['threshold']
+                    if hasattr(self, 'threshold_slider'):
+                        self.threshold_slider.setValue(int(settings['threshold'] * 100))
+                        
+                print(f"Camera settings applied successfully: {settings}")
+            else:
+                print("Failed to start camera with new settings")
+                
+        except Exception as e:
+            print(f"Error applying camera settings: {str(e)}")
+            # Try to restart the camera with original settings
+            try:
+                self.video_handler.start_camera(self.camera_combo.currentData())
+            except Exception as restart_error:
+                print(f"Error restarting camera: {str(restart_error)}")

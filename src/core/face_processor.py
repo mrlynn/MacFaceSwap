@@ -44,7 +44,7 @@ class FaceProcessor:
             self.face_analyzer = FaceAnalysis(
                 name='buffalo_l',
                 providers=[self.execution_provider],
-                allowed_modules=['detection', 'recognition']
+                allowed_modules=['detection', 'recognition', 'landmark_2d_106']  # Explicitly include landmark
             )
             self.prev_face_positions = []
             self.position_smoothing_window = 3
@@ -89,7 +89,16 @@ class FaceProcessor:
         except Exception as e:
             print(f"Error initializing FaceProcessor: {str(e)}")
             raise
-        
+    
+    def set_debug_mode(self, enabled: bool) -> None:
+        """Enable or disable debug visualization"""
+        print(f"Setting debug mode to: {enabled}")
+        self.debug_mode = enabled
+
+    def get_debug_mode(self) -> bool:
+        """Get current debug mode status"""
+        return self.debug_mode
+    
     def smooth_face_position(self, current_bbox):
         """Apply temporal smoothing to face positions"""
         if not self.prev_face_positions:
@@ -149,7 +158,7 @@ class FaceProcessor:
             try:
                 if 'source_face' in mapping and mapping['source_face'] is not None:
                     source_face = mapping['source_face']
-                    print(f"Source face keys: {list(source_face.keys())}")
+                    # print(f"Source face keys: {list(source_face.keys())}")
                     
                     # Verify we have the minimum required data
                     if 'embedding' not in source_face:
@@ -181,11 +190,11 @@ class FaceProcessor:
             return []
                 
         try:
-            print(f"Frame shape: {frame.shape}")
-            print(f"Frame dtype: {frame.dtype}")
-            print("Attempting face detection...")
+            # print(f"Frame shape: {frame.shape}")
+            # print(f"Frame dtype: {frame.dtype}")
+            # print("Attempting face detection...")
             faces = self.face_analyzer.get(frame)
-            print(f"Detected {len(faces)} faces")
+            # print(f"Detected {len(faces)} faces")
             return [{
                 'face': face,
                 'bbox': face.bbox,
@@ -203,13 +212,13 @@ class FaceProcessor:
     def find_best_match(self, target_embedding: np.ndarray) -> Optional[Dict[str, Any]]:
         """Find the best matching source face for a target embedding"""
         try:
-            print("\n=== Starting Face Matching Process ===")
-            print(f"Current similarity threshold: {self.similarity_threshold}")
-            print(f"Number of face mappings: {len(self.face_mappings)}")
-            print("Available mappings:", list(self.face_mappings.keys()))
+            # print("\n=== Starting Face Matching Process ===")
+            # print(f"Current similarity threshold: {self.similarity_threshold}")
+            # print(f"Number of face mappings: {len(self.face_mappings)}")
+            # print("Available mappings:", list(self.face_mappings.keys()))
 
             if not self.face_mappings:
-                print("No face mappings available")
+                # print("No face mappings available")
                 return None
 
             if target_embedding is None:
@@ -222,22 +231,22 @@ class FaceProcessor:
             target_embedding = target_embedding.astype(np.float32)
             target_embedding = target_embedding / np.linalg.norm(target_embedding)
 
-            print("\nTarget Embedding Stats:")
-            print(f"Shape: {target_embedding.shape}")
-            print(f"Norm: {np.linalg.norm(target_embedding):.4f}")
+            # print("\nTarget Embedding Stats:")
+            # print(f"Shape: {target_embedding.shape}")
+            # print(f"Norm: {np.linalg.norm(target_embedding):.4f}")
 
             best_match = None
             best_similarity = -1
 
             for mapping_id, mapping in self.face_mappings.items():
-                print(f"\nProcessing mapping {mapping_id}:")
+                # print(f"\nProcessing mapping {mapping_id}:")
                 
                 if 'source_face' not in mapping:
                     print("- No source_face in mapping")
                     continue
                     
                 source_data = mapping['source_face']
-                print("- Source face keys:", list(source_data.keys()))
+                # print("- Source face keys:", list(source_data.keys()))
                 
                 source_embedding = source_data.get('embedding')
                 if source_embedding is None:
@@ -253,7 +262,7 @@ class FaceProcessor:
                 # Calculate similarity
                 similarity = abs(float(np.dot(target_embedding, source_embedding)))
                 
-                print(f"- Calculated similarity: {similarity:.4f}")
+                # print(f"- Calculated similarity: {similarity:.4f}")
 
                 if similarity > best_similarity:
                     best_similarity = similarity
@@ -262,16 +271,16 @@ class FaceProcessor:
                         'source_face': source_data,
                         'similarity': similarity
                     }
-                    print(f"- New best match! Similarity: {similarity:.4f}")
+                    # print(f"- New best match! Similarity: {similarity:.4f}")
 
             if best_match:
-                print(f"\nFinal Best Match:")
-                print(f"- Mapping ID: {best_match['mapping_id']}")
-                print(f"- Similarity: {best_match['similarity']:.4f}")
-                print(f"- Threshold: {self.similarity_threshold}")
+                # print(f"\nFinal Best Match:")
+                # print(f"- Mapping ID: {best_match['mapping_id']}")
+                # print(f"- Similarity: {best_match['similarity']:.4f}")
+                # print(f"- Threshold: {self.similarity_threshold}")
                 
                 if best_match['similarity'] > self.similarity_threshold:
-                    print("Match ACCEPTED")
+                    # print("Match ACCEPTED")
                     return best_match
                 else:
                     print("Match REJECTED (below threshold)")
@@ -423,7 +432,8 @@ class FaceProcessor:
             current_faces = self.detect_faces(frame)
             
             if not current_faces:
-                return frame
+                return self.draw_debug_info(frame, []) if self.debug_mode else frame
+ 
                 
             swapped = result.copy()
             swap_successful = False
@@ -436,7 +446,7 @@ class FaceProcessor:
                 match = self.find_best_match(face_data['embedding'])
                 if match and match['similarity'] > self.similarity_threshold:
                     try:
-                        print("\nGot a match, preparing face swap...")
+                        # print("\nGot a match, preparing face swap...")
                         source_face = match['source_face']
                         
                         # Add source embedding to the face dict if not present
@@ -446,11 +456,11 @@ class FaceProcessor:
                         
                         # Ensure we have a proper Face object
                         if not isinstance(source_face, Face):
-                            print("Reconstructing face from dictionary...")
+                            # print("Reconstructing face from dictionary...")
                             source_face = self.reconstruct_face(source_face)
                         
                         if source_face is not None:
-                            print("Attempting face swap...")
+                            # print("Attempting face swap...")
                             swapped = self.face_swapper.get(
                                 swapped,
                                 face_data['face'],
@@ -458,7 +468,7 @@ class FaceProcessor:
                                 paste_back=True
                             )
                             swap_successful = True
-                            print("Face swap successful!")
+                            # print("Face swap successful!")
                         else:
                             print("Failed to reconstruct source face")
                             
@@ -488,7 +498,7 @@ class FaceProcessor:
     def analyze_face(self, image):
         """Analyze a face in an image"""
         try:
-            print("\nAnalyzing face...")
+            # print("\nAnalyzing face...")
             faces = self.face_analyzer.get(image)
             
             if not faces:
@@ -496,16 +506,42 @@ class FaceProcessor:
                 return None
                 
             face = faces[0]  # Get the first face
-            face_dict = {
-                'embedding': face.embedding.tolist() if hasattr(face, 'embedding') else None,
-                'bbox': face.bbox.tolist() if hasattr(face, 'bbox') else None,
-                'kps': face.kps.tolist() if hasattr(face, 'kps') else None,
-                'det_score': float(face.det_score) if hasattr(face, 'det_score') else None,
-                'landmark_2d_106': face.landmark_2d_106.tolist() if hasattr(face, 'landmark_2d_106') else None,
-                'pose': face.pose.tolist() if hasattr(face, 'pose') else None,
-                'gender': face.gender if hasattr(face, 'gender') else -1,
-                'num_det': face.num_det if hasattr(face, 'num_det') else 1
-            }
+            
+            # Create face dictionary with safe attribute access
+            face_dict = {}
+            
+            # Safely get embedding (most important)
+            if hasattr(face, 'embedding') and face.embedding is not None:
+                face_dict['embedding'] = face.embedding.tolist()
+            else:
+                print("No embedding found - this is required")
+                return None
+                
+            # Safely get other attributes
+            if hasattr(face, 'bbox') and face.bbox is not None:
+                face_dict['bbox'] = face.bbox.tolist()
+                
+            if hasattr(face, 'kps') and face.kps is not None:
+                face_dict['kps'] = face.kps.tolist()
+                
+            if hasattr(face, 'det_score'):
+                face_dict['det_score'] = float(face.det_score)
+                
+            # Handle landmark_2d_106 carefully since it's failing
+            if hasattr(face, 'landmark_2d_106') and face.landmark_2d_106 is not None:
+                try:
+                    face_dict['landmark_2d_106'] = face.landmark_2d_106.tolist()
+                except:
+                    print("Warning: Could not process landmark_2d_106")
+                    face_dict['landmark_2d_106'] = None
+            else:
+                face_dict['landmark_2d_106'] = None
+                
+            if hasattr(face, 'pose') and face.pose is not None:
+                face_dict['pose'] = face.pose.tolist()
+                
+            face_dict['gender'] = face.gender if hasattr(face, 'gender') else -1
+            face_dict['num_det'] = face.num_det if hasattr(face, 'num_det') else 1
             
             print(f"Face data extracted:")
             for key, value in face_dict.items():
@@ -527,6 +563,48 @@ class FaceProcessor:
             import traceback
             traceback.print_exc()
             return None
+        
+    def draw_debug_info(self, frame: np.ndarray, faces: List[dict]) -> np.ndarray:
+        """Draw debug information on frame if debug mode is enabled"""
+        if not self.debug_mode:
+            return frame
+            
+        debug_frame = frame.copy()
+        
+        try:
+            for face_data in faces:
+                # Draw bounding box if available
+                if 'bbox' in face_data:
+                    bbox = face_data['bbox']
+                    x1, y1, x2, y2 = map(int, bbox)
+                    cv2.rectangle(debug_frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    
+                    # Add confidence score if available
+                    if 'det_score' in face_data:
+                        score = face_data['det_score']
+                        score_text = f"Conf: {score:.2f}"
+                        cv2.putText(debug_frame, score_text, (x1, y1 - 10),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                    
+                # Draw landmarks if available
+                if 'landmark_2d_106' in face_data and face_data['landmark_2d_106'] is not None:
+                    landmarks = face_data['landmark_2d_106']
+                    for point in landmarks:
+                        x, y = map(int, point)
+                        cv2.circle(debug_frame, (x, y), 1, (0, 0, 255), -1)
+                        
+                # Draw face center if available
+                if 'bbox' in face_data:
+                    bbox = face_data['bbox']
+                    center_x = int((bbox[0] + bbox[2]) / 2)
+                    center_y = int((bbox[1] + bbox[3]) / 2)
+                    cv2.circle(debug_frame, (center_x, center_y), 3, (255, 0, 0), -1)
+                    
+        except Exception as e:
+            print(f"Error drawing debug info: {str(e)}")
+            return frame
+            
+        return debug_frame
 
     def set_source_face(self, image: np.ndarray) -> bool:
         """Set the source face for swapping"""
