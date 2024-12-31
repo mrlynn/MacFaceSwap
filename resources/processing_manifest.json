@@ -776,8 +776,8 @@
     "processed_time": 1735052553.594221
   },
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Homer Simpson/7.jpeg": {
-    "modified_time": 1735049539.9416094,
-    "processed_time": 1735052553.631684
+    "modified_time": 1735637373.586931,
+    "processed_time": 1735654386.904688
   },
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Leonardo DiCaprio/015_2872d02b.jpg": {
     "modified_time": 1657745886.0,
@@ -7030,5 +7030,309 @@
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Megan Fox/041_139bb2a5.jpg": {
     "modified_time": 1657745888.0,
     "processed_time": 1735052616.264469
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/4.jpeg": {
+    "modified_time": 1735220912.3206427,
+    "processed_time": 1735654388.150747
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/5.jpeg": {
+    "modified_time": 1735220944.7159486,
+    "processed_time": 1735654388.229382
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/2.jpg": {
+    "modified_time": 1735220852.0503411,
+    "processed_time": 1735654388.316785
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/1.jpg": {
+    "modified_time": 1735220834.0297706,
+    "processed_time": 1735654388.403269
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/3.jpeg": {
+    "modified_time": 1735220863.4112096,
+    "processed_time": 1735654388.51104
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/8.jpg": {
+    "modified_time": 1735218363.4703934,
+    "processed_time": 1735654388.630312
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/4.jpg": {
+    "modified_time": 1735222044.1444328,
+    "processed_time": 1735654388.711501
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/5.png": {
+    "modified_time": 1735218327.560256,
+    "processed_time": 1735654388.80034
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/1._SX1080_FMjpg_.jpg": {
+    "modified_time": 1735218273.4525683,
+    "processed_time": 1735654388.888847
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/6.jpg": {
+    "modified_time": 1735222044.1957126,
+    "processed_time": 1735654388.966722
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/3.jpeg": {
+    "modified_time": 1735218308.8251238,
+    "processed_time": 1735654389.073975
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/7.jpeg": {
+    "modified_time": 1735220098.397038,
+    "processed_time": 1735654389.164737
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/4.jpg": {
+    "modified_time": 1735220004.2204082,
+    "processed_time": 1735654389.243945
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/2.jpeg": {
+    "modified_time": 1735219961.6471908,
+    "processed_time": 1735654389.333557
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/5.jpg": {
+    "modified_time": 1735220067.1386302,
+    "processed_time": 1735654389.445627
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/6.png": {
+    "modified_time": 1735220088.0755713,
+    "processed_time": 1735654389.533056
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/3.jpg": {
+    "modified_time": 1735222044.2487948,
+    "processed_time": 1735654389.634372
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/1.jpg": {
+    "modified_time": 1735222044.308586,
+    "processed_time": 1735654389.729045
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/John Mayer/s-l1200.jpg": {
+    "modified_time": 1735654328.0929492,
+    "processed_time": 1735654389.822861
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Barack Obama/3.jpeg": {
+    "modified_time": 1735227326.545601,
+    "processed_time": 1735654390.554564
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Barack Obama/president-barack-obama-portrait-2012-war-is-hell-store-transparent.png": {
+    "modified_time": 1735227356.7640061,
+    "processed_time": 1735654390.660658
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/8.jpeg": {
+    "modified_time": 1735220801.5211623,
+    "processed_time": 1735654391.195476
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/4.jpeg": {
+    "modified_time": 1735220711.0116634,
+    "processed_time": 1735654391.282561
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/2.jpeg": {
+    "modified_time": 1735220672.6052258,
+    "processed_time": 1735654391.361765
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/6.jpg": {
+    "modified_time": 1735222044.358915,
+    "processed_time": 1735654391.453546
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/1.jpg": {
+    "modified_time": 1735220640.4693322,
+    "processed_time": 1735654391.550237
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/3.jpeg": {
+    "modified_time": 1735220692.855008,
+    "processed_time": 1735654391.644323
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/4.jpg": {
+    "modified_time": 1735222044.4410386,
+    "processed_time": 1735654392.335886
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/5.jpg": {
+    "modified_time": 1735220321.5855212,
+    "processed_time": 1735654392.420082
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/6.jpg": {
+    "modified_time": 1735220348.9088297,
+    "processed_time": 1735654392.512366
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/1.jpg": {
+    "modified_time": 1735220263.6492777,
+    "processed_time": 1735654392.711734
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/1.jpeg": {
+    "modified_time": 1735218099.254247,
+    "processed_time": 1735654393.454847
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/6.jpeg": {
+    "modified_time": 1735218175.3340304,
+    "processed_time": 1735654393.536495
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/4.jpeg": {
+    "modified_time": 1735218152.3750339,
+    "processed_time": 1735654393.640213
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/5.jpeg": {
+    "modified_time": 1735218163.787057,
+    "processed_time": 1735654393.713942
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/7.jpg": {
+    "modified_time": 1735218187.015575,
+    "processed_time": 1735654393.820344
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/2.jpg": {
+    "modified_time": 1735218125.5270262,
+    "processed_time": 1735654393.948692
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/3.jpg": {
+    "modified_time": 1735222044.497786,
+    "processed_time": 1735654394.034431
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/8.jpeg": {
+    "modified_time": 1735218588.3680618,
+    "processed_time": 1735654394.126592
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/4.png": {
+    "modified_time": 1735218519.1182244,
+    "processed_time": 1735654394.222856
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/5.jpg": {
+    "modified_time": 1735218529.8203042,
+    "processed_time": 1735654394.310072
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/7.png": {
+    "modified_time": 1735218578.334899,
+    "processed_time": 1735654394.412702
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/6.jpg": {
+    "modified_time": 1735218558.944447,
+    "processed_time": 1735654394.503865
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/3.png": {
+    "modified_time": 1735218507.461346,
+    "processed_time": 1735654394.703175
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/4.jpg": {
+    "modified_time": 1735259409.5698643,
+    "processed_time": 1735654394.894088
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/5.jpg": {
+    "modified_time": 1735259423.5673926,
+    "processed_time": 1735654394.986492
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/2.jpg": {
+    "modified_time": 1735259356.5341587,
+    "processed_time": 1735654395.070405
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/4.jpg": {
+    "modified_time": 1735222044.6344242,
+    "processed_time": 1735654395.168139
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/5.jpg": {
+    "modified_time": 1735222044.5502305,
+    "processed_time": 1735654395.253016
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/6.jpg": {
+    "modified_time": 1735222044.686273,
+    "processed_time": 1735654395.409468
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/2.jpg": {
+    "modified_time": 1735220161.7634377,
+    "processed_time": 1735654395.50462
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/3.jpg": {
+    "modified_time": 1735220174.1544392,
+    "processed_time": 1735654395.590423
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/images.jpeg": {
+    "modified_time": 1735217580.0237699,
+    "processed_time": 1735654395.694076
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/wferrell.jpeg": {
+    "modified_time": 1735217643.5243871,
+    "processed_time": 1735654395.776134
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/GettyImages-466483881-e1588339129506.jpg": {
+    "modified_time": 1735222044.735849,
+    "processed_time": 1735654395.857262
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/4f59a9ccd8f83639b6519eaaf6ab1706.jpg": {
+    "modified_time": 1735217598.7326534,
+    "processed_time": 1735654395.959276
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/Will_Ferrell.jpg": {
+    "modified_time": 1735222044.8152514,
+    "processed_time": 1735654396.171652
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/ive-always-thought-that-will-ferrell-would-be-a-really-v0-pjnwwwwgccoc1.jpg": {
+    "modified_time": 1735222044.862887,
+    "processed_time": 1735654396.289493
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/5.jpeg": {
+    "modified_time": 1735218793.8155382,
+    "processed_time": 1735654396.467005
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/4.jpg": {
+    "modified_time": 1735218776.0110748,
+    "processed_time": 1735654396.575487
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/6.png": {
+    "modified_time": 1735218813.173299,
+    "processed_time": 1735654396.708845
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/2.jpg": {
+    "modified_time": 1735218754.2377257,
+    "processed_time": 1735654396.827218
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/1.jpg": {
+    "modified_time": 1735218726.2752743,
+    "processed_time": 1735654396.922582
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/1.jpeg": {
+    "modified_time": 1735217978.947418,
+    "processed_time": 1735654397.01874
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/6.jpeg": {
+    "modified_time": 1735218036.949785,
+    "processed_time": 1735654397.10496
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/4.jpg": {
+    "modified_time": 1735222044.9199896,
+    "processed_time": 1735654397.188613
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/5.jpg": {
+    "modified_time": 1735218026.2290323,
+    "processed_time": 1735654397.262804
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/2.jpg": {
+    "modified_time": 1735217995.328841,
+    "processed_time": 1735654397.346431
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/1.jpeg": {
+    "modified_time": 1735218623.4247854,
+    "processed_time": 1735654398.806349
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/4.jpg": {
+    "modified_time": 1735218672.7162514,
+    "processed_time": 1735654398.89753
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/5.jpg": {
+    "modified_time": 1735218697.1779177,
+    "processed_time": 1735654398.984553
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/3.jpg": {
+    "modified_time": 1735218660.269259,
+    "processed_time": 1735654399.148813
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/4.jpg": {
+    "modified_time": 1735222045.0253508,
+    "processed_time": 1735654399.439988
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/2.jpeg": {
+    "modified_time": 1735221020.9392383,
+    "processed_time": 1735654399.515976
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/5.jpg": {
+    "modified_time": 1735222044.970499,
+    "processed_time": 1735654399.592009
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/3.jpeg": {
+    "modified_time": 1735221044.1283445,
+    "processed_time": 1735654399.770841
   }
 }

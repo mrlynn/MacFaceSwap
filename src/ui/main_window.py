@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         self.show_face_brackets = False  # Set initial state
         self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
-        self.face_processor.similarity_threshold = 0.1  # Start with 0.5 as default
+        self.face_processor.similarity_threshold = 0.0  # Start with 0.5 as default
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
         self.video_recorder = VideoRecorder()
@@ -228,25 +228,25 @@ class MainWindow(QMainWindow):
         self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
         settings_layout.addWidget(self.face_bracket_button)
 
-        # Similarity threshold
-        threshold_widget = QWidget()
-        threshold_layout = QHBoxLayout(threshold_widget)
-        threshold_layout.setContentsMargins(0, 0, 0, 0)
-        threshold_layout.setSpacing(8)
+        # # Similarity threshold
+        # threshold_widget = QWidget()
+        # threshold_layout = QHBoxLayout(threshold_widget)
+        # threshold_layout.setContentsMargins(0, 0, 0, 0)
+        # threshold_layout.setSpacing(8)
 
-        threshold_layout.addWidget(QLabel("Similarity:"))
-        self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
-        self.threshold_slider.setRange(0, 100)
-        initial_threshold = 20
-        self.threshold_slider.setValue(initial_threshold)
-        self.threshold_slider.valueChanged.connect(self.update_threshold)
-        threshold_layout.addWidget(self.threshold_slider)
+        # threshold_layout.addWidget(QLabel("Similarity:"))
+        # self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
+        # self.threshold_slider.setRange(0, 100)
+        # initial_threshold = 20
+        # self.threshold_slider.setValue(initial_threshold)
+        # self.threshold_slider.valueChanged.connect(self.update_threshold)
+        # threshold_layout.addWidget(self.threshold_slider)
 
-        self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
-        self.threshold_label.setFixedWidth(40)
-        threshold_layout.addWidget(self.threshold_label)
+        # self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
+        # self.threshold_label.setFixedWidth(40)
+        # threshold_layout.addWidget(self.threshold_label)
 
-        settings_layout.addWidget(threshold_widget)
+        # settings_layout.addWidget(threshold_widget)
 
         # Quality controls
         quality_group = QGroupBox("Quality Settings")

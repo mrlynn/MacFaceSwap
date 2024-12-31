@@ -38,7 +38,7 @@ class FaceProcessor:
             self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
-            self._similarity_threshold = 0.2  # Lower default threshold
+            self._similarity_threshold = 0.0  # Lower default threshold
             # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
@@ -49,6 +49,7 @@ class FaceProcessor:
             self.prev_face_positions = []
             self.position_smoothing_window = 3
             self.position_threshold = 10.0  # pixels
+            self.similarity_threshold = 0.0  # Hardcoded optimal value
 
             self.face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
             print("Face analyzer ready")
@@ -65,7 +66,6 @@ class FaceProcessor:
             )
             
             # Enhanced similarity settings
-            self.similarity_threshold = 0.1  # Lower threshold for better matching
             self.cache_size = 10  # Increased cache size
             self.process_every_n_frames = 1  # Process every frame
             
@@ -82,7 +82,6 @@ class FaceProcessor:
             # Image enhancement settings
             self.use_face_enhancement = True
             self.enhancement_level = 1.0  # Adjustable enhancement strength
-            self.similarity_threshold = 0.5
 
             print("FaceProcessor initialization complete with enhanced settings")
             

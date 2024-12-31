@@ -15848,7 +15848,7 @@ class FaceProcessor:
             # Image enhancement settings
             self.use_face_enhancement = True
             self.enhancement_level = 1.0  # Adjustable enhancement strength
-            self.similarity_threshold = 0.5
+            self.similarity_threshold = 0.0
 
             print("FaceProcessor initialization complete with enhanced settings")
             

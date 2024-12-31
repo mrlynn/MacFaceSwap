@@ -10,6 +10,14 @@ import signal
 import subprocess
 import sys
 from src.ui.watermark import VideoWatermark
+import tracemalloc
+import gc
+import psutil
+import resource
+import logging
+import tracemalloc
+if not tracemalloc.is_tracing():
+    tracemalloc.start()
 
 class VideoHandler:
     def __init__(self):
@@ -38,7 +46,23 @@ class VideoHandler:
         # Set up signal handler for segfault protection
         if platform.system() == 'Darwin':
             signal.signal(signal.SIGSEGV, self._handle_segfault)
-            
+
+    # Add inside VideoHandler class, after __init__
+    def _monitor_memory(self):
+        """Monitor memory usage"""
+        try:
+            process = psutil.Process()
+            mem_info = process.memory_info()
+            logging.debug(f"Memory usage: {mem_info.rss / 1024 / 1024:.2f} MB")
+            if tracemalloc.is_tracing():
+                snapshot = tracemalloc.take_snapshot()
+                top_stats = snapshot.statistics('lineno')[:3]
+                logging.debug("Top 3 memory allocations:")
+                for stat in top_stats:
+                    logging.debug(stat)
+        except Exception as e:
+            logging.error(f"Memory monitoring error: {e}")
+
     def _handle_segfault(self, signum, frame):
         """Handle segmentation faults gracefully"""
         print("Caught segmentation fault - cleaning up...")
@@ -101,45 +125,45 @@ class VideoHandler:
         return capture
         
     def start_camera(self, camera_id: int = 0) -> bool:
-        self.stop_camera()
-        time.sleep(0.5)
-        
         try:
+            self.stop_camera()
+            time.sleep(0.5)
+            gc.collect()
+
             self.camera = cv2.VideoCapture(camera_id)
-            
+            if not self.camera.isOpened() and platform.system() == 'Darwin':
+                self.camera = cv2.VideoCapture(camera_id, cv2.CAP_AVFOUNDATION)
+                
             if not self.camera.isOpened():
-                if platform.system() == 'Darwin':
-                    self.camera = cv2.VideoCapture(camera_id, cv2.CAP_AVFOUNDATION)
-                    
-            if not self.camera.isOpened():
+                logging.error(f"Failed to open camera {camera_id}")
                 return False
-            
-            # Force specific frame size
-            self.frame_size = (1280, 720)  # Fixed size
+
+            self.frame_size = (1280, 720)
             self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.frame_size[0])
             self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frame_size[1])
             
-            # Verify size was set
             actual_width = self.camera.get(cv2.CAP_PROP_FRAME_WIDTH)
             actual_height = self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT)
-            print(f"Camera resolution: {actual_width}x{actual_height}")
+            logging.info(f"Camera resolution: {actual_width}x{actual_height}")
             
             self.is_running = True
             self.capture_thread = Thread(target=self._protected_capture_loop, daemon=True)
             self.capture_thread.start()
             return True
-            
+                
         except Exception as e:
-            print(f"Error starting camera: {e}")
+            logging.error(f"Camera start error: {e}")
             self.stop_camera()
             return False
 
     def _protected_capture_loop(self):
-        """Protected version of capture loop"""
         try:
             self._capture_loop()
+        except MemoryError:
+            logging.error("Memory error in capture loop")
+            self.stop_camera()
         except Exception as e:
-            print(f"Error in capture loop: {str(e)}")
+            logging.error(f"Capture loop error: {e}")
             self.stop_camera()
             
     def stop_camera(self):
@@ -155,33 +179,30 @@ class VideoHandler:
             self.current_frame = None
 
     def _capture_loop(self):
-        """Main capture loop running in separate thread"""
         frame_counter = 0
         while self.is_running and self.camera and self.camera.isOpened():
-            ret, frame = self.camera.read()
-            if not ret or frame is None:
-                continue
+            try:
+                ret, frame = self.camera.read()
+                if not ret or frame is None:
+                    continue
+                    
+                # Memory cleanup every 100 frames    
+                if frame_counter % 100 == 0:
+                    gc.collect()
+
+                processed_frame = frame.copy()
+                del frame  # Explicit cleanup
                 
-            frame_counter += 1
-            if frame_counter % self.process_every_n_frames != 0:
-                continue
+                processed_frame = self.watermark.apply_watermark(processed_frame)
                 
-            processed_frame = frame.copy()
-            
-            # Apply watermark before any other processing
-            processed_frame = self.watermark.apply_watermark(processed_frame)
-            
-            if self.processing_callback:
-                try:
-                    result = self.processing_callback(processed_frame)
-                    if result is not None:
-                        processed_frame = result
-                except Exception as e:
-                    print(f"Error in frame processing: {e}")
-            
-            # Thread-safe frame update
-            with self.frame_lock:
-                self.current_frame = processed_frame
+                with self.frame_lock:
+                    self.current_frame = processed_frame
+                    
+                frame_counter += 1
+                
+            except Exception as e:
+                logging.error(f"Frame processing error: {e}")
+                break
         
     def _update_fps(self):
         """Update FPS calculation"""

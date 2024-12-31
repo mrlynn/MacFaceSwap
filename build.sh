@@ -20,7 +20,7 @@ if [ -d "venv" ]; then
     rm -rf venv
 fi
 
-python3 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
@@ -32,6 +32,7 @@ pip install -r requirements.txt
 echo "Installing additional dependencies..."
 pip install matplotlib==3.7.1  # Use a specific version known to work
 pip install PyQt6 QtAwesome insightface onnxruntime-silicon
+pip install pyinstaller
 
 # Verify project structure
 echo "Verifying project structure..."
