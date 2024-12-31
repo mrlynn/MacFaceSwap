@@ -6,3 +6,7 @@ files filter=lfs diff=lfs merge=lfs -text
 *.onnx filter=lfs diff=lfs merge=lfs -text
 ONNX filter=lfs diff=lfs merge=lfs -text
 models filter=lfs diff=lfs merge=lfs -text
+models/GFPGANv1.4.pth filter=lfs diff=lfs merge=lfs -text
+models/inswapper_128.onnx filter=lfs diff=lfs merge=lfs -text
+models/inswapper_128_fp16.onnx filter=lfs diff=lfs merge=lfs -text
+resources/celebrity_mappings.pkl filter=lfs diff=lfs merge=lfs -text
