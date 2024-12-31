@@ -3,7 +3,7 @@ import os
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
     QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
-    QCheckBox, QTabWidget, QDialog, QTextBrowser, QMenuBar
+    QCheckBox, QTabWidget, QDialog, QTextBrowser, QMenu
 )
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QImage, QPixmap, QAction  # Here's where QAction belongs
@@ -19,7 +19,7 @@ from src.core.face_processor import preprocess_celebrities
 from src.core.video_recorder import VideoRecorder
 from src.ui.watermark import VideoWatermark
 from src.ui.camera_settings import CameraSettings
-
+from src.ui.tutorial_overlay import TutorialOverlay
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -30,6 +30,8 @@ class MainWindow(QMainWindow):
         self.video_window = None  # Add this line
         self.init_ui()
         self.setup_styles()
+        self.setup_tutorial()  # Add this line
+
         self.show_face_brackets = False  # Set initial state
         self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
@@ -90,6 +92,82 @@ class MainWindow(QMainWindow):
                 color: #FFFFFF;
             }
         """)
+        
+    
+    def setup_tutorial(self):
+        try:
+            print("Setting up tutorial...")
+            self.tutorial_overlay = None
+            self.steps = [
+                {
+                    'message': 'Welcome to MacFaceSwap! First, go to the Camera tab and select your camera device from the dropdown menu at the top.',
+                    'highlight': True
+                },
+                {
+                    'message': 'Once your camera is selected, click the "Start Camera" button in the video window to begin your camera feed.',
+                    'highlight': True
+                },
+                {
+                    'message': 'Next, click the Face tab. Here you can either upload your own face image or use our celebrity gallery.',
+                    'highlight': True
+                },
+                {
+                    'message': 'For quick testing, click "Open Face Gallery" to choose from our pre-configured celebrity faces.',
+                    'highlight': True
+                },
+                {
+                    'message': 'Finally, in the Settings tab, enable Face Enhancement and adjust the slider for better results. You can also toggle face brackets to see the detection boxes.',
+                    'highlight': True
+                }
+            ]
+            self.current_tutorial_step = 0
+            print("Tutorial setup complete")
+        except Exception as e:
+            print(f"Error in setup_tutorial: {e}")
+            
+    
+    def start_tutorial(self):
+        try:
+            print("Starting tutorial")
+            self.tutorial_overlay = TutorialOverlay(self)
+            self.tutorial_overlay.tutorial_completed.connect(self.on_tutorial_completed)
+            self.tutorial_overlay.show()
+        except Exception as e:
+            print(f"Error in start_tutorial: {e}")
+        
+    def show_tutorial_step(self):
+        print("Show tutorial step called...")
+        if self.current_tutorial_step >= len(self.tutorial_steps):
+            print("Tutorial complete")
+            #self.tutorial_overlay.hide()
+            return
+            
+        step = self.tutorial_steps[self.current_tutorial_step]
+        print(f"Current step: {step}")
+        
+        target_widget = getattr(self, step['target'])
+        print(f"Target widget: {target_widget}")
+        self.tutorial_overlay.setGeometry(self.geometry())
+
+        # Position overlay and show
+        self.tutorial_overlay.resize(self.size())
+        self.tutorial_overlay.move(self.mapToGlobal(self.rect().topLeft()))
+        self.tutorial_overlay.raise_()
+        self.tutorial_overlay.set_target(target_widget)
+        self.tutorial_overlay.set_message(step['message'])        
+        # Update content
+        self.tutorial_overlay.set_target(target_widget)
+        self.tutorial_overlay.set_message(step['message'])
+        print("Tutorial step updated")
+            
+    def next_tutorial_step(self):
+        self.current_tutorial_step += 1
+        self.show_tutorial_step()
+
+    def on_tutorial_completed(self):
+        self.tutorial_overlay.hide()
+        QMessageBox.information(self, "Tutorial Complete", 
+            "You're all set! Start swapping faces by selecting a source face and enabling the camera.")
         
     # Update toggle_recording method
     def toggle_recording(self):
@@ -272,14 +350,19 @@ class MainWindow(QMainWindow):
         # Create menubar properly
         menubar = self.menuBar()
         help_menu = menubar.addMenu("&Help")
-        
-        # Create help action
+        help_menu.setObjectName("help_menu")
+
+        # Add tutorial action first
+        self.start_tutorial_action = QAction("Start Tutorial", self)
+        self.start_tutorial_action.triggered.connect(self.start_tutorial)
+        help_menu.addAction(self.start_tutorial_action)
+
+        # Then add other actions
         help_contents = QAction("&Help Contents", self)
         help_contents.setShortcut("F1")
         help_contents.triggered.connect(self.show_help_dialog)
         help_menu.addAction(help_contents)
-        
-        # Add about action
+
         help_menu.addSeparator()
         about_action = QAction("&About MacFaceSwap", self)
         about_action.triggered.connect(self.show_about_dialog)

@@ -1,3 +1,24 @@
+# .gitattributes
+
+```
+*.pth filter=lfs diff=lfs merge=lfs -text
+\# filter=lfs diff=lfs merge=lfs -text
+For filter=lfs diff=lfs merge=lfs -text
+model filter=lfs diff=lfs merge=lfs -text
+files filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+ONNX filter=lfs diff=lfs merge=lfs -text
+models filter=lfs diff=lfs merge=lfs -text
+models/GFPGANv1.4.pth filter=lfs diff=lfs merge=lfs -text
+models/inswapper_128.onnx filter=lfs diff=lfs merge=lfs -text
+models/inswapper_128_fp16.onnx filter=lfs diff=lfs merge=lfs -text
+resources/celebrity_mappings.pkl filter=lfs diff=lfs merge=lfs -text
+models/*.pth filter=lfs diff=lfs merge=lfs -text
+models/*.onnx filter=lfs diff=lfs merge=lfs -text
+resources/*.pkl filter=lfs diff=lfs merge=lfs -text
+
+```
+
 # .gitignore
 
 ```
@@ -175,6 +196,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+*.pth
+*.onnx
+venv/
+__pycache__/
 
 ```
 
@@ -203,7 +228,7 @@ if [ -d "venv" ]; then
     rm -rf venv
 fi
 
-python3 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
@@ -215,6 +240,7 @@ pip install -r requirements.txt
 echo "Installing additional dependencies..."
 pip install matplotlib==3.7.1  # Use a specific version known to work
 pip install PyQt6 QtAwesome insightface onnxruntime-silicon
+pip install pyinstaller
 
 # Verify project structure
 echo "Verifying project structure..."
@@ -234,6 +260,7 @@ if [ ! -d "dist/MacFaceSwap.app/Contents/Resources/images" ]; then
 fi
 
 echo "Build complete! Check the dist directory for MacFaceSwap.app"
+
 ```
 
 # images/Angelina Jolie/001_fe3347c0.jpg
@@ -633,6 +660,54 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # images/Angelina Jolie/100_31ff9373.jpg
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/3.jpeg
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/Barack-Obama-Old-Celebrity-Mask-Flat-Card-Face-Fancy-Dress-Mask_43db8815-d13f-46ca-bd3d-0b7de90ca7fc.6d854fde5298f369251cef98ce53ac16.webp
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/blog_obama_martin_schoeller.jpg
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/President_Barack_Obama_(square).jpg
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/president-barack-obama-portrait-2012-war-is-hell-store-transparent.png
+
+This is a binary file of the type: Image
+
+# images/Barack Obama/SM411_Barack-Obama.jpg
+
+This is a binary file of the type: Image
+
+# images/Beyonce/1.jpeg
+
+This is a binary file of the type: Image
+
+# images/Beyonce/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Beyonce/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Beyonce/4.webp
+
+This is a binary file of the type: Image
+
+# images/Beyonce/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Beyonce/6.jpeg
 
 This is a binary file of the type: Image
 
@@ -1436,6 +1511,82 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# images/Dwayne Johnson/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/2.jpeg
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/3.jpeg
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/4.jpeg
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/5.avif
+
+This is a binary file of the type: Binary
+
+# images/Dwayne Johnson/6.jpg
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/6.webp
+
+This is a binary file of the type: Image
+
+# images/Dwayne Johnson/7.avif
+
+This is a binary file of the type: Binary
+
+# images/Dwayne Johnson/8.jpeg
+
+This is a binary file of the type: Image
+
+# images/Edward Norton/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Edward Norton/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Edward Norton/3.jpeg
+
+This is a binary file of the type: Image
+
+# images/Edward Norton/4.jpeg
+
+This is a binary file of the type: Image
+
+# images/Edward Norton/5.jpeg
+
+This is a binary file of the type: Image
+
+# images/Elon Musk/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Elon Musk/3.webp
+
+This is a binary file of the type: Image
+
+# images/Elon Musk/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Elon Musk/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Elon Musk/ELONMUSK-TA.webp
+
+This is a binary file of the type: Image
+
 # images/Elsa/1.png
 
 This is a binary file of the type: Image
@@ -1517,6 +1668,10 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # images/Homer Simpson/7.jpeg
+
+This is a binary file of the type: Image
+
+# images/Homer Simpson/homer.jpg
 
 This is a binary file of the type: Image
 
@@ -2317,6 +2472,50 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # images/Jennifer Lawrence/100_6882dc21.jpg
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/1._SX1080_FMjpg_.jpg
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/2.avif
+
+This is a binary file of the type: Binary
+
+# images/Jim Carrey/3.jpeg
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/4.webp
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/5.png
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/6.jpg
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/6.webp
+
+This is a binary file of the type: Image
+
+# images/Jim Carrey/7.avif
+
+This is a binary file of the type: Binary
+
+# images/Jim Carrey/8.jpg
+
+This is a binary file of the type: Image
+
+# images/John Mayer/s-l1200.jpg
 
 This is a binary file of the type: Image
 
@@ -3516,6 +3715,66 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# images/Mark Wahlberg/1.avif
+
+This is a binary file of the type: Binary
+
+# images/Mark Wahlberg/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/3.jpg
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/4.webp
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/5.webp
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/6.jpg
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/6.webp
+
+This is a binary file of the type: Image
+
+# images/Mark Wahlberg/7.jpg
+
+This is a binary file of the type: Image
+
+# images/Matt Damon/1.jpeg
+
+This is a binary file of the type: Image
+
+# images/Matt Damon/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Matt Damon/3.jpg
+
+This is a binary file of the type: Image
+
+# images/Matt Damon/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Matt Damon/5.jpg
+
+This is a binary file of the type: Image
+
 # images/Megan Fox/001_dfb62d96.jpg
 
 This is a binary file of the type: Image
@@ -3913,6 +4172,38 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # images/Megan Fox/100_f0e45dd1.jpg
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/3.png
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/4.png
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/6.jpg
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/7.png
+
+This is a binary file of the type: Image
+
+# images/Morgan Freeman/8.jpeg
 
 This is a binary file of the type: Image
 
@@ -4316,6 +4607,38 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# images/Nicolas Cage/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/1.webp
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/2.jpeg
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/3.jpeg
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/4.webp
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Nicolas Cage/5.webp
+
+This is a binary file of the type: Image
+
 # images/Nicole Kidman/001_504d320d.jpg
 
 This is a binary file of the type: Image
@@ -4713,6 +5036,70 @@ This is a binary file of the type: Image
 This is a binary file of the type: Image
 
 # images/Nicole Kidman/100_8a6e3419.jpg
+
+This is a binary file of the type: Image
+
+# images/Post Malone/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Post Malone/2.avif
+
+This is a binary file of the type: Binary
+
+# images/Post Malone/3.jpg
+
+This is a binary file of the type: Image
+
+# images/Post Malone/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Post Malone/4.webp
+
+This is a binary file of the type: Image
+
+# images/Post Malone/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Post Malone/6.jpg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/1.webp
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/2.jpeg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/3.jpg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/3.webp
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/5.jpg
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/6.png
+
+This is a binary file of the type: Image
+
+# images/Robert De Niro/7.jpeg
 
 This is a binary file of the type: Image
 
@@ -6316,6 +6703,62 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# images/Sylvestor Stallone/1.jpg
+
+This is a binary file of the type: Image
+
+# images/Sylvestor Stallone/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Sylvestor Stallone/3.avif
+
+This is a binary file of the type: Binary
+
+# images/Sylvestor Stallone/4.jpg
+
+This is a binary file of the type: Image
+
+# images/Sylvestor Stallone/5.jpeg
+
+This is a binary file of the type: Image
+
+# images/Sylvestor Stallone/6.png
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/1.jpeg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/2.jpg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/3.jpg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/3.webp
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/4.jpeg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/5.jpeg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/6.jpeg
+
+This is a binary file of the type: Image
+
+# images/Taylor Swift/7.jpg
+
+This is a binary file of the type: Image
+
 # images/Tom Cruise/001_08212dcd.jpg
 
 This is a binary file of the type: Image
@@ -7116,6 +7559,54 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# images/Will Ferrell/4f59a9ccd8f83639b6519eaaf6ab1706.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/GettyImages-466483881-e1588339129506.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/GettyImages-466483881-e1588339129506.webp
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/images.jpeg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/ive-always-thought-that-will-ferrell-would-be-a-really-v0-pjnwwwwgccoc1.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/ive-always-thought-that-will-ferrell-would-be-a-really-v0-pjnwwwwgccoc1.webp
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/s-l1200.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/wferrell.jpeg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/Will_Ferrell.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/Will_Ferrell.webp
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/Will-Ferrell__75656.jpg
+
+This is a binary file of the type: Image
+
+# images/Will Ferrell/Will-Ferrell-006.avif
+
+This is a binary file of the type: Binary
+
 # images/Will Smith/001_beebcee2.jpg
 
 This is a binary file of the type: Image
@@ -7610,28 +8101,6 @@ if [ -d "dist/MacFaceSwap.app" ]; then
 fi
 ```
 
-# models/GFPGANv1.4.pth
-
-This is a binary file of the type: Binary
-
-# models/instructions.txt
-
-```txt
-just put the models in this folder -
-
-https://huggingface.co/hacksider/deep-live-cam/resolve/main/inswapper_128_fp16.onnx?download=true
-https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/GFPGANv1.4.pth
-
-```
-
-# models/inswapper_128_fp16.onnx
-
-This is a binary file of the type: Binary
-
-# models/inswapper_128.onnx
-
-This is a binary file of the type: Binary
-
 # out
 
 ```
@@ -7958,183 +8427,260 @@ if __name__ == '__main__':
 # README.md
 
 ```md
-# MacFaceSwap
+# Mac Face Swap
 
-**MacFaceSwap** is an interactive, fun, and professional desktop application for live face-swapping and video manipulation using AI. Built with PyQt6, OpenCV, and advanced face-processing techniques, it provides a robust platform for face detection, processing, and swapping in real-time.
-
----
-
-## Features
-
-- **Live Face Swapping:** Swap faces in real-time from camera feeds.
-- **Predefined Celebrity Faces:** Choose from a gallery of preloaded celebrity faces for swapping.
-- **Custom Face Uploads:** Upload and use your own images for face swapping.
-- **Face Bracket Toggle:** Enable or disable face brackets on the live video feed.
-- **Popout Video Window:** View the live feed in a separate, popout window.
-- **User-Friendly Interface:** Modern design with vibrant colors and interactive controls.
-
----
+A native macOS application for real-time face swapping using deep learning technology.
 
 ## Requirements
 
-- Python 3.10+
-- Virtual Environment (recommended)
-
-### Python Dependencies:
-
-Install dependencies via `pip`:
-\`\`\`bash
-pip install PyQt6 opencv-python qtawesome numpy
-\`\`\`
-
----
+- macOS 10.15 (Catalina) or later
+- Python 3.10
+- Apple Silicon (M1/M2) or Intel processor
+- Minimum 8GB RAM
+- 2GB free disk space
+- Webcam access
 
 ## Installation
 
-1. **Clone the Repository:**
-   \`\`\`bash
-   git clone https://github.com/your-repo/MacFaceSwap.git
-   cd MacFaceSwap
-   \`\`\`
+1. Download the latest `.dmg` file from the [Releases](https://github.com/yourusername/mac-face-swap/releases) page
+2. Open the `.dmg` file
+3. Drag the Face Swap app to your Applications folder
+4. Right-click the app and select "Open" for first launch (required for Gatekeeper)
 
-2. **Set Up Virtual Environment:**
-   \`\`\`bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   \`\`\`
+## Building from Source
 
-3. **Install Dependencies:**
-   \`\`\`bash
-   pip install -r requirements.txt
-   \`\`\`
+### Prerequisites
 
-4. **Add Resources:**
-   Ensure the following directories are in place:
-   - `resources/icons/`: Add icons for buttons.
-   - `images/`: Add predefined face images (organized in subdirectories for each face).
+\`\`\`bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate
 
----
-
-## Usage
-
-1. **Run the Application:**
-   \`\`\`bash
-   python src/main.py
-   \`\`\`
-
-2. **Features in the UI:**
-   - **Camera Selection:** Select and toggle camera feeds.
-   - **Load Source Face:** Upload your image for face swapping.
-   - **Open Face Gallery:** Choose from predefined celebrity faces.
-   - **Toggle Face Brackets:** Enable or disable face detection brackets.
-   - **Popout Video:** View the video feed in a separate window.
-
-3. **Quit the Application:**
-   Close the window or press `Ctrl + Q`.
-
----
-
-## Project Structure
-
+# Install dependencies
+pip install -r requirements.txt
 \`\`\`
-MacFaceSwap/
+
+Required packages (see requirements.txt for specific versions):
+- opencv-python
+- numpy
+- torch
+- torchvision
+- PyQt6
+- dlib
+- mediapipe
+
+### Build Steps
+
+1. Install development dependencies:
+\`\`\`bash
+pip install pyinstaller create-dmg
+\`\`\`
+
+2. Build the .app bundle:
+\`\`\`bash
+pyinstaller --windowed --name "Face Swap" --icon assets/icon.icns main.py
+\`\`\`
+
+3. Create the .dmg installer:
+\`\`\`bash
+create-dmg \
+  --volname "Face Swap" \
+  --window-pos 200 120 \
+  --window-size 800 400 \
+  --icon-size 100 \
+  --icon "Face Swap.app" 200 190 \
+  --hide-extension "Face Swap.app" \
+  --app-drop-link 600 185 \
+  "Face Swap.dmg" \
+  "dist/Face Swap.app"
+\`\`\`
+
+## Development
+
+### Project Structure
+\`\`\`
+mac-face-swap/
 ├── src/
-│   ├── core/
-│   │   ├── face_processor.py   # Face processing logic
-│   │   ├── video_handler.py    # Camera and video feed handling
-│   ├── ui/
-│   │   ├── main_window.py      # Main application interface
-│   │   ├── face_gallery.py     # Face gallery window
-│   │   ├── video_window.py     # Popout video window
-│   └── main.py                 # Entry point for the application
-├── resources/
-│   ├── icons/                  # Icons for UI buttons
-│   └── images/                 # Predefined celebrity face images
-├── README.md                   # Project documentation
-├── requirements.txt            # Python dependencies
-├── setup.py                    # Installation setup
-└── run.sh                      # Shortcut to start the application
+│   ├── main.py           # Application entry point
+│   ├── face_swap/        # Core face swapping logic
+│   ├── gui/             # PyQt6 GUI components
+│   └── utils/           # Helper functions
+├── assets/              # Icons and resources
+├── tests/              # Unit and integration tests
+└── scripts/            # Build and packaging scripts
 \`\`\`
 
----
-
-## How to Add Predefined Faces
-
-1. **Create Subdirectories for Each Celebrity:**
-   Place images in the `images` directory, organized by celebrity name:
-   \`\`\`
-   images/
-   ├── Tom_Hanks/
-   │   ├── image1.jpg
-   │   ├── image2.jpg
-   ├── Scarlett_Johansson/
-   │   ├── image1.jpg
-   │   ├── image2.jpg
-   \`\`\`
-
-2. **Update the Application:**
-   The application will dynamically load these images into the gallery.
-
----
+### Running Tests
+\`\`\`bash
+pytest tests/
+\`\`\`
 
 ## Troubleshooting
 
 ### Common Issues
 
-- **Blank Popout Window:**
-  Ensure `toggle_video_window` connects the video feed to the popout window.
-- **Distorted Gallery Images:**
-  Verify that images are loaded and processed correctly in `face_gallery.py`.
-- **Face Bracket KeyError:**
-  Ensure `face` and `embedding` keys are correctly set in the source face data.
+1. **App won't open**: Ensure you right-click and select "Open" for first launch
+2. **Camera access denied**: Grant camera permissions in System Preferences > Security & Privacy
+3. **Performance issues**: Check minimum system requirements and close resource-intensive applications
 
-### Debugging
+### Error Reporting
 
-Run the application in verbose mode:
-\`\`\`bash
-python src/main.py
-\`\`\`
-
-Check logs for errors and adjust as necessary.
-
----
-
-## Contributing
-
-1. Fork the repository.
-2. Create a feature branch:
-   \`\`\`bash
-   git checkout -b feature/your-feature
-   \`\`\`
-3. Commit your changes:
-   \`\`\`bash
-   git commit -m "Add your feature"
-   \`\`\`
-4. Push to your branch:
-   \`\`\`bash
-   git push origin feature/your-feature
-   \`\`\`
-5. Submit a pull request.
-
----
+Please report issues on the [GitHub Issues](https://github.com/yourusername/mac-face-swap/issues) page with:
+- macOS version
+- Hardware specifications
+- Steps to reproduce
+- Error messages or screenshots
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## Acknowledgments
 
-- **PyQt6:** For the powerful GUI toolkit.
-- **OpenCV:** For robust video processing.
-- **Font Awesome:** For providing icons via `qtawesome`.
+- [MediaPipe](https://mediapipe.dev/) for face detection
+- [PyTorch](https://pytorch.org/) for deep learning framework
+- [OpenCV](https://opencv.org/) for image processing
+
+## Security
+
+- App is signed and notarized with Apple Developer certificate
+- No data collection or network access required
+- All processing done locally on device
 
 ```
 
-# recordings/recording_20241224_130200.mp4
+# requirements copy.txt
 
-This is a binary file of the type: Binary
+```txt
+absl-py==2.1.0
+addict==2.4.0
+albucore==0.0.21
+albumentations==1.4.23
+altgraph==0.17.4
+annotated-types==0.7.0
+astunparse==1.6.3
+basicsr==1.4.2
+beautifulsoup4==4.12.3
+certifi==2024.12.14
+charset-normalizer==3.4.0
+coloredlogs==15.0.1
+comtypes==1.4.8
+contourpy==1.3.1
+customtkinter==5.2.2
+cv2_enumerate_cameras==1.1.15
+cycler==0.12.1
+Cython==3.0.11
+darkdetect==0.8.0
+easydict==1.13
+eval_type_backport==0.2.2
+facexlib==0.3.0
+filelock==3.16.1
+filterpy==1.4.5
+flatbuffers==24.3.25
+fonttools==4.55.3
+future==1.0.0
+gast==0.6.0
+gdown==5.2.0
+gfpgan==1.3.8
+google-pasta==0.2.0
+grpcio==1.68.1
+h5py==3.12.1
+humanfriendly==10.0
+idna==3.10
+imageio==2.36.1
+importlib_resources==6.4.5
+insightface==0.7.3
+Jinja2==3.1.5
+joblib==1.4.2
+keras==3.7.0
+kiwisolver==1.4.7
+lazy_loader==0.4
+libclang==18.1.1
+llvmlite==0.43.0
+lmdb==1.5.1
+macholib==1.16.3
+Markdown==3.7
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+matplotlib==3.10.0
+mdurl==0.1.2
+ml-dtypes==0.4.1
+modulegraph==0.19.6
+mpmath==1.3.0
+namex==0.0.8
+networkx==3.4.2
+numba==0.60.0
+numpy==1.26.4
+onnx==1.16.0
+onnxruntime-silicon==1.16.3
+opencv-python==4.8.1.78
+opencv-python-headless==4.10.0.84
+opennsfw2==0.10.2
+opt_einsum==3.4.0
+optree==0.13.1
+packaging==24.2
+Pillow==9.5.0
+platformdirs==4.3.6
+prettytable==3.12.0
+protobuf==4.23.2
+psutil==5.9.8
+py2app==0.28.8
+pydantic==2.10.4
+pydantic_core==2.27.2
+pydeps==2.0.1
+Pygments==2.18.0
+pygrabber==0.2
+pyparsing==3.2.0
+PyQt6==6.8.0
+PyQt6-Qt6==6.8.1
+PyQt6_sip==13.9.1
+PySocks==1.7.1
+python-dateutil==2.9.0.post0
+PyYAML==6.0.2
+requests==2.32.3
+rich==13.9.4
+scikit-image==0.24.0
+scikit-learn==1.6.0
+scipy==1.14.1
+simsimd==6.2.1
+six==1.17.0
+soupsieve==2.6
+stdlib-list==0.11.0
+stringzilla==3.11.2
+sympy==1.13.3
+tb-nightly==2.19.0a20241222
+tensorboard==2.18.0
+tensorboard-data-server==0.7.2
+tensorflow==2.18.0
+tensorflow-io-gcs-filesystem==0.37.1
+termcolor==2.5.0
+threadpoolctl==3.5.0
+tifffile==2024.12.12
+tk==0.1.0
+tkinterdnd2==0.4.2
+tomli==2.2.1
+torch==2.0.1
+torchvision==0.15.2
+tqdm==4.66.4
+typing_extensions==4.12.2
+urllib3==2.3.0
+wcwidth==0.2.13
+Werkzeug==3.1.3
+wrapt==1.17.0
+yapf==0.43.0
+sounddevice==0.4.6
+soundfile==0.12.1
+ffmpeg-python==0.2.0
+
+```
 
 # requirements.txt
 
@@ -8265,10 +8811,6 @@ ffmpeg-python==0.2.0
 
 This is a binary file of the type: Image
 
-# resources/celebrity_mappings.pkl
-
-This is a binary file of the type: Binary
-
 # resources/icon.icns
 
 This is a binary file of the type: Binary
@@ -8352,6 +8894,10 @@ This is a binary file of the type: Image
 ```
 
 # resources/installer_background.png
+
+This is a binary file of the type: Image
+
+# resources/logo.png
 
 This is a binary file of the type: Image
 
@@ -9136,8 +9682,8 @@ This is a binary file of the type: Image
     "processed_time": 1735052553.594221
   },
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Homer Simpson/7.jpeg": {
-    "modified_time": 1735049539.9416094,
-    "processed_time": 1735052553.631684
+    "modified_time": 1735637373.586931,
+    "processed_time": 1735654386.904688
   },
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Leonardo DiCaprio/015_2872d02b.jpg": {
     "modified_time": 1657745886.0,
@@ -15390,6 +15936,310 @@ This is a binary file of the type: Image
   "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Megan Fox/041_139bb2a5.jpg": {
     "modified_time": 1657745888.0,
     "processed_time": 1735052616.264469
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/4.jpeg": {
+    "modified_time": 1735220912.3206427,
+    "processed_time": 1735654388.150747
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/5.jpeg": {
+    "modified_time": 1735220944.7159486,
+    "processed_time": 1735654388.229382
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/2.jpg": {
+    "modified_time": 1735220852.0503411,
+    "processed_time": 1735654388.316785
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/1.jpg": {
+    "modified_time": 1735220834.0297706,
+    "processed_time": 1735654388.403269
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Edward Norton/3.jpeg": {
+    "modified_time": 1735220863.4112096,
+    "processed_time": 1735654388.51104
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/8.jpg": {
+    "modified_time": 1735218363.4703934,
+    "processed_time": 1735654388.630312
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/4.jpg": {
+    "modified_time": 1735222044.1444328,
+    "processed_time": 1735654388.711501
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/5.png": {
+    "modified_time": 1735218327.560256,
+    "processed_time": 1735654388.80034
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/1._SX1080_FMjpg_.jpg": {
+    "modified_time": 1735218273.4525683,
+    "processed_time": 1735654388.888847
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/6.jpg": {
+    "modified_time": 1735222044.1957126,
+    "processed_time": 1735654388.966722
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Jim Carrey/3.jpeg": {
+    "modified_time": 1735218308.8251238,
+    "processed_time": 1735654389.073975
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/7.jpeg": {
+    "modified_time": 1735220098.397038,
+    "processed_time": 1735654389.164737
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/4.jpg": {
+    "modified_time": 1735220004.2204082,
+    "processed_time": 1735654389.243945
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/2.jpeg": {
+    "modified_time": 1735219961.6471908,
+    "processed_time": 1735654389.333557
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/5.jpg": {
+    "modified_time": 1735220067.1386302,
+    "processed_time": 1735654389.445627
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/6.png": {
+    "modified_time": 1735220088.0755713,
+    "processed_time": 1735654389.533056
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/3.jpg": {
+    "modified_time": 1735222044.2487948,
+    "processed_time": 1735654389.634372
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Robert De Niro/1.jpg": {
+    "modified_time": 1735222044.308586,
+    "processed_time": 1735654389.729045
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/John Mayer/s-l1200.jpg": {
+    "modified_time": 1735654328.0929492,
+    "processed_time": 1735654389.822861
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Barack Obama/3.jpeg": {
+    "modified_time": 1735227326.545601,
+    "processed_time": 1735654390.554564
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Barack Obama/president-barack-obama-portrait-2012-war-is-hell-store-transparent.png": {
+    "modified_time": 1735227356.7640061,
+    "processed_time": 1735654390.660658
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/8.jpeg": {
+    "modified_time": 1735220801.5211623,
+    "processed_time": 1735654391.195476
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/4.jpeg": {
+    "modified_time": 1735220711.0116634,
+    "processed_time": 1735654391.282561
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/2.jpeg": {
+    "modified_time": 1735220672.6052258,
+    "processed_time": 1735654391.361765
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/6.jpg": {
+    "modified_time": 1735222044.358915,
+    "processed_time": 1735654391.453546
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/1.jpg": {
+    "modified_time": 1735220640.4693322,
+    "processed_time": 1735654391.550237
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Dwayne Johnson/3.jpeg": {
+    "modified_time": 1735220692.855008,
+    "processed_time": 1735654391.644323
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/4.jpg": {
+    "modified_time": 1735222044.4410386,
+    "processed_time": 1735654392.335886
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/5.jpg": {
+    "modified_time": 1735220321.5855212,
+    "processed_time": 1735654392.420082
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/6.jpg": {
+    "modified_time": 1735220348.9088297,
+    "processed_time": 1735654392.512366
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Post Malone/1.jpg": {
+    "modified_time": 1735220263.6492777,
+    "processed_time": 1735654392.711734
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/1.jpeg": {
+    "modified_time": 1735218099.254247,
+    "processed_time": 1735654393.454847
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/6.jpeg": {
+    "modified_time": 1735218175.3340304,
+    "processed_time": 1735654393.536495
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/4.jpeg": {
+    "modified_time": 1735218152.3750339,
+    "processed_time": 1735654393.640213
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/5.jpeg": {
+    "modified_time": 1735218163.787057,
+    "processed_time": 1735654393.713942
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/7.jpg": {
+    "modified_time": 1735218187.015575,
+    "processed_time": 1735654393.820344
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/2.jpg": {
+    "modified_time": 1735218125.5270262,
+    "processed_time": 1735654393.948692
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Taylor Swift/3.jpg": {
+    "modified_time": 1735222044.497786,
+    "processed_time": 1735654394.034431
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/8.jpeg": {
+    "modified_time": 1735218588.3680618,
+    "processed_time": 1735654394.126592
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/4.png": {
+    "modified_time": 1735218519.1182244,
+    "processed_time": 1735654394.222856
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/5.jpg": {
+    "modified_time": 1735218529.8203042,
+    "processed_time": 1735654394.310072
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/7.png": {
+    "modified_time": 1735218578.334899,
+    "processed_time": 1735654394.412702
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/6.jpg": {
+    "modified_time": 1735218558.944447,
+    "processed_time": 1735654394.503865
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Morgan Freeman/3.png": {
+    "modified_time": 1735218507.461346,
+    "processed_time": 1735654394.703175
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/4.jpg": {
+    "modified_time": 1735259409.5698643,
+    "processed_time": 1735654394.894088
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/5.jpg": {
+    "modified_time": 1735259423.5673926,
+    "processed_time": 1735654394.986492
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Elon Musk/2.jpg": {
+    "modified_time": 1735259356.5341587,
+    "processed_time": 1735654395.070405
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/4.jpg": {
+    "modified_time": 1735222044.6344242,
+    "processed_time": 1735654395.168139
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/5.jpg": {
+    "modified_time": 1735222044.5502305,
+    "processed_time": 1735654395.253016
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/6.jpg": {
+    "modified_time": 1735222044.686273,
+    "processed_time": 1735654395.409468
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/2.jpg": {
+    "modified_time": 1735220161.7634377,
+    "processed_time": 1735654395.50462
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Mark Wahlberg/3.jpg": {
+    "modified_time": 1735220174.1544392,
+    "processed_time": 1735654395.590423
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/images.jpeg": {
+    "modified_time": 1735217580.0237699,
+    "processed_time": 1735654395.694076
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/wferrell.jpeg": {
+    "modified_time": 1735217643.5243871,
+    "processed_time": 1735654395.776134
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/GettyImages-466483881-e1588339129506.jpg": {
+    "modified_time": 1735222044.735849,
+    "processed_time": 1735654395.857262
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/4f59a9ccd8f83639b6519eaaf6ab1706.jpg": {
+    "modified_time": 1735217598.7326534,
+    "processed_time": 1735654395.959276
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/Will_Ferrell.jpg": {
+    "modified_time": 1735222044.8152514,
+    "processed_time": 1735654396.171652
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Will Ferrell/ive-always-thought-that-will-ferrell-would-be-a-really-v0-pjnwwwwgccoc1.jpg": {
+    "modified_time": 1735222044.862887,
+    "processed_time": 1735654396.289493
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/5.jpeg": {
+    "modified_time": 1735218793.8155382,
+    "processed_time": 1735654396.467005
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/4.jpg": {
+    "modified_time": 1735218776.0110748,
+    "processed_time": 1735654396.575487
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/6.png": {
+    "modified_time": 1735218813.173299,
+    "processed_time": 1735654396.708845
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/2.jpg": {
+    "modified_time": 1735218754.2377257,
+    "processed_time": 1735654396.827218
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Sylvestor Stallone/1.jpg": {
+    "modified_time": 1735218726.2752743,
+    "processed_time": 1735654396.922582
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/1.jpeg": {
+    "modified_time": 1735217978.947418,
+    "processed_time": 1735654397.01874
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/6.jpeg": {
+    "modified_time": 1735218036.949785,
+    "processed_time": 1735654397.10496
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/4.jpg": {
+    "modified_time": 1735222044.9199896,
+    "processed_time": 1735654397.188613
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/5.jpg": {
+    "modified_time": 1735218026.2290323,
+    "processed_time": 1735654397.262804
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Beyonce/2.jpg": {
+    "modified_time": 1735217995.328841,
+    "processed_time": 1735654397.346431
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/1.jpeg": {
+    "modified_time": 1735218623.4247854,
+    "processed_time": 1735654398.806349
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/4.jpg": {
+    "modified_time": 1735218672.7162514,
+    "processed_time": 1735654398.89753
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/5.jpg": {
+    "modified_time": 1735218697.1779177,
+    "processed_time": 1735654398.984553
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Matt Damon/3.jpg": {
+    "modified_time": 1735218660.269259,
+    "processed_time": 1735654399.148813
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/4.jpg": {
+    "modified_time": 1735222045.0253508,
+    "processed_time": 1735654399.439988
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/2.jpeg": {
+    "modified_time": 1735221020.9392383,
+    "processed_time": 1735654399.515976
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/5.jpg": {
+    "modified_time": 1735222044.970499,
+    "processed_time": 1735654399.592009
+  },
+  "/Users/michael.lynn/code/deep-face-live/deep-live-mac/MacFaceSwap/images/Nicolas Cage/3.jpeg": {
+    "modified_time": 1735221044.1283445,
+    "processed_time": 1735654399.770841
   }
 }
 ```
@@ -15804,7 +16654,7 @@ class FaceProcessor:
             self.face_mappings = {}
             self.models_dir = self._get_models_dir()
             self.execution_provider = self._get_execution_provider()
-            self._similarity_threshold = 0.2  # Lower default threshold
+            self._similarity_threshold = 0.0  # Lower default threshold
             # Initialize face analyzer with higher resolution
             print("Loading face analyzer...")
             self.face_analyzer = FaceAnalysis(
@@ -15815,6 +16665,7 @@ class FaceProcessor:
             self.prev_face_positions = []
             self.position_smoothing_window = 3
             self.position_threshold = 10.0  # pixels
+            self.similarity_threshold = 0.0  # Hardcoded optimal value
 
             self.face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
             print("Face analyzer ready")
@@ -15831,7 +16682,6 @@ class FaceProcessor:
             )
             
             # Enhanced similarity settings
-            self.similarity_threshold = 0.1  # Lower threshold for better matching
             self.cache_size = 10  # Increased cache size
             self.process_every_n_frames = 1  # Process every frame
             
@@ -15848,7 +16698,6 @@ class FaceProcessor:
             # Image enhancement settings
             self.use_face_enhancement = True
             self.enhancement_level = 1.0  # Adjustable enhancement strength
-            self.similarity_threshold = 0.0
 
             print("FaceProcessor initialization complete with enhanced settings")
             
@@ -15924,7 +16773,7 @@ class FaceProcessor:
             try:
                 if 'source_face' in mapping and mapping['source_face'] is not None:
                     source_face = mapping['source_face']
-                    print(f"Source face keys: {list(source_face.keys())}")
+                    # print(f"Source face keys: {list(source_face.keys())}")
                     
                     # Verify we have the minimum required data
                     if 'embedding' not in source_face:
@@ -15956,11 +16805,11 @@ class FaceProcessor:
             return []
                 
         try:
-            print(f"Frame shape: {frame.shape}")
-            print(f"Frame dtype: {frame.dtype}")
-            print("Attempting face detection...")
+            # print(f"Frame shape: {frame.shape}")
+            # print(f"Frame dtype: {frame.dtype}")
+            # print("Attempting face detection...")
             faces = self.face_analyzer.get(frame)
-            print(f"Detected {len(faces)} faces")
+            # print(f"Detected {len(faces)} faces")
             return [{
                 'face': face,
                 'bbox': face.bbox,
@@ -15978,13 +16827,13 @@ class FaceProcessor:
     def find_best_match(self, target_embedding: np.ndarray) -> Optional[Dict[str, Any]]:
         """Find the best matching source face for a target embedding"""
         try:
-            print("\n=== Starting Face Matching Process ===")
-            print(f"Current similarity threshold: {self.similarity_threshold}")
-            print(f"Number of face mappings: {len(self.face_mappings)}")
-            print("Available mappings:", list(self.face_mappings.keys()))
+            # print("\n=== Starting Face Matching Process ===")
+            # print(f"Current similarity threshold: {self.similarity_threshold}")
+            # print(f"Number of face mappings: {len(self.face_mappings)}")
+            # print("Available mappings:", list(self.face_mappings.keys()))
 
             if not self.face_mappings:
-                print("No face mappings available")
+                # print("No face mappings available")
                 return None
 
             if target_embedding is None:
@@ -15997,22 +16846,22 @@ class FaceProcessor:
             target_embedding = target_embedding.astype(np.float32)
             target_embedding = target_embedding / np.linalg.norm(target_embedding)
 
-            print("\nTarget Embedding Stats:")
-            print(f"Shape: {target_embedding.shape}")
-            print(f"Norm: {np.linalg.norm(target_embedding):.4f}")
+            # print("\nTarget Embedding Stats:")
+            # print(f"Shape: {target_embedding.shape}")
+            # print(f"Norm: {np.linalg.norm(target_embedding):.4f}")
 
             best_match = None
             best_similarity = -1
 
             for mapping_id, mapping in self.face_mappings.items():
-                print(f"\nProcessing mapping {mapping_id}:")
+                # print(f"\nProcessing mapping {mapping_id}:")
                 
                 if 'source_face' not in mapping:
                     print("- No source_face in mapping")
                     continue
                     
                 source_data = mapping['source_face']
-                print("- Source face keys:", list(source_data.keys()))
+                # print("- Source face keys:", list(source_data.keys()))
                 
                 source_embedding = source_data.get('embedding')
                 if source_embedding is None:
@@ -16028,7 +16877,7 @@ class FaceProcessor:
                 # Calculate similarity
                 similarity = abs(float(np.dot(target_embedding, source_embedding)))
                 
-                print(f"- Calculated similarity: {similarity:.4f}")
+                # print(f"- Calculated similarity: {similarity:.4f}")
 
                 if similarity > best_similarity:
                     best_similarity = similarity
@@ -16037,16 +16886,16 @@ class FaceProcessor:
                         'source_face': source_data,
                         'similarity': similarity
                     }
-                    print(f"- New best match! Similarity: {similarity:.4f}")
+                    # print(f"- New best match! Similarity: {similarity:.4f}")
 
             if best_match:
-                print(f"\nFinal Best Match:")
-                print(f"- Mapping ID: {best_match['mapping_id']}")
-                print(f"- Similarity: {best_match['similarity']:.4f}")
-                print(f"- Threshold: {self.similarity_threshold}")
+                # print(f"\nFinal Best Match:")
+                # print(f"- Mapping ID: {best_match['mapping_id']}")
+                # print(f"- Similarity: {best_match['similarity']:.4f}")
+                # print(f"- Threshold: {self.similarity_threshold}")
                 
                 if best_match['similarity'] > self.similarity_threshold:
-                    print("Match ACCEPTED")
+                    # print("Match ACCEPTED")
                     return best_match
                 else:
                     print("Match REJECTED (below threshold)")
@@ -16198,7 +17047,8 @@ class FaceProcessor:
             current_faces = self.detect_faces(frame)
             
             if not current_faces:
-                return frame
+                return self.draw_debug_info(frame, []) if self.debug_mode else frame
+ 
                 
             swapped = result.copy()
             swap_successful = False
@@ -16211,7 +17061,7 @@ class FaceProcessor:
                 match = self.find_best_match(face_data['embedding'])
                 if match and match['similarity'] > self.similarity_threshold:
                     try:
-                        print("\nGot a match, preparing face swap...")
+                        # print("\nGot a match, preparing face swap...")
                         source_face = match['source_face']
                         
                         # Add source embedding to the face dict if not present
@@ -16221,11 +17071,11 @@ class FaceProcessor:
                         
                         # Ensure we have a proper Face object
                         if not isinstance(source_face, Face):
-                            print("Reconstructing face from dictionary...")
+                            # print("Reconstructing face from dictionary...")
                             source_face = self.reconstruct_face(source_face)
                         
                         if source_face is not None:
-                            print("Attempting face swap...")
+                            # print("Attempting face swap...")
                             swapped = self.face_swapper.get(
                                 swapped,
                                 face_data['face'],
@@ -16233,7 +17083,7 @@ class FaceProcessor:
                                 paste_back=True
                             )
                             swap_successful = True
-                            print("Face swap successful!")
+                            # print("Face swap successful!")
                         else:
                             print("Failed to reconstruct source face")
                             
@@ -16263,7 +17113,7 @@ class FaceProcessor:
     def analyze_face(self, image):
         """Analyze a face in an image"""
         try:
-            print("\nAnalyzing face...")
+            # print("\nAnalyzing face...")
             faces = self.face_analyzer.get(image)
             
             if not faces:
@@ -16742,6 +17592,75 @@ def load_celebrity_mappings(mapping_file: str) -> Optional[Dict[str, Any]]:
         return None
 ```
 
+# src/core/premium_manager.py
+
+```py
+# Path: src/core/premium_manager.py
+import keyring
+import json
+from datetime import datetime, timedelta
+
+class PremiumManager:
+    def __init__(self):
+        self.keyring_service = "mac_face_swap"
+        self.keyring_username = "premium_status"
+        
+    def is_premium(self) -> bool:
+        """Check if user has premium status"""
+        try:
+            status = keyring.get_password(self.keyring_service, self.keyring_username)
+            if not status:
+                return False
+                
+            status_data = json.loads(status)
+            if status_data.get('lifetime_premium'):
+                return True
+                
+            # Check trial period
+            trial_start = datetime.fromisoformat(status_data.get('trial_start', '2000-01-01'))
+            trial_days = status_data.get('trial_days', 0)
+            
+            if datetime.now() - trial_start < timedelta(days=trial_days):
+                return True
+                
+            return False
+            
+        except Exception:
+            return False
+            
+    def activate_premium(self, is_lifetime: bool = True):
+        """Activate premium features"""
+        status = {
+            'lifetime_premium': is_lifetime,
+            'activation_date': datetime.now().isoformat()
+        }
+        keyring.set_password(
+            self.keyring_service,
+            self.keyring_username,
+            json.dumps(status)
+        )
+        
+    def start_trial(self, days: int = 14):
+        """Start free trial period"""
+        status = {
+            'lifetime_premium': False,
+            'trial_start': datetime.now().isoformat(),
+            'trial_days': days
+        }
+        keyring.set_password(
+            self.keyring_service,
+            self.keyring_username,
+            json.dumps(status)
+        )
+        
+    def clear_status(self):
+        """Clear all premium status (for testing)"""
+        try:
+            keyring.delete_password(self.keyring_service, self.keyring_username)
+        except Exception:
+            pass
+```
+
 # src/core/video_handler.py
 
 ```py
@@ -16756,6 +17675,15 @@ import platform
 import signal
 import subprocess
 import sys
+from src.ui.watermark import VideoWatermark
+import tracemalloc
+import gc
+import psutil
+import resource
+import logging
+import tracemalloc
+if not tracemalloc.is_tracing():
+    tracemalloc.start()
 
 class VideoHandler:
     def __init__(self):
@@ -16770,6 +17698,10 @@ class VideoHandler:
         self.frame_count = 0
         self.show_fps = False
         self.capture_thread = None
+        self.watermark = VideoWatermark(
+            logo_path="resources/logo.png",
+            opacity=0.5
+        )
         
         # Frame caching for smooth transitions
         self.last_processed_frames = []
@@ -16780,7 +17712,23 @@ class VideoHandler:
         # Set up signal handler for segfault protection
         if platform.system() == 'Darwin':
             signal.signal(signal.SIGSEGV, self._handle_segfault)
-            
+
+    # Add inside VideoHandler class, after __init__
+    def _monitor_memory(self):
+        """Monitor memory usage"""
+        try:
+            process = psutil.Process()
+            mem_info = process.memory_info()
+            logging.debug(f"Memory usage: {mem_info.rss / 1024 / 1024:.2f} MB")
+            if tracemalloc.is_tracing():
+                snapshot = tracemalloc.take_snapshot()
+                top_stats = snapshot.statistics('lineno')[:3]
+                logging.debug("Top 3 memory allocations:")
+                for stat in top_stats:
+                    logging.debug(stat)
+        except Exception as e:
+            logging.error(f"Memory monitoring error: {e}")
+
     def _handle_segfault(self, signum, frame):
         """Handle segmentation faults gracefully"""
         print("Caught segmentation fault - cleaning up...")
@@ -16815,10 +17763,11 @@ class VideoHandler:
             while time.time() - start_time < 2.0:  # 2 second timeout
                 ret, frame = cap.read()
                 if ret and frame is not None:
+                    # Apply watermark correctly using instance method
+                    frame = self.watermark.apply_watermark(frame)
                     return cap
                 time.sleep(0.1)
-                
-            # If we couldn't get a frame, release and return None
+            
             cap.release()
             return None
             
@@ -16842,45 +17791,45 @@ class VideoHandler:
         return capture
         
     def start_camera(self, camera_id: int = 0) -> bool:
-        self.stop_camera()
-        time.sleep(0.5)
-        
         try:
+            self.stop_camera()
+            time.sleep(0.5)
+            gc.collect()
+
             self.camera = cv2.VideoCapture(camera_id)
-            
+            if not self.camera.isOpened() and platform.system() == 'Darwin':
+                self.camera = cv2.VideoCapture(camera_id, cv2.CAP_AVFOUNDATION)
+                
             if not self.camera.isOpened():
-                if platform.system() == 'Darwin':
-                    self.camera = cv2.VideoCapture(camera_id, cv2.CAP_AVFOUNDATION)
-                    
-            if not self.camera.isOpened():
+                logging.error(f"Failed to open camera {camera_id}")
                 return False
-            
-            # Force specific frame size
-            self.frame_size = (1280, 720)  # Fixed size
+
+            self.frame_size = (1280, 720)
             self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.frame_size[0])
             self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frame_size[1])
             
-            # Verify size was set
             actual_width = self.camera.get(cv2.CAP_PROP_FRAME_WIDTH)
             actual_height = self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT)
-            print(f"Camera resolution: {actual_width}x{actual_height}")
+            logging.info(f"Camera resolution: {actual_width}x{actual_height}")
             
             self.is_running = True
             self.capture_thread = Thread(target=self._protected_capture_loop, daemon=True)
             self.capture_thread.start()
             return True
-            
+                
         except Exception as e:
-            print(f"Error starting camera: {e}")
+            logging.error(f"Camera start error: {e}")
             self.stop_camera()
             return False
 
     def _protected_capture_loop(self):
-        """Protected version of capture loop"""
         try:
             self._capture_loop()
+        except MemoryError:
+            logging.error("Memory error in capture loop")
+            self.stop_camera()
         except Exception as e:
-            print(f"Error in capture loop: {str(e)}")
+            logging.error(f"Capture loop error: {e}")
             self.stop_camera()
             
     def stop_camera(self):
@@ -16896,30 +17845,30 @@ class VideoHandler:
             self.current_frame = None
 
     def _capture_loop(self):
-        """Main capture loop running in separate thread"""
         frame_counter = 0
         while self.is_running and self.camera and self.camera.isOpened():
-            ret, frame = self.camera.read()
-            if not ret or frame is None:
-                continue
+            try:
+                ret, frame = self.camera.read()
+                if not ret or frame is None:
+                    continue
+                    
+                # Memory cleanup every 100 frames    
+                if frame_counter % 100 == 0:
+                    gc.collect()
+
+                processed_frame = frame.copy()
+                del frame  # Explicit cleanup
                 
-            frame_counter += 1
-            if frame_counter % self.process_every_n_frames != 0:
-                continue
+                processed_frame = self.watermark.apply_watermark(processed_frame)
                 
-            processed_frame = frame.copy()
-            
-            if self.processing_callback:
-                try:
-                    result = self.processing_callback(processed_frame)
-                    if result is not None:
-                        processed_frame = result
-                except Exception as e:
-                    print(f"Error in frame processing: {e}")
-            
-            # Thread-safe frame update
-            with self.frame_lock:
-                self.current_frame = processed_frame
+                with self.frame_lock:
+                    self.current_frame = processed_frame
+                    
+                frame_counter += 1
+                
+            except Exception as e:
+                logging.error(f"Frame processing error: {e}")
+                break
         
     def _update_fps(self):
         """Update FPS calculation"""
@@ -17016,9 +17965,19 @@ class VideoRecorder:
         self.frame_count = 0
         self.target_fps = 30.0
         self.sample_rate = 44100
+        self.audio_device = None  # Default to None, or specify a default device
+        self.audio_channels = self._get_default_audio_channels()  # Now safely called
         self.temp_audio_path = None
         self.temp_video_path = None
 
+    def _get_default_audio_channels(self):
+        """Get the default number of input channels for the selected device."""
+        try:
+            device_info = sd.query_devices(self.audio_device or sd.default.device[0], 'input')
+            return device_info.get('max_input_channels', 2)  # Default to 2 if undefined
+        except Exception as e:
+            print(f"Error querying audio device: {e}")
+            return 2  # Fallback to stereo
 
     def start_recording(self, frame_size, fps=30.0):
         if self.is_recording:
@@ -17056,10 +18015,12 @@ class VideoRecorder:
 
     def add_frame(self, frame):
         if self.is_recording and self.writer and self.writer.isOpened():
-            try:
-                self.writer.write(frame.copy())
-            except Exception as e:
-                print(f"Error writing frame: {e}")
+            elapsed_time = time.time() - self.start_time
+            expected_frame_count = int(elapsed_time * self.target_fps)
+
+            while self.frame_count < expected_frame_count:
+                self.writer.write(frame)
+                self.frame_count += 1
 
     def _recording_loop(self):
         while not self.stop_event.is_set() or not self.frame_queue.empty():
@@ -17073,60 +18034,63 @@ class VideoRecorder:
 
     def _audio_callback(self, indata, frames, time, status):
         if status:
-            print(f'Audio status: {status}')
+            print(f"Audio status: {status}")
         if self.is_recording:
             self.audio_queue.put(indata.copy())
+            print(f"Captured audio frames: {indata.shape}")  # Debug
 
     def _audio_loop(self):
         try:
-            audio_input = sd.InputStream(channels=2, samplerate=self.sample_rate)
-            audio_input.start()
-            
-            with sf.SoundFile(self.temp_audio_path, mode='w', 
-                        samplerate=self.sample_rate,
-                        channels=2) as audio_file:
+            print(f"Starting audio recording: {self.temp_audio_path}")
+            with sf.SoundFile(self.temp_audio_path, mode='w',
+                            samplerate=self.sample_rate,
+                            channels=self.audio_channels) as audio_file, \
+                sd.InputStream(device=self.audio_device,
+                                channels=self.audio_channels,
+                                samplerate=self.sample_rate,
+                                callback=self._audio_callback):
+                print(f"Audio device: {self.audio_device}, Channels: {self.audio_channels}")
                 while self.is_recording:
-                    audio_data, _ = audio_input.read(self.sample_rate // 30)
-                    if audio_data is not None:
-                        audio_file.write(audio_data)
-                        
-            audio_input.stop()
-            audio_input.close()
+                    try:
+                        data = self.audio_queue.get(timeout=0.1)  # Fetch audio data
+                        audio_file.write(data)  # Write data to the file
+                        print(f"Written {data.shape[0]} frames to audio file.")
+                    except Exception as e:
+                        print(f"Audio queue error: {e}")
         except Exception as e:
-            print(f"Audio recording error: {e}")
+            print(f"Audio loop error: {e}")
 
     def stop_recording(self):
         self.is_recording = False
-        
+
         if self.audio_thread:
             self.audio_thread.join()
-            
+
         if self.writer:
             self.writer.release()
             self.writer = None
-            
-        # Clear queues
-        while not self.audio_queue.empty():
-            self.audio_queue.get()
-            
+
         if os.path.exists(self.temp_audio_path) and os.path.exists(self.temp_video_path):
             try:
                 subprocess.run([
                     'ffmpeg',
-                    '-i', self.temp_video_path,
-                    '-i', self.temp_audio_path,
-                    '-c:v', 'copy',
-                    '-c:a', 'aac',
-                    '-y',
-                    self.current_recording_path
+                    '-i', self.temp_video_path,  # Input video
+                    '-i', self.temp_audio_path,  # Input audio
+                    '-c:v', 'copy',  # Copy video without re-encoding
+                    '-c:a', 'aac',   # Encode audio as AAC
+                    '-strict', 'experimental',
+                    self.current_recording_path  # Output file
                 ], check=True)
-                
-                # Clean up temp files
-                os.remove(self.temp_video_path)
-                os.remove(self.temp_audio_path)
+                print(f"Recording saved to: {self.current_recording_path}")
             except Exception as e:
                 print(f"FFmpeg error: {e}")
-                
+
+        # Cleanup temp files
+        if os.path.exists(self.temp_audio_path):
+            os.remove(self.temp_audio_path)
+        if os.path.exists(self.temp_video_path):
+            os.remove(self.temp_video_path)
+
         return self.current_recording_path
 
     def __del__(self):
@@ -17168,6 +18132,43 @@ def main():
 
 if __name__ == '__main__':
     main()
+```
+
+# src/tools/convert_webp_to_jpg.py
+
+```py
+import os
+import subprocess
+
+def convert_webp_to_jpg(input_dir):
+    """
+    Traverse directories starting from input_dir and convert all .webp files to .jpg using ffmpeg.
+
+    Args:
+        input_dir (str): The root directory to start the search.
+    """
+    for root, _, files in os.walk(input_dir):
+        for file in files:
+            if file.lower().endswith('.webp'):
+                webp_path = os.path.join(root, file)
+                jpg_path = os.path.splitext(webp_path)[0] + ".jpg"
+                
+                try:
+                    # Convert webp to jpg using ffmpeg
+                    subprocess.run([
+                        "ffmpeg", "-i", webp_path, jpg_path
+                    ], check=True)
+
+                    print(f"Converted: {webp_path} -> {jpg_path}")
+                except subprocess.CalledProcessError as e:
+                    print(f"Error converting {webp_path}: {e}")
+
+if __name__ == "__main__":
+    # Replace 'input_directory_path' with the path to the directory containing .webp files
+    input_directory_path = "./images"
+    convert_webp_to_jpg(input_directory_path)
+
+
 ```
 
 # src/tools/preprocess_celebrities.py
@@ -17428,6 +18429,134 @@ if __name__ == '__main__':
 
 ```py
 
+```
+
+# src/ui/camera_settings.py
+
+```py
+# src/ui/camera_settings.py
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, 
+                           QLabel, QSlider, QComboBox, QCheckBox, QPushButton)
+from PyQt6.QtCore import Qt
+
+class CameraSettings(QDialog):
+    def __init__(self, parent=None, current_settings=None):
+        super().__init__(parent)
+        self.setWindowTitle("Camera Settings")
+        self.current_settings = current_settings or {}
+        self.init_ui()
+        self.load_current_settings()
+        
+    def init_ui(self):
+        layout = QVBoxLayout()
+        
+        # Resolution settings
+        res_layout = QHBoxLayout()
+        res_layout.addWidget(QLabel("Resolution:"))
+        self.resolution_combo = QComboBox()
+        self.resolution_combo.addItems([
+            "640x480",
+            "1280x720",
+            "1920x1080"
+        ])
+        res_layout.addWidget(self.resolution_combo)
+        layout.addLayout(res_layout)
+        
+        # Frame rate settings
+        fps_layout = QHBoxLayout()
+        fps_layout.addWidget(QLabel("Frame Rate:"))
+        self.fps_slider = QSlider(Qt.Orientation.Horizontal)
+        self.fps_slider.setMinimum(1)
+        self.fps_slider.setMaximum(60)
+        self.fps_slider.setValue(30)
+        self.fps_label = QLabel("30 FPS")
+        self.fps_slider.valueChanged.connect(
+            lambda v: self.fps_label.setText(f"{v} FPS"))
+        fps_layout.addWidget(self.fps_slider)
+        fps_layout.addWidget(self.fps_label)
+        layout.addLayout(fps_layout)
+        
+        # Brightness control
+        bright_layout = QHBoxLayout()
+        bright_layout.addWidget(QLabel("Brightness:"))
+        self.brightness_slider = QSlider(Qt.Orientation.Horizontal)
+        self.brightness_slider.setMinimum(0)
+        self.brightness_slider.setMaximum(100)
+        self.brightness_slider.setValue(50)
+        self.brightness_label = QLabel("50")
+        self.brightness_slider.valueChanged.connect(
+            lambda v: self.brightness_label.setText(f"{v}"))
+        bright_layout.addWidget(self.brightness_slider)
+        bright_layout.addWidget(self.brightness_label)
+        layout.addLayout(bright_layout)
+        
+        # Auto-focus toggle
+        self.autofocus_check = QCheckBox("Auto Focus")
+        self.autofocus_check.setChecked(True)
+        layout.addWidget(self.autofocus_check)
+        
+        # Threshold setting
+        threshold_layout = QHBoxLayout()
+        threshold_layout.addWidget(QLabel("Motion Threshold:"))
+        self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
+        self.threshold_slider.setMinimum(0)
+        self.threshold_slider.setMaximum(100)
+        self.threshold_slider.setValue(0)
+        self.threshold_label = QLabel("0.0")
+        self.threshold_slider.valueChanged.connect(
+            lambda v: self.threshold_label.setText(f"{v/100:.1f}"))
+        threshold_layout.addWidget(self.threshold_slider)
+        threshold_layout.addWidget(self.threshold_label)
+        layout.addLayout(threshold_layout)
+        
+        # Buttons
+        button_layout = QHBoxLayout()
+        save_button = QPushButton("Save")
+        cancel_button = QPushButton("Cancel")
+        save_button.clicked.connect(self.accept)
+        cancel_button.clicked.connect(self.reject)
+        button_layout.addWidget(save_button)
+        button_layout.addWidget(cancel_button)
+        layout.addLayout(button_layout)
+        
+        self.setLayout(layout)
+    
+    def load_current_settings(self):
+        """Load the current settings into the UI"""
+        if not self.current_settings:
+            return
+            
+        # Set resolution
+        if 'resolution' in self.current_settings:
+            index = self.resolution_combo.findText(self.current_settings['resolution'])
+            if index >= 0:
+                self.resolution_combo.setCurrentIndex(index)
+        
+        # Set FPS
+        if 'fps' in self.current_settings:
+            self.fps_slider.setValue(self.current_settings['fps'])
+            
+        # Set brightness
+        if 'brightness' in self.current_settings:
+            self.brightness_slider.setValue(self.current_settings['brightness'])
+            
+        # Set autofocus
+        if 'autofocus' in self.current_settings:
+            self.autofocus_check.setChecked(self.current_settings['autofocus'])
+            
+        # Set threshold
+        if 'threshold' in self.current_settings:
+            self.threshold_slider.setValue(int(self.current_settings['threshold'] * 100))
+    
+    def get_settings(self):
+        """Return the current settings as a dictionary"""
+        return {
+            'resolution': self.resolution_combo.currentText(),
+            'fps': self.fps_slider.value(),
+            'brightness': self.brightness_slider.value(),
+            'autofocus': self.autofocus_check.isChecked(),
+            'threshold': self.threshold_slider.value() / 100.0
+        }
 ```
 
 # src/ui/camera_view.py
@@ -17704,20 +18833,23 @@ import os
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
     QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
-    QCheckBox
+    QCheckBox, QTabWidget, QDialog, QTextBrowser, QMenuBar
 )
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtGui import QImage, QPixmap, QAction  # Here's where QAction belongs
 import cv2
 import numpy as np
 import qtawesome as qta
-
+import sounddevice as sd
 from src.core.face_processor import FaceProcessor, preprocess_celebrities
 from src.core.video_handler import VideoHandler
 from src.ui.face_mapping import FaceMappingWidget
 from src.core.mapping_loader import load_celebrity_mappings
 from src.core.face_processor import preprocess_celebrities
 from src.core.video_recorder import VideoRecorder
+from src.ui.watermark import VideoWatermark
+from src.ui.camera_settings import CameraSettings
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -17731,7 +18863,7 @@ class MainWindow(QMainWindow):
         self.show_face_brackets = False  # Set initial state
         self.face_processor.set_debug_mode(False)  # Set initial debug mode
         self.timer = QTimer()
-        self.face_processor.similarity_threshold = 0.5  # Start with 0.5 as default
+        self.face_processor.similarity_threshold = 0.0  # Start with 0.5 as default
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(33)
         self.video_recorder = VideoRecorder()
@@ -17817,100 +18949,144 @@ class MainWindow(QMainWindow):
         self.face_bracket_button.setText(button_text)
         # Update the debug mode in face processor
         self.face_processor.set_debug_mode(self.show_face_brackets)
-        
+                
     def init_ui(self):
         self.setWindowTitle("MacFaceSwap")
-        self.resize(1200, 800)
+        self.resize(1200, 800)  # Maintaining original size
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        layout = QHBoxLayout(central_widget)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(20)
+        main_layout = QHBoxLayout(central_widget)
+        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setSpacing(20)
 
-        # Left sidebar
+        # Create left sidebar with tabs
         sidebar = QWidget()
         sidebar.setFixedWidth(320)
         sidebar_layout = QVBoxLayout(sidebar)
-        sidebar_layout.setSpacing(24)
+        sidebar_layout.setSpacing(10)
 
-        # Camera controls
-        camera_layout = QVBoxLayout()
+        # Create tab widget
+        self.tab_widget = QTabWidget()
+        self.tab_widget.setStyleSheet("""
+            QTabWidget::pane {
+                border: 1px solid #d2d2d7;
+                border-radius: 8px;
+                background: white;
+            }
+            QTabBar::tab {
+                padding: 8px 16px;
+                margin: 2px 0;
+                border-radius: 4px;
+            }
+            QTabBar::tab:selected {
+                background: #0071e3;
+                color: white;
+            }
+        """)
+
+        # Create Camera tab without the toggle button
+        camera_tab = QWidget()
+        camera_layout = QVBoxLayout(camera_tab)
         camera_layout.setSpacing(12)
+
         camera_layout.addWidget(QLabel("Camera"))
-        
         self.camera_combo = QComboBox()
+        self.camera_combo.setToolTip("Select which camera to use for video input")
         self.update_camera_list()
         self.camera_combo.currentIndexChanged.connect(self.change_camera)
         camera_layout.addWidget(self.camera_combo)
-        
-        self.toggle_button = QPushButton("Start Camera")
-        self.toggle_button.setIcon(qta.icon('fa.camera'))  # Font Awesome camera icon
-        self.toggle_button.clicked.connect(self.toggle_camera)
-        camera_layout.addWidget(self.toggle_button)
-        sidebar_layout.addLayout(camera_layout)
 
-        # Add face bracket toggle button
-        self.face_bracket_button = QPushButton("Toggle Face Brackets")
-        self.face_bracket_button.setIcon(qta.icon('fa.square-o'))  # Add an icon for clarity
-        self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
-        sidebar_layout.addWidget(self.face_bracket_button)
-        # Face controls
-        face_layout = QVBoxLayout()
-        face_layout.setSpacing(12)
-        face_layout.addWidget(QLabel("Face Control"))
+        camera_layout.addWidget(QLabel("Audio Device"))
+        self.audio_combo = QComboBox()
+        self.audio_combo.setToolTip("Select which microphone to use for video recording")
+        self.update_audio_device_list()
+        self.audio_combo.currentIndexChanged.connect(self.change_audio_device)
+        camera_layout.addWidget(self.audio_combo)
         
+        self.camera_settings_button = QPushButton("Camera Settings")
+        self.camera_settings_button.setIcon(qta.icon('fa.cog'))
+        self.camera_settings_button.clicked.connect(self.show_camera_settings)
+        camera_layout.addWidget(self.camera_settings_button)
+        camera_layout.addStretch()
+        self.tab_widget.addTab(camera_tab, "Camera")
+
+        # Create Face Control tab
+        face_tab = QWidget()
+        face_layout = QVBoxLayout(face_tab)
+        face_layout.setSpacing(12)
+
+        face_layout.addWidget(QLabel("Face Control"))
         self.source_button = QPushButton("Load Source Face")
-        self.source_button.setIcon(qta.icon('fa.upload'))  # Upload icon
+        self.source_button.setIcon(qta.icon('fa.upload'))
         self.source_button.clicked.connect(self.load_source_face)
         face_layout.addWidget(self.source_button)
-        
+
         self.clear_button = QPushButton("Clear Face")
-        self.clear_button.setIcon(qta.icon('fa.trash'))  # Trash icon
+        self.clear_button.setIcon(qta.icon('fa.trash'))
         self.clear_button.setStyleSheet("background-color: #ff3b30; color: white;")
         self.clear_button.clicked.connect(self.clear_source_face)
         face_layout.addWidget(self.clear_button)
-        
-        sidebar_layout.addLayout(face_layout)
 
-        # Settings
-        settings_layout = QVBoxLayout()
+        self.gallery_button = QPushButton("Open Face Gallery")
+        self.gallery_button.setIcon(qta.icon('fa.image'))
+        self.gallery_button.clicked.connect(self.open_face_gallery)
+        face_layout.addWidget(self.gallery_button)
+
+        # Face preview in Face Control tab
+        face_layout.addWidget(QLabel("Source Face Preview"))
+        self.source_preview = QLabel()
+        self.source_preview.setFixedSize(280, 280)
+        self.source_preview.setStyleSheet("""
+            background-color: #f5f5f7;
+            border-radius: 8px;
+        """)
+        self.source_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        face_layout.addWidget(self.source_preview)
+        
+        face_layout.addStretch()
+        self.tab_widget.addTab(face_tab, "Face")
+
+        # Create Settings tab
+        settings_tab = QWidget()
+        settings_layout = QVBoxLayout(settings_tab)
         settings_layout.setSpacing(12)
-        settings_layout.addWidget(QLabel("Settings"))
-        
-        # Similarity threshold
-        threshold_widget = QWidget()
-        threshold_layout = QHBoxLayout(threshold_widget)
-        threshold_layout.setContentsMargins(0, 0, 0, 0)
-        threshold_layout.setSpacing(8)
-        
-        threshold_layout.addWidget(QLabel("Similarity:"))
-        self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
-        self.threshold_slider.setRange(0, 100)
-        initial_threshold = 20  # 0.2 as default
-        self.threshold_slider.setValue(initial_threshold)
-        print(f"Initial similarity threshold set to: {initial_threshold/100.0:.2f}")
-        self.threshold_slider.valueChanged.connect(self.update_threshold)
-        threshold_layout.addWidget(self.threshold_slider)
-        
-        self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
-        self.threshold_label.setFixedWidth(40)
-        threshold_layout.addWidget(self.threshold_label)
-        
-        settings_layout.addWidget(threshold_widget)
-        sidebar_layout.addLayout(settings_layout)
+
+        # Face brackets toggle
+        self.face_bracket_button = QPushButton("Toggle Face Brackets")
+        self.face_bracket_button.setIcon(qta.icon('fa.square-o'))
+        self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
+        settings_layout.addWidget(self.face_bracket_button)
+
+        # # Similarity threshold
+        # threshold_widget = QWidget()
+        # threshold_layout = QHBoxLayout(threshold_widget)
+        # threshold_layout.setContentsMargins(0, 0, 0, 0)
+        # threshold_layout.setSpacing(8)
+
+        # threshold_layout.addWidget(QLabel("Similarity:"))
+        # self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
+        # self.threshold_slider.setRange(0, 100)
+        # initial_threshold = 20
+        # self.threshold_slider.setValue(initial_threshold)
+        # self.threshold_slider.valueChanged.connect(self.update_threshold)
+        # threshold_layout.addWidget(self.threshold_slider)
+
+        # self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
+        # self.threshold_label.setFixedWidth(40)
+        # threshold_layout.addWidget(self.threshold_label)
+
+        # settings_layout.addWidget(threshold_widget)
 
         # Quality controls
         quality_group = QGroupBox("Quality Settings")
         quality_layout = QVBoxLayout()
 
-        # Enhancement toggle
         self.enhancement_toggle = QCheckBox("Enable Face Enhancement")
         self.enhancement_toggle.setChecked(True)
         self.enhancement_toggle.stateChanged.connect(self.toggle_enhancement)
         quality_layout.addWidget(self.enhancement_toggle)
 
-        # Enhancement strength slider
         strength_layout = QHBoxLayout()
         strength_layout.addWidget(QLabel("Enhancement:"))
         self.enhancement_slider = QSlider(Qt.Orientation.Horizontal)
@@ -17921,71 +19097,100 @@ class MainWindow(QMainWindow):
         quality_layout.addLayout(strength_layout)
 
         quality_group.setLayout(quality_layout)
-        sidebar_layout.addWidget(quality_group)
+        settings_layout.addWidget(quality_group)
+        
+        # Create menubar properly
+        menubar = self.menuBar()
+        help_menu = menubar.addMenu("&Help")
+        
+        # Create help action
+        help_contents = QAction("&Help Contents", self)
+        help_contents.setShortcut("F1")
+        help_contents.triggered.connect(self.show_help_dialog)
+        help_menu.addAction(help_contents)
+        
+        # Add about action
+        help_menu.addSeparator()
+        about_action = QAction("&About MacFaceSwap", self)
+        about_action.triggered.connect(self.show_about_dialog)
+        help_menu.addAction(about_action)
+        
+        settings_layout.addStretch()
+        self.tab_widget.addTab(settings_tab, "Settings")
 
-        sidebar_layout.addStretch()
+        # Add tab widget to sidebar
+        sidebar_layout.addWidget(self.tab_widget)
+        main_layout.addWidget(sidebar)
 
-        # Source preview
-        preview_layout = QVBoxLayout()
-        preview_layout.addWidget(QLabel("Source Face Preview"))
-        self.source_preview = QLabel()
-        self.source_preview.setFixedSize(280, 280)
-        self.source_preview.setStyleSheet("""
-            background-color: #f5f5f7;
-            border-radius: 8px;
-        """)
-        self.source_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        preview_layout.addWidget(self.source_preview)
-        sidebar_layout.addLayout(preview_layout)
-
-        layout.addWidget(sidebar)
-
-        # Video area
+        # Video container with enhanced styling
         video_container = QWidget()
+        video_container.setStyleSheet("""
+            QWidget {
+                background-color: #1d1d1f;
+                border-radius: 8px;
+            }
+        """)
         video_layout = QVBoxLayout(video_container)
-        video_layout.setContentsMargins(0, 0, 0, 0)
-        
-        # Add a horizontal layout for the "Popout Video" button
-        video_controls_layout = QHBoxLayout()
-        video_controls_layout.setContentsMargins(0, 0, 0, 0)
-        video_controls_layout.setSpacing(10)
-        video_controls_layout.addStretch()
-        
+        video_layout.setContentsMargins(10, 10, 10, 10)
+        video_layout.setSpacing(10)
+
+        # Video controls at the top
+        video_controls = QHBoxLayout()
+        video_controls.setContentsMargins(0, 5, 0, 0)
+        video_controls.addStretch()
+
+        # Camera toggle button
+        self.toggle_button = QPushButton("Start Camera")
+        self.toggle_button.setToolTip("Start or stop the camera feed")
+        self.toggle_button.setIcon(qta.icon('fa.camera'))
+        self.toggle_button.clicked.connect(self.toggle_camera)
+        video_controls.addWidget(self.toggle_button)
+
+        # Recording button
         self.record_button = QPushButton("Start Recording")
         self.record_button.setIcon(qta.icon('fa.circle', color='red'))
         self.record_button.clicked.connect(self.toggle_recording)
-        video_controls_layout.addWidget(self.record_button)
+        video_controls.addWidget(self.record_button)
 
+        # Popout button
         self.popout_button = QPushButton("Popout Video")
-        self.popout_button.setIcon(qta.icon('fa.window-maximize'))  # Popout icon
+        self.popout_button.setIcon(qta.icon('fa.window-maximize'))
         self.popout_button.clicked.connect(self.toggle_video_window)
-        layout.addWidget(self.popout_button)
-        video_layout.addLayout(video_controls_layout)
+        video_controls.addWidget(self.popout_button)
 
-        video_controls_layout.addWidget(self.popout_button)
+        # Add controls to video layout
+        video_layout.addLayout(video_controls)
+
+        # Video display
         self.video_label = QLabel()
         self.video_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.video_label.setStyleSheet("background-color: #1d1d1f; border-radius: 8px;")
         video_layout.addWidget(self.video_label)
-        
-        layout.addWidget(video_container)
-        layout.setStretch(1, 1)
-        
-        # Recording controls
+
+        # Recording status
         recording_controls = QHBoxLayout()
         recording_controls.setSpacing(10)
-
-        # Add recording status label
         self.recording_status = QLabel("")
         recording_controls.addWidget(self.recording_status)
-
         recording_controls.addStretch()
         video_layout.addLayout(recording_controls)
-        
-        self.gallery_button = QPushButton("Open Face Gallery")
-        self.gallery_button.setIcon(qta.icon('fa.image'))  # Single image icon
-        self.gallery_button.clicked.connect(self.open_face_gallery)
-        sidebar_layout.addWidget(self.gallery_button)
+
+        main_layout.addWidget(video_container)
+        main_layout.setStretch(1, 1)  # Video area takes up remaining space
+
+    def change_audio_device(self, index):
+        """Handle changes to the selected audio device."""
+        selected_device = self.audio_combo.currentData()  # Get the device index from the dropdown
+        if selected_device is not None:
+            self.video_recorder.audio_device = selected_device
+            print(f"Audio device manually set to: {selected_device}")
+
+    def update_audio_device_list(self):
+        """Populate the audio device dropdown."""
+        self.audio_combo.clear()
+        for i, device in enumerate(sd.query_devices()):
+            if device['max_input_channels'] > 0:  # Only include devices with input channels
+                self.audio_combo.addItem(f"{device['name']} ({device['hostapi']})", i)
 
     def open_face_gallery(self):
         """Open the gallery pop-out window with debug output."""
@@ -18458,7 +19663,1140 @@ class MainWindow(QMainWindow):
     def update_enhancement(self, value):
         """Update enhancement strength"""
         self.face_processor.enhancement_level = value / 50.0  # Scale to 0-2 range
+        
+    def show_help_dialog(self):
+        """Show the help contents dialog"""
+        dialog = QDialog(self)
+        dialog.setWindowTitle("MacFaceSwap Help")
+        dialog.resize(600, 400)
+        
+        layout = QVBoxLayout(dialog)
+        help_browser = QTextBrowser()
+        help_browser.setOpenExternalLinks(True)
+        
+        help_text = """
+        <h2>MacFaceSwap Help</h2>
+        
+        <h3>Getting Started</h3>
+        <p>MacFaceSwap allows you to swap faces in real-time video. Here's how to use it:</p>
+        
+        <h4>Basic Steps:</h4>
+        <ol>
+            <li>Select your camera from the Camera tab</li>
+            <li>Click "Start Camera" to begin the video feed</li>
+            <li>Load a source face using either:
+                <ul>
+                    <li>The "Load Source Face" button to use your own image</li>
+                    <li>The "Open Face Gallery" to use a celebrity face</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h4>Controls:</h4>
+        <ul>
+            <li><b>Camera Tab:</b> Select and control your camera and audio devices</li>
+            <li><b>Face Tab:</b> Load and manage source faces for swapping</li>
+            <li><b>Settings Tab:</b> Adjust face detection and enhancement settings</li>
+        </ul>
+        
+        <h4>Advanced Features:</h4>
+        <ul>
+            <li><b>Face Brackets:</b> Toggle visibility of face detection boxes</li>
+            <li><b>Similarity Threshold:</b> Adjust face matching sensitivity</li>
+            <li><b>Face Enhancement:</b> Enable/disable and adjust face enhancement quality</li>
+            <li><b>Video Recording:</b> Record your face-swapped video feed</li>
+            <li><b>Popout Video:</b> Open the video feed in a separate window</li>
+        </ul>
+        """
+        
+        help_browser.setHtml(help_text)
+        layout.addWidget(help_browser)
+        
+        dialog.exec()
+        
+    def show_about_dialog(self):
+        """Show the about dialog"""
+        QMessageBox.about(self, 
+            "About MacFaceSwap",
+            """<h3>MacFaceSwap</h3>
+            <p>A real-time face swapping application for macOS.</p>
+            <p>Features:</p>
+            <ul>
+                <li>Real-time face detection and swapping</li>
+                <li>Support for multiple cameras</li>
+                <li>Face enhancement capabilities</li>
+                <li>Video recording</li>
+                <li>Celebrity face gallery</li>
+            </ul>
+            <p>Press F1 or use Help menu for usage instructions.</p>
+            """
+        )
+            
+    def show_camera_settings(self):
+        """Show the camera settings dialog with current settings"""
+        try:
+            # Get current settings
+            if self.video_handler.camera and self.video_handler.is_running:
+                current_width = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+                current_height = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                current_fps = int(self.video_handler.camera.get(cv2.CAP_PROP_FPS))
+                current_brightness = int(self.video_handler.camera.get(cv2.CAP_PROP_BRIGHTNESS) * 100)
+            else:
+                # Use the current frame_size from VideoHandler
+                current_width, current_height = self.video_handler.frame_size
+                current_fps = 30
+                current_brightness = 50
+                
+            current_settings = {
+                'resolution': f"{current_width}x{current_height}",
+                'fps': current_fps,
+                'brightness': current_brightness,
+                'autofocus': True,
+                'threshold': self.face_processor.similarity_threshold
+            }
+            
+            print(f"Current camera settings: {current_settings}")
+            
+            settings_dialog = CameraSettings(self, current_settings)
+            if settings_dialog.exec() == QDialog.DialogCode.Accepted:
+                settings = settings_dialog.get_settings()
+                self.apply_camera_settings(settings)
+                
+        except Exception as e:
+            print(f"Error showing camera settings: {str(e)}")
+            import traceback
+            traceback.print_exc()
 
+    def apply_camera_settings(self, settings):
+        """Apply the camera settings"""
+        try:
+            # Get current camera ID
+            current_camera = self.camera_combo.currentData()
+            
+            # Parse resolution
+            width, height = map(int, settings['resolution'].split('x'))
+            
+            # Update frame size in VideoHandler
+            self.video_handler.frame_size = (width, height)
+            
+            # Stop current camera
+            self.video_handler.stop_camera()
+            
+            # Start camera with new settings
+            if self.video_handler.start_camera(current_camera):
+                # Apply additional settings if camera is running
+                if self.video_handler.camera and self.video_handler.camera.isOpened():
+                    self.video_handler.camera.set(cv2.CAP_PROP_FPS, settings['fps'])
+                    self.video_handler.camera.set(cv2.CAP_PROP_BRIGHTNESS, settings['brightness'] / 100.0)
+                    if settings['autofocus']:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 1)
+                    else:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+                        
+                # Update threshold
+                if 'threshold' in settings:
+                    self.face_processor.similarity_threshold = settings['threshold']
+                    if hasattr(self, 'threshold_slider'):
+                        self.threshold_slider.setValue(int(settings['threshold'] * 100))
+                        
+                print(f"Camera settings applied successfully: {settings}")
+            else:
+                print("Failed to start camera with new settings")
+                
+        except Exception as e:
+            print(f"Error applying camera settings: {str(e)}")
+            # Try to restart the camera with original settings
+            try:
+                self.video_handler.start_camera(self.camera_combo.currentData())
+            except Exception as restart_error:
+                print(f"Error restarting camera: {str(restart_error)}")
+```
+
+# src/ui/main_window.py.backup
+
+```backup
+# src/ui/main_window.py
+import os
+from PyQt6.QtWidgets import (
+    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
+    QPushButton, QLabel, QComboBox, QFileDialog, QMessageBox, QSlider,
+    QCheckBox, QTabWidget, QDialog, QTextBrowser, QMenuBar
+)
+from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtGui import QImage, QPixmap, QAction  # Here's where QAction belongs
+import cv2
+import numpy as np
+import qtawesome as qta
+import sounddevice as sd
+from src.core.face_processor import FaceProcessor, preprocess_celebrities
+from src.core.video_handler import VideoHandler
+from src.ui.face_mapping import FaceMappingWidget
+from src.core.mapping_loader import load_celebrity_mappings
+from src.core.face_processor import preprocess_celebrities
+from src.core.video_recorder import VideoRecorder
+from src.ui.watermark import VideoWatermark
+from src.ui.camera_settings import CameraSettings
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.face_processor = FaceProcessor()
+        self.video_handler = VideoHandler()
+        self.source_face = None
+        self.video_window = None  # Add this line
+        self.init_ui()
+        self.setup_styles()
+        self.show_face_brackets = False  # Set initial state
+        self.face_processor.set_debug_mode(False)  # Set initial debug mode
+        self.timer = QTimer()
+        self.face_processor.similarity_threshold = 0.0  # Start with 0.5 as default
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(33)
+        self.video_recorder = VideoRecorder()
+
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        mapping_file = os.path.join(project_root, "resources", "celebrity_mappings.pkl")
+        print(f"Project root: {project_root}")
+        print(f"Looking for mapping file at: {mapping_file}")
+        
+        # Try to load pre-computed mappings
+        print("\nAttempting to load pre-computed mappings...")
+        self.predefined_faces = load_celebrity_mappings(mapping_file)
+        
+        if self.predefined_faces is not None:
+            print("\nSuccessfully loaded pre-computed mappings:")
+            print(f"Number of celebrities: {len(self.predefined_faces)}")
+            print("Celebrity names:", list(self.predefined_faces.keys()))
+            print("Data structure for first celebrity:")
+            first_celeb = next(iter(self.predefined_faces.items()))
+            print(f"- Name: {first_celeb[0]}")
+            print(f"- Keys in data: {first_celeb[1].keys()}")
+        else:
+            print("\nFalling back to real-time processing...")
+            images_dir = os.path.join(project_root, "images")
+            print(f"Processing images from: {images_dir}")
+            self.predefined_faces = preprocess_celebrities(self.face_processor, images_dir)
+            print(f"Real-time processing complete. Processed {len(self.predefined_faces)} celebrities")
+        
+        print("\nInitializing UI...")
+
+        self.setStyleSheet("""
+            QMainWindow {
+                background: qlineargradient(
+                    x1: 0, y1: 0, x2: 1, y2: 1,
+                    stop: 0 #f1a8f4, stop: 0.5 #c773ca, stop: 1 #771b7a
+                );
+            }
+            QPushButton {
+                background-color: #FF6F61;  /* Vivid Coral */
+                color: white;
+                border-radius: 8px;
+                padding: 10px;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #FF856E;  /* Slightly lighter coral for hover */
+            }
+            QPushButton:pressed {
+                background-color: #D95550;  /* Darker coral for pressed state */
+            }
+            QPushButton:disabled {
+                background-color: #B0B0B0;  /* Gray for disabled state */
+                color: #FFFFFF;
+            }
+        """)
+        
+    # Update toggle_recording method
+    def toggle_recording(self):
+        if not self.video_recorder.is_recording:
+            frame = self.video_handler.get_latest_frame()
+            if frame is not None:
+                h, w = frame.shape[:2]
+                filepath = self.video_recorder.start_recording((w, h))
+                self.record_button.setText("Stop Recording")
+                self.record_button.setIcon(qta.icon('fa.stop', color='red'))
+                self.recording_status.setText("Recording...")
+                self.recording_status.setStyleSheet("color: red;")
+        else:
+            filepath = self.video_recorder.stop_recording()
+            self.record_button.setText("Start Recording")
+            self.record_button.setIcon(qta.icon('fa.circle', color='red'))
+            if filepath:
+                self.recording_status.setText(f"Saved to Downloads folder")
+                QMessageBox.information(self, "Recording Saved", 
+                    f"Your recording has been saved to:\n{filepath}")
+            self.recording_status.setStyleSheet("color: green;")
+        
+    def toggle_face_brackets(self):
+        """Toggle the visibility of face brackets in the live video feed."""
+        self.show_face_brackets = not self.show_face_brackets
+        button_text = "Hide Face Brackets" if self.show_face_brackets else "Show Face Brackets"
+        self.face_bracket_button.setText(button_text)
+        # Update the debug mode in face processor
+        self.face_processor.set_debug_mode(self.show_face_brackets)
+                
+    def init_ui(self):
+        self.setWindowTitle("MacFaceSwap")
+        self.resize(1200, 800)  # Maintaining original size
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        main_layout = QHBoxLayout(central_widget)
+        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setSpacing(20)
+
+        # Create left sidebar with tabs
+        sidebar = QWidget()
+        sidebar.setFixedWidth(320)
+        sidebar_layout = QVBoxLayout(sidebar)
+        sidebar_layout.setSpacing(10)
+
+        # Create tab widget
+        self.tab_widget = QTabWidget()
+        self.tab_widget.setStyleSheet("""
+            QTabWidget::pane {
+                border: 1px solid #d2d2d7;
+                border-radius: 8px;
+                background: white;
+            }
+            QTabBar::tab {
+                padding: 8px 16px;
+                margin: 2px 0;
+                border-radius: 4px;
+            }
+            QTabBar::tab:selected {
+                background: #0071e3;
+                color: white;
+            }
+        """)
+
+        # Create Camera tab without the toggle button
+        camera_tab = QWidget()
+        camera_layout = QVBoxLayout(camera_tab)
+        camera_layout.setSpacing(12)
+
+        camera_layout.addWidget(QLabel("Camera"))
+        self.camera_combo = QComboBox()
+        self.camera_combo.setToolTip("Select which camera to use for video input")
+        self.update_camera_list()
+        self.camera_combo.currentIndexChanged.connect(self.change_camera)
+        camera_layout.addWidget(self.camera_combo)
+
+        camera_layout.addWidget(QLabel("Audio Device"))
+        self.audio_combo = QComboBox()
+        self.audio_combo.setToolTip("Select which microphone to use for video recording")
+        self.update_audio_device_list()
+        self.audio_combo.currentIndexChanged.connect(self.change_audio_device)
+        camera_layout.addWidget(self.audio_combo)
+        
+        self.camera_settings_button = QPushButton("Camera Settings")
+        self.camera_settings_button.setIcon(qta.icon('fa.cog'))
+        self.camera_settings_button.clicked.connect(self.show_camera_settings)
+        camera_layout.addWidget(self.camera_settings_button)
+        camera_layout.addStretch()
+        self.tab_widget.addTab(camera_tab, "Camera")
+
+        # Create Face Control tab
+        face_tab = QWidget()
+        face_layout = QVBoxLayout(face_tab)
+        face_layout.setSpacing(12)
+
+        face_layout.addWidget(QLabel("Face Control"))
+        self.source_button = QPushButton("Load Source Face")
+        self.source_button.setIcon(qta.icon('fa.upload'))
+        self.source_button.clicked.connect(self.load_source_face)
+        face_layout.addWidget(self.source_button)
+
+        self.clear_button = QPushButton("Clear Face")
+        self.clear_button.setIcon(qta.icon('fa.trash'))
+        self.clear_button.setStyleSheet("background-color: #ff3b30; color: white;")
+        self.clear_button.clicked.connect(self.clear_source_face)
+        face_layout.addWidget(self.clear_button)
+
+        self.gallery_button = QPushButton("Open Face Gallery")
+        self.gallery_button.setIcon(qta.icon('fa.image'))
+        self.gallery_button.clicked.connect(self.open_face_gallery)
+        face_layout.addWidget(self.gallery_button)
+
+        # Face preview in Face Control tab
+        face_layout.addWidget(QLabel("Source Face Preview"))
+        self.source_preview = QLabel()
+        self.source_preview.setFixedSize(280, 280)
+        self.source_preview.setStyleSheet("""
+            background-color: #f5f5f7;
+            border-radius: 8px;
+        """)
+        self.source_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        face_layout.addWidget(self.source_preview)
+        
+        face_layout.addStretch()
+        self.tab_widget.addTab(face_tab, "Face")
+
+        # Create Settings tab
+        settings_tab = QWidget()
+        settings_layout = QVBoxLayout(settings_tab)
+        settings_layout.setSpacing(12)
+
+        # Face brackets toggle
+        self.face_bracket_button = QPushButton("Toggle Face Brackets")
+        self.face_bracket_button.setIcon(qta.icon('fa.square-o'))
+        self.face_bracket_button.clicked.connect(self.toggle_face_brackets)
+        settings_layout.addWidget(self.face_bracket_button)
+
+        # Similarity threshold
+        threshold_widget = QWidget()
+        threshold_layout = QHBoxLayout(threshold_widget)
+        threshold_layout.setContentsMargins(0, 0, 0, 0)
+        threshold_layout.setSpacing(8)
+
+        threshold_layout.addWidget(QLabel("Similarity:"))
+        self.threshold_slider = QSlider(Qt.Orientation.Horizontal)
+        self.threshold_slider.setRange(0, 100)
+        initial_threshold = 20
+        self.threshold_slider.setValue(initial_threshold)
+        self.threshold_slider.valueChanged.connect(self.update_threshold)
+        threshold_layout.addWidget(self.threshold_slider)
+
+        self.threshold_label = QLabel(f"{self.face_processor.similarity_threshold:.2f}")
+        self.threshold_label.setFixedWidth(40)
+        threshold_layout.addWidget(self.threshold_label)
+
+        settings_layout.addWidget(threshold_widget)
+
+        # Quality controls
+        quality_group = QGroupBox("Quality Settings")
+        quality_layout = QVBoxLayout()
+
+        self.enhancement_toggle = QCheckBox("Enable Face Enhancement")
+        self.enhancement_toggle.setChecked(True)
+        self.enhancement_toggle.stateChanged.connect(self.toggle_enhancement)
+        quality_layout.addWidget(self.enhancement_toggle)
+
+        strength_layout = QHBoxLayout()
+        strength_layout.addWidget(QLabel("Enhancement:"))
+        self.enhancement_slider = QSlider(Qt.Orientation.Horizontal)
+        self.enhancement_slider.setRange(0, 100)
+        self.enhancement_slider.setValue(50)
+        self.enhancement_slider.valueChanged.connect(self.update_enhancement)
+        strength_layout.addWidget(self.enhancement_slider)
+        quality_layout.addLayout(strength_layout)
+
+        quality_group.setLayout(quality_layout)
+        settings_layout.addWidget(quality_group)
+        
+        # Create menubar properly
+        menubar = self.menuBar()
+        help_menu = menubar.addMenu("&Help")
+        
+        # Create help action
+        help_contents = QAction("&Help Contents", self)
+        help_contents.setShortcut("F1")
+        help_contents.triggered.connect(self.show_help_dialog)
+        help_menu.addAction(help_contents)
+        
+        # Add about action
+        help_menu.addSeparator()
+        about_action = QAction("&About MacFaceSwap", self)
+        about_action.triggered.connect(self.show_about_dialog)
+        help_menu.addAction(about_action)
+        
+        settings_layout.addStretch()
+        self.tab_widget.addTab(settings_tab, "Settings")
+
+        # Add tab widget to sidebar
+        sidebar_layout.addWidget(self.tab_widget)
+        main_layout.addWidget(sidebar)
+
+        # Video container with enhanced styling
+        video_container = QWidget()
+        video_container.setStyleSheet("""
+            QWidget {
+                background-color: #1d1d1f;
+                border-radius: 8px;
+            }
+        """)
+        video_layout = QVBoxLayout(video_container)
+        video_layout.setContentsMargins(10, 10, 10, 10)
+        video_layout.setSpacing(10)
+
+        # Video controls at the top
+        video_controls = QHBoxLayout()
+        video_controls.setContentsMargins(0, 5, 0, 0)
+        video_controls.addStretch()
+
+        # Camera toggle button
+        self.toggle_button = QPushButton("Start Camera")
+        self.toggle_button.setToolTip("Start or stop the camera feed")
+        self.toggle_button.setIcon(qta.icon('fa.camera'))
+        self.toggle_button.clicked.connect(self.toggle_camera)
+        video_controls.addWidget(self.toggle_button)
+
+        # Recording button
+        self.record_button = QPushButton("Start Recording")
+        self.record_button.setIcon(qta.icon('fa.circle', color='red'))
+        self.record_button.clicked.connect(self.toggle_recording)
+        video_controls.addWidget(self.record_button)
+
+        # Popout button
+        self.popout_button = QPushButton("Popout Video")
+        self.popout_button.setIcon(qta.icon('fa.window-maximize'))
+        self.popout_button.clicked.connect(self.toggle_video_window)
+        video_controls.addWidget(self.popout_button)
+
+        # Add controls to video layout
+        video_layout.addLayout(video_controls)
+
+        # Video display
+        self.video_label = QLabel()
+        self.video_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.video_label.setStyleSheet("background-color: #1d1d1f; border-radius: 8px;")
+        video_layout.addWidget(self.video_label)
+
+        # Recording status
+        recording_controls = QHBoxLayout()
+        recording_controls.setSpacing(10)
+        self.recording_status = QLabel("")
+        recording_controls.addWidget(self.recording_status)
+        recording_controls.addStretch()
+        video_layout.addLayout(recording_controls)
+
+        main_layout.addWidget(video_container)
+        main_layout.setStretch(1, 1)  # Video area takes up remaining space
+
+    def change_audio_device(self, index):
+        """Handle changes to the selected audio device."""
+        selected_device = self.audio_combo.currentData()  # Get the device index from the dropdown
+        if selected_device is not None:
+            self.video_recorder.audio_device = selected_device
+            print(f"Audio device manually set to: {selected_device}")
+
+    def update_audio_device_list(self):
+        """Populate the audio device dropdown."""
+        self.audio_combo.clear()
+        for i, device in enumerate(sd.query_devices()):
+            if device['max_input_channels'] > 0:  # Only include devices with input channels
+                self.audio_combo.addItem(f"{device['name']} ({device['hostapi']})", i)
+
+    def open_face_gallery(self):
+        """Open the gallery pop-out window with debug output."""
+        try:
+            from src.ui.face_gallery import FaceGallery
+            
+            print("\nOpening Face Gallery:")
+            print(f"Number of predefined faces: {len(self.predefined_faces)}")
+            print("Available celebrities:", list(self.predefined_faces.keys()))
+            
+            if not self.predefined_faces:
+                print("No predefined faces available")
+                QMessageBox.warning(self, "Error", "No predefined faces available")
+                return
+            
+            gallery = FaceGallery(self.predefined_faces, self)
+            
+            if gallery.exec():  # Modal dialog
+                selected_face = gallery.selected_face
+                print(f"\nSelected celebrity: {selected_face}")
+                
+                if selected_face and selected_face in self.predefined_faces:
+                    face_data = self.predefined_faces[selected_face]
+                    print("\nPre-processed face data:")
+                    print(f"Keys available: {list(face_data.keys())}")
+                    
+                    if 'preview_image' in face_data:
+                        image = cv2.imread(face_data['preview_image'])
+                        if image is not None:
+                            print("Successfully loaded preview image")
+                            
+                            # Create face mapping
+                            self.source_face = {
+                                'face': face_data.get('face_dict', {}),
+                                'embedding': np.array(face_data['embedding']) if 'embedding' in face_data else None,
+                                'all_embeddings': [np.array(emb) for emb in face_data['all_embeddings']] if 'all_embeddings' in face_data else None,
+                                'image': image
+                            }
+                            
+                            # Update the UI and processor
+                            self.update_preview(image)
+                            
+                            print("\nSetting up face processor:")
+                            self.set_frame_processor()
+                            print("Face processor setup completed")
+                        else:
+                            print(f"Failed to load image: {face_data['preview_image']}")
+                    else:
+                        print("No preview image path in face data")
+                else:
+                    print(f"Invalid selection or face not found: {selected_face}")
+        except Exception as e:
+            print(f"Error in open_face_gallery: {str(e)}")
+            import traceback
+            traceback.print_exc()
+
+    def setup_styles(self):
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #f5f5f7;
+            }
+            QPushButton {
+                background-color: #0071e3;
+                color: white;
+                border-radius: 6px;
+                padding: 8px 16px;
+                font-weight: 500;
+                border: none;
+                min-height: 32px;
+            }
+            QPushButton:hover {
+                background-color: #0077ED;
+            }
+            QPushButton:pressed {
+                background-color: #005BBF;
+            }
+            QPushButton:disabled {
+                background-color: #999999;
+            }
+            QLabel {
+                color: #1d1d1f;
+                font-size: 13px;
+                padding: 4px;
+            }
+            QComboBox {
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid #d2d2d7;
+                background: white;
+                min-height: 32px;
+            }
+            QSlider {
+                height: 32px;
+            }
+            QSlider::groove:horizontal {
+                height: 4px;
+                background: #d2d2d7;
+                border-radius: 2px;
+            }
+            QSlider::handle:horizontal {
+                background: #0071e3;
+                width: 18px;
+                height: 18px;
+                margin: -7px 0;
+                border-radius: 9px;
+            }
+            QGroupBox {
+                margin-top: 16px;
+            }
+        """)
+
+    def load_source_face(self):
+        """Load and analyze a source face image from file."""
+        file_name, _ = QFileDialog.getOpenFileName(
+            self, "Select Source Face Image", "", "Image Files (*.png *.jpg *.jpeg)"
+        )
+        if file_name:
+            print(f"Loading source face from: {file_name}")
+            image = cv2.imread(file_name)
+            if image is not None:
+                self.set_source_face(image)
+            else:
+                QMessageBox.warning(self, "Error", "Failed to load image")
+
+
+    def update_preview(self, image):
+        """Update source face preview"""
+        h, w = image.shape[:2]
+        bytes_per_line = 3 * w
+        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        q_image = QImage(
+            rgb_image.data,
+            w, h,
+            bytes_per_line,
+            QImage.Format.Format_RGB888
+        )
+        
+        pixmap = QPixmap.fromImage(q_image)
+        scaled_pixmap = pixmap.scaled(
+            128, 128,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
+        self.source_preview.setPixmap(scaled_pixmap)
+
+    def update_camera_list(self):
+        """Update the list of available cameras"""
+        self.camera_combo.clear()
+        cameras = self.video_handler.get_camera_list()
+        
+        if not cameras:
+            self.camera_combo.addItem("No cameras found")
+            print("No cameras were detected")
+            return
+            
+        print(f"Adding {len(cameras)} cameras to combo box")
+        for camera in cameras:
+            self.camera_combo.addItem(camera['name'], camera['id'])
+            print(f"Added camera: {camera['name']}")
+
+    def change_camera(self, index):
+        """Change the active camera"""
+        if index >= 0:
+            camera_id = self.camera_combo.currentData()
+            if camera_id is not None:
+                print(f"Changing to camera {camera_id}")
+                self.video_handler.stop_camera()
+                if self.video_handler.start_camera(camera_id):
+                    print(f"Successfully started camera {camera_id}")
+                else:
+                    print(f"Failed to start camera {camera_id}")
+
+    def toggle_camera(self):
+        """Toggle camera on/off"""
+        if self.video_handler.is_running:
+            print("Stopping camera")
+            self.video_handler.stop_camera()
+            self.toggle_button.setText("Start Camera")
+        else:
+            camera_id = self.camera_combo.currentData()
+            if camera_id is not None:
+                print(f"Starting camera {camera_id}")
+                if self.video_handler.start_camera(camera_id):
+                    self.toggle_button.setText("Stop Camera")
+                    # Re-enable face processor if we have a source face
+                    if self.source_face:
+                        print("Reconnecting face processor")
+                        self.set_frame_processor()
+                    print("Camera started successfully")
+                else:
+                    print("Failed to start camera")
+                    
+    def process_frame(self, frame):
+        """Process frame with face swapping and route to appropriate display"""
+        if frame is None:
+            return None
+            
+        try:
+            # Apply face swapping if processor is available
+            if self.face_processor and hasattr(self.face_processor, 'process_frame'):
+                processed_frame = self.face_processor.process_frame(frame)
+                if processed_frame is not None:
+                    frame = processed_frame
+
+            # Clear face brackets if the toggle is off
+            if not self.show_face_brackets:
+                frame = self.clear_brackets(frame)
+                
+            # Update both main window and popout window if it exists
+            if self.video_window:
+                self.video_window.update_frame(frame)
+                
+            return frame
+            
+        except Exception as e:
+            print(f"Error processing frame: {str(e)}")
+            return frame
+
+    def update_frame(self):
+        """Update the video frame in the main window"""
+        frame = self.video_handler.get_latest_frame()
+        if frame is None:
+            return
+        
+        # Process the frame
+        processed_frame = self.process_frame(frame)
+        if processed_frame is None:
+            return
+            
+        if self.face_processor and hasattr(self.face_processor, 'process_frame'):
+            processed_frame = self.face_processor.process_frame(frame)
+            if processed_frame is not None:
+                frame = processed_frame
+                
+                # Add frame to recording if active
+                if self.video_recorder.is_recording:
+                    self.video_recorder.add_frame(frame)
+        
+        # Convert and display the frame
+        rgb_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
+        h, w = processed_frame.shape[:2]
+        bytes_per_line = 3 * w
+        qt_image = QImage(rgb_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+        pixmap = QPixmap.fromImage(qt_image).scaled(
+            640, 480, 
+            Qt.AspectRatioMode.KeepAspectRatio, 
+            Qt.TransformationMode.SmoothTransformation
+        )
+        self.video_label.setPixmap(pixmap)
+        
+    def clear_brackets(self, frame):
+        """Clear face brackets from the frame."""
+        # If your face processor adds face brackets, modify this function to remove them.
+        return frame
+
+    def closeEvent(self, event):
+        """Handle application closing"""
+        try:
+            if self.video_window:
+                self.video_window.close()
+            self.video_handler.stop_camera()
+            event.accept()
+        except Exception as e:
+            print(f"Error closing application: {str(e)}")
+            event.accept()
+
+    def clear_source_face(self):
+        """Clear the current source face"""
+        self.source_face = None
+        self.source_preview.clear()
+        self.set_frame_processor()
+        print("Source face cleared")
+
+    def set_frame_processor(self):
+        """Set up frame processing based on current source face."""
+        if self.source_face:
+            print("\nSetting up frame processor:")
+            print("Source face information:")
+            for key, value in self.source_face.items():
+                if key == 'image':
+                    print(f"- Has image: {value is not None}")
+                elif isinstance(value, np.ndarray):
+                    print(f"- {key} shape: {value.shape}")
+                elif isinstance(value, dict):
+                    print(f"- {key} keys: {list(value.keys())}")
+                elif isinstance(value, list):
+                    print(f"- {key} length: {len(value)}")
+                else:
+                    print(f"- {key}: {type(value)}")
+            
+            # Create mapping with detailed debug output
+            print("\nCreating face mapping...")
+            mapping_data = {
+                'default': {
+                    'source_face': {
+                        'face_dict': self.source_face.get('face', {}),
+                        'embedding': self.source_face['embedding'].tolist() if isinstance(self.source_face.get('embedding'), np.ndarray) else None,
+                        'all_embeddings': [emb.tolist() for emb in self.source_face['all_embeddings']] if self.source_face.get('all_embeddings') else None
+                    }
+                }
+            }
+            
+            print("Mapping data created:")
+            print(f"Keys in mapping: {list(mapping_data['default']['source_face'].keys())}")
+            
+            print("\nSetting face mappings in processor...")
+            self.face_processor.set_face_mappings(mapping_data)
+            
+            # Connect video processing
+            print("Connecting video processor...")
+            self.video_handler.set_processing_callback(self.face_processor.process_frame)
+            print("Frame processor setup complete")
+        else:
+            print("No source face available - clearing processor")
+            self.video_handler.set_processing_callback(None)
+
+    def toggle_debug(self, checked):
+        """Toggle debug visualization"""
+        self.debug_toggle.setText("Debug: On" if checked else "Debug: Off")
+        if hasattr(self, 'face_processor'):
+            self.face_processor.set_debug_mode(checked)
+
+    def update_threshold(self, value):
+        """Update similarity threshold"""
+        threshold = value / 100.0
+        print(f"\nUpdating similarity threshold:")
+        print(f"Slider value: {value}")
+        print(f"Calculated threshold: {threshold:.4f}")
+        self.face_processor.similarity_threshold = threshold
+        self.threshold_label.setText(f"{threshold:.2f}")
+
+    def toggle_preprocessing(self, checked):
+        """Toggle preprocessing of face embeddings"""
+        self.face_processor.enable_preprocessing = checked
+        self.preprocess_toggle.setText("Preprocessing: On" if checked else "Preprocessing: Off")
+
+    def update_frame_skip(self, value):
+        """Update frame processing rate"""
+        try:
+            n_frames = int(value)
+            self.video_handler.set_frame_processing_rate(n_frames)
+        except ValueError:
+            pass
+        
+    def update_fps_display(self):
+        """Update FPS display"""
+        if hasattr(self.video_handler, 'fps_stats'):
+            fps = self.video_handler.fps_stats['fps']
+            self.fps_label.setText(f"FPS: {fps:.1f}")
+
+    def toggle_fps_display(self, checked):
+        """Toggle FPS counter visibility"""
+        self.show_fps = checked
+        self.fps_toggle.setText("FPS: Visible" if checked else "FPS: Hidden")
+        self.video_handler.show_fps = checked
+        print(f"FPS display {'enabled' if checked else 'disabled'}")
+
+    def toggle_detection_display(self, checked):
+        """Toggle face detection box visibility"""
+        self.show_detection = checked
+        self.detection_toggle.setText("Detection Box: Visible" if checked else "Detection Box: Hidden")
+        if hasattr(self, 'face_processor'):
+            self.face_processor.debug_mode = checked
+        print(f"Detection box display {'enabled' if checked else 'disabled'}")
+
+    def toggle_video_window(self):
+        """Toggle the video window while maintaining face swapping"""
+        try:
+            if self.video_window is None:
+                from src.ui.video_window import VideoWindow
+                self.video_window = VideoWindow(self)
+                self.video_window.closed.connect(self.on_video_window_closed)
+                self.video_window.show()
+                self.popout_button.setText("Close Video Window")
+                
+                # Update video handler callback to process frames
+                self.video_handler.set_processing_callback(self.process_frame)
+            else:
+                self.video_window.close()
+                self.video_window = None
+                self.popout_button.setText("Popout Video")
+                
+                # Reset video handler callback
+                self.video_handler.set_processing_callback(self.process_frame)
+        except Exception as e:
+            print(f"Error toggling video window: {str(e)}")
+
+    def on_video_window_closed(self):
+        """Handle video window being closed"""
+        try:
+            self.video_window = None
+            self.popout_button.setText("Popout Video")
+            if hasattr(self, 'video_label'):
+                self.video_label.show()
+        except Exception as e:
+            print(f"Error handling video window close: {str(e)}")
+
+    def update_face_mappings(self, mappings):
+        """Update face processor with new mappings"""
+        self.face_processor.set_face_mappings(mappings)
+        if self.video_handler.is_running:
+            self.set_frame_processor()
+
+    def create_group_box(self, title):
+        group = QGroupBox(title)
+        group.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                border: none;
+                margin-top: 1ex;
+            }
+            QGroupBox::title {
+                color: #1d1d1f;
+            }
+        """)
+        return group
+    
+    def set_source_face(self, image, data=None):
+        """Set the source face and update the UI with debug output."""
+        print("\nSetting source face:")
+        if image is None:
+            print("Error: No image provided")
+            QMessageBox.warning(self, "Error", "No valid image provided")
+            return
+
+        try:
+            if data is None:
+                print("Processing new image (no pre-existing data)")
+                face_data = self.face_processor.analyze_face(image)
+                if not face_data:
+                    print("No face detected in image")
+                    QMessageBox.warning(self, "Error", "No face detected in the image")
+                    return
+                    
+                self.source_face = {
+                    'face': face_data['face'],
+                    'embedding': face_data['embedding'],
+                    'image': face_data['image']
+                }
+            else:
+                print("Using pre-processed face data")
+                print("Data keys:", list(data.keys()))
+                self.source_face = {
+                    'face': data.get('face_dict', {}),  # Store the face dictionary
+                    'embedding': np.array(data['embedding']) if 'embedding' in data else None,
+                    'image': None  # Will be set from preview image
+                }
+                
+                if 'preview_image' in data:
+                    self.source_face['image'] = cv2.imread(data['preview_image'])
+                    
+            if self.source_face['image'] is not None:
+                print("Updating preview image")
+                self.update_preview(self.source_face['image'])
+                
+            self.set_frame_processor()
+            print("Source face set successfully")
+            
+        except Exception as e:
+            print(f"Error setting source face: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            QMessageBox.warning(self, "Error", f"Error setting source face: {str(e)}")
+
+    def toggle_enhancement(self, state):
+        """Toggle face enhancement"""
+        self.face_processor.use_face_enhancement = bool(state)
+
+    def update_enhancement(self, value):
+        """Update enhancement strength"""
+        self.face_processor.enhancement_level = value / 50.0  # Scale to 0-2 range
+        
+    def show_help_dialog(self):
+        """Show the help contents dialog"""
+        dialog = QDialog(self)
+        dialog.setWindowTitle("MacFaceSwap Help")
+        dialog.resize(600, 400)
+        
+        layout = QVBoxLayout(dialog)
+        help_browser = QTextBrowser()
+        help_browser.setOpenExternalLinks(True)
+        
+        help_text = """
+        <h2>MacFaceSwap Help</h2>
+        
+        <h3>Getting Started</h3>
+        <p>MacFaceSwap allows you to swap faces in real-time video. Here's how to use it:</p>
+        
+        <h4>Basic Steps:</h4>
+        <ol>
+            <li>Select your camera from the Camera tab</li>
+            <li>Click "Start Camera" to begin the video feed</li>
+            <li>Load a source face using either:
+                <ul>
+                    <li>The "Load Source Face" button to use your own image</li>
+                    <li>The "Open Face Gallery" to use a celebrity face</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h4>Controls:</h4>
+        <ul>
+            <li><b>Camera Tab:</b> Select and control your camera and audio devices</li>
+            <li><b>Face Tab:</b> Load and manage source faces for swapping</li>
+            <li><b>Settings Tab:</b> Adjust face detection and enhancement settings</li>
+        </ul>
+        
+        <h4>Advanced Features:</h4>
+        <ul>
+            <li><b>Face Brackets:</b> Toggle visibility of face detection boxes</li>
+            <li><b>Similarity Threshold:</b> Adjust face matching sensitivity</li>
+            <li><b>Face Enhancement:</b> Enable/disable and adjust face enhancement quality</li>
+            <li><b>Video Recording:</b> Record your face-swapped video feed</li>
+            <li><b>Popout Video:</b> Open the video feed in a separate window</li>
+        </ul>
+        """
+        
+        help_browser.setHtml(help_text)
+        layout.addWidget(help_browser)
+        
+        dialog.exec()
+        
+    def show_about_dialog(self):
+        """Show the about dialog"""
+        QMessageBox.about(self, 
+            "About MacFaceSwap",
+            """<h3>MacFaceSwap</h3>
+            <p>A real-time face swapping application for macOS.</p>
+            <p>Features:</p>
+            <ul>
+                <li>Real-time face detection and swapping</li>
+                <li>Support for multiple cameras</li>
+                <li>Face enhancement capabilities</li>
+                <li>Video recording</li>
+                <li>Celebrity face gallery</li>
+            </ul>
+            <p>Press F1 or use Help menu for usage instructions.</p>
+            """
+        )
+            
+    def show_camera_settings(self):
+        """Show the camera settings dialog with current settings"""
+        try:
+            # Get current settings
+            if self.video_handler.camera and self.video_handler.is_running:
+                current_width = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+                current_height = int(self.video_handler.camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                current_fps = int(self.video_handler.camera.get(cv2.CAP_PROP_FPS))
+                current_brightness = int(self.video_handler.camera.get(cv2.CAP_PROP_BRIGHTNESS) * 100)
+            else:
+                # Use the current frame_size from VideoHandler
+                current_width, current_height = self.video_handler.frame_size
+                current_fps = 30
+                current_brightness = 50
+                
+            current_settings = {
+                'resolution': f"{current_width}x{current_height}",
+                'fps': current_fps,
+                'brightness': current_brightness,
+                'autofocus': True,
+                'threshold': self.face_processor.similarity_threshold
+            }
+            
+            print(f"Current camera settings: {current_settings}")
+            
+            settings_dialog = CameraSettings(self, current_settings)
+            if settings_dialog.exec() == QDialog.DialogCode.Accepted:
+                settings = settings_dialog.get_settings()
+                self.apply_camera_settings(settings)
+                
+        except Exception as e:
+            print(f"Error showing camera settings: {str(e)}")
+            import traceback
+            traceback.print_exc()
+
+    def apply_camera_settings(self, settings):
+        """Apply the camera settings"""
+        try:
+            # Get current camera ID
+            current_camera = self.camera_combo.currentData()
+            
+            # Parse resolution
+            width, height = map(int, settings['resolution'].split('x'))
+            
+            # Update frame size in VideoHandler
+            self.video_handler.frame_size = (width, height)
+            
+            # Stop current camera
+            self.video_handler.stop_camera()
+            
+            # Start camera with new settings
+            if self.video_handler.start_camera(current_camera):
+                # Apply additional settings if camera is running
+                if self.video_handler.camera and self.video_handler.camera.isOpened():
+                    self.video_handler.camera.set(cv2.CAP_PROP_FPS, settings['fps'])
+                    self.video_handler.camera.set(cv2.CAP_PROP_BRIGHTNESS, settings['brightness'] / 100.0)
+                    if settings['autofocus']:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 1)
+                    else:
+                        self.video_handler.camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+                        
+                # Update threshold
+                if 'threshold' in settings:
+                    self.face_processor.similarity_threshold = settings['threshold']
+                    if hasattr(self, 'threshold_slider'):
+                        self.threshold_slider.setValue(int(settings['threshold'] * 100))
+                        
+                print(f"Camera settings applied successfully: {settings}")
+            else:
+                print("Failed to start camera with new settings")
+                
+        except Exception as e:
+            print(f"Error applying camera settings: {str(e)}")
+            # Try to restart the camera with original settings
+            try:
+                self.video_handler.start_camera(self.camera_combo.currentData())
+            except Exception as restart_error:
+                print(f"Error restarting camera: {str(restart_error)}")
 ```
 
 # src/ui/video_window.py
@@ -18568,5 +20906,189 @@ class VideoWindow(QMainWindow):
         except Exception as e:
             print(f"Error closing video window: {str(e)}")
             event.accept()
+```
+
+# src/ui/watermark.py
+
+```py
+# Path: src/ui/watermark.py
+import cv2
+import numpy as np
+from typing import Tuple
+import logging
+from typing import Optional
+
+class VideoWatermark:
+    def __init__(self, logo_path: str, opacity: float = 0.5, premium_manager: Optional['PremiumManager'] = None):
+        self.logo_path = logo_path
+        self.opacity = opacity
+        self.premium_manager = premium_manager
+        """
+        Initialize the watermark processor with a static bottom-right position
+        
+        Args:
+            logo_path: Path to the PNG logo file
+            opacity: Float between 0 and 1 for logo opacity (default 0.5)
+        """
+        try:
+            # Try to load with alpha channel
+            self.logo = cv2.imread(logo_path, cv2.IMREAD_UNCHANGED)
+            if self.logo is None:
+                raise ValueError(f"Could not load logo from {logo_path}")
+            
+            # Convert RGB to RGBA if necessary
+            if len(self.logo.shape) == 3 and self.logo.shape[2] == 3:
+                # Create alpha channel
+                alpha = np.ones(self.logo.shape[:2], dtype=self.logo.dtype) * 255
+                self.logo = cv2.merge([self.logo, alpha])
+            
+            self.opacity = opacity
+            self.logo_size: Tuple[int, int] = self._get_initial_size()
+            # Resize logo once during initialization
+            self.logo = cv2.resize(self.logo, self.logo_size)
+            
+            logging.info(f"Watermark initialized: shape={self.logo.shape}, size={self.logo_size}")
+            
+        except Exception as e:
+            logging.error(f"Error initializing watermark: {str(e)}")
+            # Create a small default watermark (red square) as fallback
+            self.logo = np.zeros((40, 40, 4), dtype=np.uint8)
+            self.logo[:, :, 2] = 255  # Red color
+            self.logo[:, :, 3] = 255  # Full alpha
+            self.logo_size = (40, 40)
+            self.opacity = 0.3
+    
+    def _get_initial_size(self) -> Tuple[int, int]:
+        """Set initial size of logo - relatively small by default"""
+        target_width = 80
+        aspect_ratio = self.logo.shape[1] / self.logo.shape[0]
+        target_height = int(target_width / aspect_ratio)
+        return (target_width, target_height)
+    
+    def _get_position(self, frame_width: int, frame_height: int) -> Tuple[int, int]:
+        """Calculate bottom-right position with padding"""
+        padding = 10  # pixels from edge
+        x = frame_width - self.logo_size[0] - padding
+        y = frame_height - self.logo_size[1] - padding
+        return (x, y)
+    
+    def apply_watermark(self, frame: np.ndarray) -> np.ndarray:
+        """
+        Apply watermark to a single frame
+        
+        Args:
+            frame: numpy array representing the video frame (BGR format)
+            
+        Returns:
+            Watermarked frame
+        """
+        try:
+            # Make sure frame is valid
+            if frame is None or len(frame.shape) != 3:
+                return frame
+                
+            # Get position for watermark
+            x, y = self._get_position(frame.shape[1], frame.shape[0])
+            
+            # Ensure coordinates are within frame bounds
+            if x < 0 or y < 0 or x + self.logo_size[0] > frame.shape[1] or y + self.logo_size[1] > frame.shape[0]:
+                return frame
+            
+            # Create mask from alpha channel
+            mask = (self.logo[:, :, 3] / 255.0 * self.opacity)
+            mask = np.dstack([mask] * 3)  # Create 3-channel mask
+            
+            # Extract RGB channels from logo
+            logo_rgb = self.logo[:, :, :3]
+            
+            # Get region of interest (ROI)
+            roi = frame[y:y+self.logo_size[1], x:x+self.logo_size[0]]
+            
+            # Ensure ROI and logo_rgb have same shape
+            if roi.shape != logo_rgb.shape:
+                return frame
+            
+            # Blend logo with frame
+            blended = (1 - mask) * roi + mask * logo_rgb
+            
+            # Put blended region back into frame
+            frame[y:y+self.logo_size[1], x:x+self.logo_size[0]] = blended.astype(np.uint8)
+            
+            return frame
+            
+        except Exception as e:
+            logging.error(f"Error applying watermark: {str(e)}")
+            return frame  # Return original frame if there's an error
+    
+    @property
+    def is_valid(self) -> bool:
+        """Check if watermark was initialized properly"""
+        return self.logo is not None and len(self.logo.shape) == 3 and self.logo.shape[2] == 4
+```
+
+# src/utils/debug.py
+
+```py
+# /src/utils/debug.py
+import gc
+import tracemalloc
+import logging
+from functools import wraps
+import time
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+def memory_tracker(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        tracemalloc.start()
+        start_time = time.time()
+        
+        try:
+            result = func(*args, **kwargs)
+            
+            # Get memory statistics
+            current, peak = tracemalloc.get_traced_memory()
+            logger.debug(f'Function: {func.__name__}')
+            logger.debug(f'Memory current: {current / 10**6:.2f}MB')
+            logger.debug(f'Memory peak: {peak / 10**6:.2f}MB')
+            logger.debug(f'Time elapsed: {time.time() - start_time:.2f} seconds')
+            
+            # Get top memory allocations
+            snapshot = tracemalloc.take_snapshot()
+            top_stats = snapshot.statistics('lineno')
+            logger.debug("Top 5 memory allocations:")
+            for stat in top_stats[:5]:
+                logger.debug(stat)
+                
+            return result
+            
+        finally:
+            tracemalloc.stop()
+            gc.collect()
+    
+    return wrapper
+
+def monitor_fps():
+    """FPS monitoring context manager"""
+    class FPSMonitor:
+        def __init__(self):
+            self.start_time = None
+            self.frame_count = 0
+            
+        def __enter__(self):
+            self.start_time = time.time()
+            return self
+            
+        def increment(self):
+            self.frame_count += 1
+            
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            duration = time.time() - self.start_time
+            fps = self.frame_count / duration
+            logger.debug(f'Average FPS: {fps:.2f}')
+    
+    return FPSMonitor()
 ```
 
