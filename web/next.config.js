@@ -3,7 +3,8 @@ const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
   basePath: '',
-  assetPrefix: '',
+  assetPrefix: './', // Add this line
+  trailingSlash: true // Add this line
 }
 
 module.exports = nextConfig
