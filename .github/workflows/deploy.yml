@@ -1,9 +1,13 @@
+# Update .github/workflows/deploy.yml permissions
 name: Deploy landing page
 on:
   push:
     branches: [ "main" ]
     paths:
       - 'web/**'
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
