@@ -1,4 +1,19 @@
+"""
 # src/ui/main_window.py
+Main window implementation for the MacFaceSwap application.
+
+This module implements the primary user interface for MacFaceSwap, providing:
+- Camera input selection and control
+- Face selection and management
+- Real-time face swapping visualization
+- Video recording capabilities
+- Settings management
+- Tutorial system
+
+The MainWindow class serves as the central hub for user interaction and coordinates
+between the UI components and the core face swapping functionality.
+"""
+
 import os
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
@@ -22,6 +37,22 @@ from src.ui.camera_settings import CameraSettings
 from src.ui.tutorial_overlay import TutorialOverlay
 
 class MainWindow(QMainWindow):
+    """
+    Main application window for MacFaceSwap.
+    
+    This class manages the primary user interface and coordinates between:
+    - Video capture and display
+    - Face detection and swapping
+    - User interface controls
+    - Settings management
+    - Recording functionality
+    
+    The window is organized into:
+    - A left sidebar with tabbed controls (Camera, Face, Settings)
+    - A main video display area
+    - Top menu bar with help and tutorial options
+    """
+    
     def __init__(self):
         super().__init__()
         self.face_processor = FaceProcessor()
@@ -95,6 +126,15 @@ class MainWindow(QMainWindow):
         
     
     def setup_tutorial(self):
+        """
+        Initialize the tutorial system with step-by-step guidance.
+        
+        Sets up a sequence of tutorial steps that guide new users through:
+        - Camera selection and setup
+        - Face selection process
+        - Settings configuration
+        - Basic operations
+        """
         try:
             print("Setting up tutorial...")
             self.tutorial_overlay = None
@@ -127,6 +167,12 @@ class MainWindow(QMainWindow):
             
     
     def start_tutorial(self):
+        """
+        Launch the interactive tutorial overlay.
+        
+        Creates and displays the tutorial overlay window that guides users
+        through the application's features step by step.
+        """
         try:
             print("Starting tutorial")
             self.tutorial_overlay = TutorialOverlay(self)
@@ -171,6 +217,14 @@ class MainWindow(QMainWindow):
         
     # Update toggle_recording method
     def toggle_recording(self):
+        """
+        Toggle video recording state.
+        
+        Starts or stops video recording based on current state:
+        - When starting: Initializes video writer with current frame dimensions
+        - When stopping: Finalizes video file and saves to Downloads folder
+        Updates UI elements to reflect recording status.
+        """
         if not self.video_recorder.is_recording:
             frame = self.video_handler.get_latest_frame()
             if frame is not None:
@@ -191,7 +245,12 @@ class MainWindow(QMainWindow):
             self.recording_status.setStyleSheet("color: green;")
         
     def toggle_face_brackets(self):
-        """Toggle the visibility of face brackets in the live video feed."""
+        """
+        Toggle the visibility of face detection boxes in the live video feed.
+        
+        Controls whether face detection boundaries are shown on the video feed.
+        Updates both the UI button text and the face processor's debug mode.
+        """
         self.show_face_brackets = not self.show_face_brackets
         button_text = "Hide Face Brackets" if self.show_face_brackets else "Show Face Brackets"
         self.face_bracket_button.setText(button_text)
@@ -199,6 +258,17 @@ class MainWindow(QMainWindow):
         self.face_processor.set_debug_mode(self.show_face_brackets)
                 
     def init_ui(self):
+        """
+        Initialize and configure all UI elements.
+        
+        Sets up the main window layout including:
+        - Window title and size
+        - Left sidebar with tabbed interface (Camera, Face, Settings)
+        - Main video display area
+        - Video controls (Start/Stop, Record, Popout)
+        - Menu bar with Help options
+        - Status indicators
+        """
         self.setWindowTitle("MacFaceSwap")
         self.resize(1200, 800)  # Maintaining original size
 
