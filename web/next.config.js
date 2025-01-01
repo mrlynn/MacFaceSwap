@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/MacFaceSwap',
   images: { unoptimized: true },
-  assetPrefix: '.',
+  assetPrefix: '/',
+  basePath: '',
 }
 module.exports = nextConfig
