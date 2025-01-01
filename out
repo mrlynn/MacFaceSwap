@@ -1,0 +1,183 @@
+On branch main
+Your branch is ahead of 'origin/main' by 5 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   .DS_Store
+	new file:   .aidigestignore
+	new file:   .gitattributes
+	new file:   .github/workflows/deploy.yml
+	new file:   .gitignore
+	new file:   MacFaceSwap.spec
+	new file:   README.md
+	new file:   build.sh
+	new file:   build/MacFaceSwap/Analysis-00.toc
+	new file:   build/MacFaceSwap/BUNDLE-00.toc
+	new file:   build/MacFaceSwap/localpycs/pyimod03_ctypes.pyc
+	new file:   build/MacFaceSwap/localpycs/struct.pyc
+	new file:   build/MacFaceSwap/warn-MacFaceSwap.txt
+	new file:   build/MacFaceSwap/xref-MacFaceSwap.html
+	new file:   codebase.md
+	new file:   create_dmg.sh
+	new file:   dist/MacFaceSwap.app/Contents/Frameworks/MarkupSafe-3.0.2.dist-info
+	new file:   dist/MacFaceSwap.app/Contents/Frameworks/PIL/.dylibs
+	new file:   dist/MacFaceSwap.app/Contents/Frameworks/torchvision/version.py
+	new file:   images/Kate Winslet/095_8ffab61d.jpg
+	new file:   images/Kate Winslet/096_32a79dde.jpg
+	new file:   images/Kate Winslet/097_51a924c1.jpg
+	new file:   images/Kate Winslet/098_f4f39b7c.jpg
+	new file:   images/Kate Winslet/099_61c7b659.jpg
+	new file:   images/Kate Winslet/100_6cee7c73.jpg
+	new file:   images/Leonardo DiCaprio/.DS_Store
+	new file:   images/Leonardo DiCaprio/001_08194468.jpg
+	new file:   images/Leonardo DiCaprio/002_86e8aa58.jpg
+	new file:   images/Leonardo DiCaprio/003_85990366.jpg
+	new file:   images/Leonardo DiCaprio/004_af012af1.jpg
+	new file:   images/Leonardo DiCaprio/005_7fe5b764.jpg
+	new file:   images/Leonardo DiCaprio/006_30010640.jpg
+	new file:   images/Leonardo DiCaprio/007_6ca7c622.jpg
+	new file:   images/Leonardo DiCaprio/008_35daa4bc.jpg
+	new file:   images/Leonardo DiCaprio/009_b86449f6.jpg
+	new file:   images/Leonardo DiCaprio/010_2f9c83bc.jpg
+	new file:   images/Leonardo DiCaprio/011_0549f94d.jpg
+	new file:   images/Leonardo DiCaprio/012_d7aea1e6.jpg
+	new file:   images/Leonardo DiCaprio/013_ca6af517.jpg
+	new file:   images/Leonardo DiCaprio/014_539eee38.jpg
+	new file:   images/Leonardo DiCaprio/015_2872d02b.jpg
+	new file:   images/Leonardo DiCaprio/016_7b57be6a.jpg
+	new file:   images/Leonardo DiCaprio/017_51311450.jpg
+	new file:   images/Leonardo DiCaprio/018_2c458568.jpg
+	new file:   images/Leonardo DiCaprio/019_78627223.jpg
+	new file:   images/Leonardo DiCaprio/020_14f28bc8.jpg
+	new file:   images/Leonardo DiCaprio/021_eecdee92.jpg
+	new file:   images/Leonardo DiCaprio/022_66e94346.jpg
+	new file:   images/Leonardo DiCaprio/023_0367d72c.jpg
+	new file:   images/Leonardo DiCaprio/024_bf83d073.jpg
+	new file:   images/Leonardo DiCaprio/025_e5920270.jpg
+	new file:   images/Leonardo DiCaprio/026_ecbdaaa7.jpg
+	new file:   images/Leonardo DiCaprio/027_7094e195.jpg
+	new file:   images/Leonardo DiCaprio/028_38a65d29.jpg
+	new file:   images/Leonardo DiCaprio/029_8522ebc8.jpg
+	new file:   images/Leonardo DiCaprio/030_60acb78e.jpg
+	new file:   images/Leonardo DiCaprio/031_28a211fc.jpg
+	new file:   images/Leonardo DiCaprio/032_00aee064.jpg
+	new file:   images/Leonardo DiCaprio/033_312ea9ed.jpg
+	new file:   images/Leonardo DiCaprio/034_00c6d43e.jpg
+	new file:   images/Leonardo DiCaprio/035_ab7cf1c4.jpg
+	new file:   images/Leonardo DiCaprio/036_f5ea9e84.jpg
+	new file:   images/Leonardo DiCaprio/037_fe4d2d8f.jpg
+	new file:   images/Leonardo DiCaprio/038_b52784d4.jpg
+	new file:   images/Leonardo DiCaprio/039_d49e8191.jpg
+	new file:   images/Leonardo DiCaprio/040_3a2c98cd.jpg
+	new file:   images/Leonardo DiCaprio/041_c91b0923.jpg
+	new file:   images/Leonardo DiCaprio/042_bfbfd7d8.jpg
+	new file:   images/Leonardo DiCaprio/043_93a5e582.jpg
+	new file:   images/Leonardo DiCaprio/044_f13caf17.jpg
+	new file:   images/Leonardo DiCaprio/045_d074e61c.jpg
+	new file:   images/Leonardo DiCaprio/046_db08e5f7.jpg
+	new file:   images/Leonardo DiCaprio/047_ce57f03b.jpg
+	new file:   images/Leonardo DiCaprio/048_f82caaae.jpg
+	new file:   images/Leonardo DiCaprio/049_37f969c1.jpg
+	new file:   images/Leonardo DiCaprio/050_e7bdecc0.jpg
+	new file:   images/Leonardo DiCaprio/051_38196d60.jpg
+	new file:   images/Leonardo DiCaprio/052_74c7be90.jpg
+	new file:   images/Leonardo DiCaprio/053_8bfac05e.jpg
+	new file:   images/Leonardo DiCaprio/054_1de20f77.jpg
+	new file:   images/Leonardo DiCaprio/055_ba4ace00.jpg
+	new file:   images/Leonardo DiCaprio/056_13edab75.jpg
+	new file:   images/Leonardo DiCaprio/057_f0c37eee.jpg
+	new file:   images/Leonardo DiCaprio/058_0a6c61e9.jpg
+	new file:   images/Leonardo DiCaprio/059_1027f3c2.jpg
+	new file:   images/Leonardo DiCaprio/060_668ebb3f.jpg
+	new file:   images/Leonardo DiCaprio/061_57c86521.jpg
+	new file:   images/Leonardo DiCaprio/062_67f50ec4.jpg
+	new file:   images/Leonardo DiCaprio/063_55002ecd.jpg
+	new file:   images/Leonardo DiCaprio/064_397fd4d4.jpg
+	new file:   images/Leonardo DiCaprio/065_e739f721.jpg
+	new file:   images/Leonardo DiCaprio/066_f048ba09.jpg
+	new file:   images/Leonardo DiCaprio/067_a0efbd88.jpg
+	new file:   images/Leonardo DiCaprio/068_a703f85f.jpg
+	new file:   images/Leonardo DiCaprio/069_b5219746.jpg
+	new file:   images/Leonardo DiCaprio/070_ae3a4fa0.jpg
+	new file:   images/Leonardo DiCaprio/071_a052296d.jpg
+	new file:   images/Leonardo DiCaprio/072_c887ec5c.jpg
+	new file:   images/Leonardo DiCaprio/073_42e32f65.jpg
+	new file:   images/Leonardo DiCaprio/074_2b2a84b6.jpg
+	new file:   images/Leonardo DiCaprio/075_c2c28553.jpg
+	new file:   images/Leonardo DiCaprio/076_6fca3a0c.jpg
+	new file:   images/Leonardo DiCaprio/077_cd8dcf22.jpg
+	new file:   images/Leonardo DiCaprio/078_a7fd9be1.jpg
+	new file:   images/Leonardo DiCaprio/079_6ec91919.jpg
+	new file:   images/Leonardo DiCaprio/080_2bffea0b.jpg
+	new file:   images/Leonardo DiCaprio/081_a32678db.jpg
+	new file:   images/Leonardo DiCaprio/082_d797cdf3.jpg
+	new file:   images/Leonardo DiCaprio/083_f80d8a01.jpg
+	new file:   images/Leonardo DiCaprio/085_a292bf25.jpg
+	new file:   images/Leonardo DiCaprio/086_a1441427.jpg
+	new file:   images/Leonardo DiCaprio/087_1382b266.jpg
+	new file:   images/Leonardo DiCaprio/088_41213f8b.jpg
+	new file:   images/Leonardo DiCaprio/089_8e7757ef.jpg
+	new file:   images/Leonardo DiCaprio/090_b316be20.jpg
+	new file:   images/Leonardo DiCaprio/091_e39f525d.jpg
+	new file:   images/Leonardo DiCaprio/092_cbc6d525.jpg
+	new file:   images/Leonardo DiCaprio/093_811dc474.jpg
+	new file:   images/Leonardo DiCaprio/094_78e0fb7b.jpg
+	new file:   images/Leonardo DiCaprio/095_7ffaffe6.jpg
+	new file:   images/Leonardo DiCaprio/096_c30a9446.jpg
+	new file:   images/Leonardo DiCaprio/097_1837d89e.jpg
+	new file:   images/Leonardo DiCaprio/098_f0bc37c7.jpg
+	new file:   images/Leonardo DiCaprio/099_c25b7b04.jpg
+	new file:   training/venv/lib/python3.12/site-packages/pygments/lexers/esoteric.py
+	new file:   training/venv/lib/python3.12/site-packages/pygments/lexers/ezhil.py
+	new file:   training/venv/lib/python3.12/site-packages/pygments/lexers/factor.py
+	new file:   training/venv/lib/python3.12/site-packages/torch/include/ATen/ops/_debug_has_internal_overlap_native.h
+	new file:   training/venv/lib/python3.12/site-packages/torch/include/ATen/ops/_debug_has_internal_overlap_ops.h
+	new file:   venv/lib/python3.10/site-packages/yapftests/reformatter_pep8_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/reformatter_python3_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/reformatter_style_config_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/split_penalty_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/style_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/subtype_assigner_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/utils.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/yapf_test.py
+	new file:   venv/lib/python3.10/site-packages/yapftests/yapf_test_helper.py
+	new file:   venv/pyvenv.cfg
+	new file:   venv/share/man/man1/isympy.1
+	new file:   venv/share/man/man1/ttx.1
+	new file:   web/next.config.js
+	new file:   web/out/404.html
+	new file:   web/out/_next/static/chunks/69-c7efea4b65083e7f.js
+	new file:   web/out/_next/static/chunks/app/_not-found-4e5c3b73d883060d.js
+	new file:   web/out/_next/static/chunks/app/layout-a775fcc1f63010e6.js
+	new file:   web/out/_next/static/chunks/app/page-9a523ca6079a7572.js
+	new file:   web/out/_next/static/chunks/fd9d1056-cc48c28d170fddc2.js
+	new file:   web/out/_next/static/chunks/framework-f66176bb897dc684.js
+	new file:   web/out/_next/static/chunks/main-1adbacbf4b8ef67f.js
+	new file:   web/out/_next/static/chunks/main-app-05846959b9347f04.js
+	new file:   web/out/_next/static/chunks/pages/_app-75f6107b0260711c.js
+	new file:   web/out/_next/static/chunks/pages/_error-9a890acb1e81c3fc.js
+	new file:   web/out/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js
+	new file:   web/out/_next/static/chunks/webpack-aacfb10730c9b0da.js
+	new file:   web/out/_next/static/css/113443fcfe40379c.css
+	new file:   web/out/_next/static/xSmN6s2T91v2-CQstSako/_buildManifest.js
+	new file:   web/out/_next/static/xSmN6s2T91v2-CQstSako/_ssgManifest.js
+	new file:   web/out/index.html
+	new file:   web/out/index.txt
+	new file:   web/package-lock.json
+	new file:   web/package.json
+	new file:   web/postcss.config.js
+	new file:   web/public/.DS_Store
+	new file:   web/public/demo.mp4
+	new file:   web/public/icon.png
+	new file:   web/src/app/globals.css
+	new file:   web/src/app/layout.js
+	new file:   web/src/app/page.js
+	new file:   web/tailwind.config.js
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .gitignore
+	modified:   out
+
