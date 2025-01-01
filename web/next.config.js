@@ -6,6 +6,9 @@ const nextConfig = {
   images: { unoptimized: true },
   assetPrefix: isProd ? 'https://macfaceswap.com' : '',
   basePath: '',
+  publicRuntimeConfig: {
+    staticFolder: '/_next',
+  },
   trailingSlash: true
 }
 
