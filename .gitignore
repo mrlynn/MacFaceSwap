@@ -185,3 +185,5 @@ cython_debug/
 venv/
 __pycache__/
 training/*
+web/node_modules/@next/swc-darwin-arm64/
+
