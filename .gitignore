@@ -1,10 +1,7 @@
 web/node_modules/
 web/.next/
-web/**/*.node
 models/GFPGANv1.4.pth
 models/inswapper_128.onnx
-web/out
-web/out/_next
 
 .aidigestignore
 venv
