@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "next build && touch out/.nojekyll"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.15",
