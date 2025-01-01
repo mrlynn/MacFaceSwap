@@ -2,7 +2,8 @@
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
-  assetPrefix: '/MacFaceSwap',
-  basePath: '/MacFaceSwap',
+  assetPrefix: './',
+  basePath: '',
+  trailingSlash: true
 }
 module.exports = nextConfig
