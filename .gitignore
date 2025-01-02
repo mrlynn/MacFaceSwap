@@ -1,10 +1,9 @@
 web/node_modules/
 resources/entitlements.plist
+web/.next
 models/GFPGANv1.4.pth
 models/inswapper_128.onnx
 models/inswapper_128_fp16.onnx
-web/out
-web/.next
 
 .aidigestignore
 venv
