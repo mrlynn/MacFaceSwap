@@ -45,7 +45,7 @@ const LandingPage = () => {
 
           <div className="flex gap-4">
             <a
-              href="#download"
+              href="https://github.com/mrlynn/MacFaceSwap/releases/download/v1.0.0/MacFaceSwap_20250101.dmg"
               className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg flex items-center gap-2"
             >
               <Download size={20} />
