@@ -1,0 +1,19 @@
+{
+    "public": "out",
+    "cleanUrls": false,
+    "trailingSlash": true,
+    "rewrites": [
+      { "source": "/blog/*", "destination": "/blog/index.html" }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|webp|css|js)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      }
+    ]
+  }

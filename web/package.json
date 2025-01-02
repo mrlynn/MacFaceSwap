@@ -5,18 +5,20 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next export",
+    "export": "npm run clean && npm run build",
     "start": "next start",
+    "clean": "rm -rf .next out",
+    "preview": "serve out --config ../serve.json",
     "deploy": "next build && touch out/.nojekyll"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.15",
     "lucide-react": "^0.263.1",
     "next": "^14.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.3",
     "@types/react": "^19.0.2",

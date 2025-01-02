@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Github, Download, ChevronDown } from 'lucide-react';
+import { Github, Download, ChevronDown, Clock, ChevronRight } from 'lucide-react';
+import { BlogCard } from '../components/BlogCard';
+import { blogPosts } from '../lib/blog-data';
 
 const LandingPage = () => {
   return (
@@ -13,6 +15,7 @@ const LandingPage = () => {
           <div className="flex gap-4">
             <a href="#download" className="text-white hover:text-pink-300">Download</a>
             <a href="#about" className="text-white hover:text-pink-300">About</a>
+            <a href="#blog" className="text-white hover:text-pink-300">Blog</a>
           </div>
         </nav>
 
@@ -113,7 +116,7 @@ const LandingPage = () => {
                 Version 1.0.0
               </p>
               <a
-                href="/download/faceswap.dmg"
+                href="https://github.com/mrlynn/MacFaceSwap/releases/download/v1.0.0/MacFaceSwap_20250101.dmg"
                 className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2"
               >
                 <Download size={20} />
@@ -123,7 +126,26 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      </main>
+      {/* Blog Section */}
+      <div className="py-24 bg-black/30" id="blog">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Learn & Explore
+            </h2>
+            <p className="text-pink-100 max-w-2xl mx-auto">
+              Discover tutorials, tips, and updates to make the most of MacFaceSwap
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {Object.entries(blogPosts).map(([slug, post]) => (
+              <BlogCard key={post.id} post={{ ...post, slug }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };
 
