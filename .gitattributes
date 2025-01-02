@@ -13,3 +13,4 @@ resources/celebrity_mappings.pkl filter=lfs diff=lfs merge=lfs -text
 models/*.pth filter=lfs diff=lfs merge=lfs -text
 models/*.onnx filter=lfs diff=lfs merge=lfs -text
 resources/*.pkl filter=lfs diff=lfs merge=lfs -text
+*.dmg filter=lfs diff=lfs merge=lfs -text
