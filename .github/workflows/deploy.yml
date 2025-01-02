@@ -24,5 +24,5 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: web/out
+          folder: out  # Changed from web/out since we're already in web directory
           branch: gh-pages
