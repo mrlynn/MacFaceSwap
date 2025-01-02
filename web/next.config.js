@@ -5,12 +5,15 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  // Ensure all assets are relative
-  assetPrefix: '.',
-  // This helps with CSS optimization
+  // Update basePath for GitHub Pages
+  basePath: '/MacFaceSwap',
+  // Update assetPrefix for GitHub Pages
+  assetPrefix: '/MacFaceSwap/',
   optimizeFonts: false,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false };
     return config;
   },
 }
+
+module.exports = nextConfig
