@@ -5,9 +5,7 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  // Update basePath for GitHub Pages
   basePath: '/MacFaceSwap',
-  // Update assetPrefix for GitHub Pages
   assetPrefix: '/MacFaceSwap/',
   optimizeFonts: false,
   webpack: (config) => {
