@@ -5,9 +5,10 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  // Since you're using a custom domain, we don't need basePath or assetPrefix
-  // as the assets will be served from the root
+  // For custom domain, we use minimal configuration
   optimizeFonts: false,
+  // Ensure static files are handled correctly
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false };
     return config;

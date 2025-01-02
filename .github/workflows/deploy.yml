@@ -1,9 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Next.js site to Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -18,33 +17,34 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
           cache: 'npm'
           cache-dependency-path: './web/package.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Install dependencies
         run: npm ci
-        working-directory: ./web
-        
+
       - name: Build with Next.js
         run: npm run build
-        working-directory: ./web
-        
-      - name: Add .nojekyll and CNAME
+
+      - name: Add CNAME and nojekyll
         run: |
-          touch ./web/out/.nojekyll
-          echo "macfaceswap.com" > ./web/out/CNAME
-          
+          echo "macfaceswap.com" > out/CNAME
+          touch out/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
