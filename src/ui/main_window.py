@@ -35,7 +35,7 @@ from src.core.video_recorder import VideoRecorder
 from src.ui.watermark import VideoWatermark
 from src.ui.camera_settings import CameraSettings
 from src.ui.tutorial_overlay import TutorialOverlay
-
+from src.core.model_manager import MacFaceSwapModelManager
 class MainWindow(QMainWindow):
     """
     Main application window for MacFaceSwap.
@@ -55,6 +55,15 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
+        
+        self.model_manager = MacFaceSwapModelManager(self)
+        if not self.model_manager.initialize():
+            QMessageBox.critical(
+                self,
+                "Initialization Error",
+                "Failed to initialize required models. The application may not function correctly."
+            )        
+        
         self.face_processor = FaceProcessor()
         self.video_handler = VideoHandler()
         self.source_face = None
@@ -369,6 +378,25 @@ class MainWindow(QMainWindow):
         settings_tab = QWidget()
         settings_layout = QVBoxLayout(settings_tab)
         settings_layout.setSpacing(12)
+                
+        # Add Model Management section
+        model_group = QGroupBox("Model Management")
+        model_layout = QVBoxLayout()
+        
+        # Add model check button
+        self.check_models_button = QPushButton("Check for Model Updates")
+        self.check_models_button.setIcon(qta.icon('fa.refresh'))
+        self.check_models_button.clicked.connect(self.check_model_updates)
+        model_layout.addWidget(self.check_models_button)
+        
+        # Add model cleanup button
+        self.cleanup_models_button = QPushButton("Clean Unused Models")
+        self.cleanup_models_button.setIcon(qta.icon('fa.trash'))
+        self.cleanup_models_button.clicked.connect(self.cleanup_unused_models)
+        model_layout.addWidget(self.cleanup_models_button)
+        
+        model_group.setLayout(model_layout)
+        settings_layout.addWidget(model_group)
 
         # Face brackets toggle
         self.face_bracket_button = QPushButton("Toggle Face Brackets")
@@ -1133,3 +1161,145 @@ class MainWindow(QMainWindow):
                 self.video_handler.start_camera(self.camera_combo.currentData())
             except Exception as restart_error:
                 print(f"Error restarting camera: {str(restart_error)}")
+                        
+    # Update this method in src/ui/main_window.py
+
+    def check_model_updates(self):
+        """Check for model updates and download if available."""
+        try:
+            # Get current config state
+            current_config = self.model_manager.model_config
+
+            # Reload config from disk to check for updates
+            new_config = self.model_manager.load_config()
+            if not new_config:
+                QMessageBox.warning(
+                    self,
+                    "Update Check Failed",
+                    "Unable to load model configuration."
+                )
+                return
+                
+            updates_needed = []
+            for model_name, model_info in new_config['models'].items():
+                # If model is new or hash doesn't match, it needs updating
+                if (model_name not in current_config['models'] or 
+                    current_config['models'][model_name]['sha256'] != model_info['sha256']):
+                    updates_needed.append(model_name)
+                    continue
+                    
+                # Check if existing file matches expected hash
+                model_path, _ = self.model_manager.find_model(model_name)
+                if model_path is None or not self.model_manager.verify_model(model_path, model_info['sha256']):
+                    updates_needed.append(model_name)
+                    
+            if updates_needed:
+                message = (
+                    "The following models have updates available:\n\n" +
+                    "\n".join(f"• {model}" for model in updates_needed) +
+                    f"\n\nTotal download size: {self.model_manager.get_total_download_size(updates_needed)}" +
+                    "\n\nWould you like to download the updates?"
+                )
+                
+                reply = QMessageBox.question(
+                    self,
+                    "Model Updates Available",
+                    message,
+                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                )
+                
+                if reply == QMessageBox.StandardButton.Yes:
+                    # Update the model config before downloading
+                    self.model_manager.model_config = new_config
+                    success = self.model_manager.download_models(updates_needed)
+                    if success:
+                        QMessageBox.information(
+                            self,
+                            "Update Complete",
+                            "Models have been successfully updated!"
+                        )
+            else:
+                QMessageBox.information(
+                    self,
+                    "Model Status",
+                    "All models are up to date!"
+                )
+            
+        except Exception as e:
+            import traceback
+            print(f"Error checking for updates: {str(e)}")
+            traceback.print_exc()
+            QMessageBox.warning(
+                self,
+                "Update Check Failed",
+                f"Failed to check for updates: {str(e)}"
+            )
+
+    def cleanup_unused_models(self):
+        """Remove unused or outdated model files."""
+        try:
+            current_config = self.model_manager.model_config
+            if not current_config:
+                return
+                
+            # Get list of existing model files
+            model_files = list(self.model_manager.models_dir.glob("*.pth"))
+            
+            # Find unused models
+            unused_models = []
+            for model_file in model_files:
+                model_name = model_file.stem
+                if model_name not in current_config['models']:
+                    unused_models.append(model_file)
+                    
+            if unused_models:
+                message = (
+                    "The following unused models were found:\n\n" +
+                    "\n".join(f"• {model.name}" for model in unused_models) +
+                    "\n\nWould you like to remove them?"
+                )
+                
+                reply = QMessageBox.question(
+                    self,
+                    "Clean Unused Models",
+                    message,
+                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                )
+                
+                if reply == QMessageBox.StandardButton.Yes:
+                    for model_file in unused_models:
+                        try:
+                            model_file.unlink()
+                        except Exception as e:
+                            self.logger.error(f"Failed to delete {model_file}: {e}")
+                            
+                    QMessageBox.information(
+                        self,
+                        "Cleanup Complete",
+                        "Unused models have been removed."
+                    )
+            else:
+                QMessageBox.information(
+                    self,
+                    "Cleanup Status",
+                    "No unused models found."
+                )
+                
+        except Exception as e:
+            QMessageBox.warning(
+                self,
+                "Cleanup Failed",
+                f"Failed to cleanup unused models: {str(e)}"
+            )
+
+    def closeEvent(self, event):
+        """Handle application closing"""
+        try:
+            if self.video_window:
+                self.video_window.close()
+            self.video_handler.stop_camera()
+            self.model_manager.cleanup()  # Add this line
+            event.accept()
+        except Exception as e:
+            print(f"Error closing application: {str(e)}")
+            event.accept()

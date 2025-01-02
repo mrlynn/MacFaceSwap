@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "models": {
+        "inswapper": {
+            "url": "https://huggingface.co/ezioruan/inswapper_128.onnx/resolve/main/inswapper_128.onnx",
+            "sha256": "e4a3f08c753cb72d04e10aa0f7dbe3deebbf39567d4ead6dce08e98aa49e16af",
+            "required": true,
+            "description": "inswapper model"
+        },
+        "GFPGAN": {
+            "url": "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/GFPGANv1.4.pth",
+            "sha256": "e2cd4703ab14f4d01fd1383a8a8b266f9a5833dacee8e6a79d3bf21a1b6be5ad",
+            "required": true,
+            "description": "GFPGAN model"
+        }
+    }
+}
