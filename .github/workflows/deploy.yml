@@ -27,20 +27,23 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: './web/package.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
       - name: Install dependencies
         run: npm ci
+        working-directory: ./web
         
       - name: Build with Next.js
         run: npm run build
+        working-directory: ./web
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./web/out
 
   deploy:
     environment:
