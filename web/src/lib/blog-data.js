@@ -193,6 +193,8 @@ export const blogPosts = {
       <h3>Step 3: Setting Up Your Video Conference</h3>
       <p>Now that you have both applications configured, you can use the virtual camera in your video conferencing app:</p>
 
+        <img src="/zoom.jpg">
+
       <h4>For Zoom:</h4>
       <ol>
         <li>Open Zoom and go to Settings → Video</li>
