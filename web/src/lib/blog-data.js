@@ -1,20 +1,20 @@
 // src/lib/blog-data.js
 
 export const blogPosts = {
-  "getting-started-with-macfaceswap": {
-    id: 1,
-    title: "Getting Started with MacFaceSwap",
-    excerpt:
-      "Learn how to set up and use MacFaceSwap for the first time. This comprehensive guide covers installation, basic features, and tips for best results.",
-    date: "2025-01-02",
-    readTime: "5 min read",
-    headerImage: {
-      src: "/blog/headers/getting-started.png",
-      alt: "MacFaceSwap interface demonstration",
-      blurDataUrl: "data:image/jpeg;base64,/9j...", // Optional: Add blur data URL for image loading effect
-    },
-    category: "Tutorial",
-    content: `
+    "getting-started-with-macfaceswap": {
+        id: 1,
+        title: "Getting Started with MacFaceSwap",
+        excerpt:
+            "Learn how to set up and use MacFaceSwap for the first time. This comprehensive guide covers installation, basic features, and tips for best results.",
+        date: "2025-01-02",
+        readTime: "5 min read",
+        headerImage: {
+            src: "/blog/headers/getting-started.png",
+            alt: "MacFaceSwap interface demonstration",
+            blurDataUrl: "data:image/jpeg;base64,/9j...", // Optional: Add blur data URL for image loading effect
+        },
+        category: "Tutorial",
+        content: `
         <h2>Installation Guide</h2>
         <p>Welcome to MacFaceSwap! This guide will walk you through the installation process and help you get started with basic face swapping.</p>
         
@@ -57,21 +57,21 @@ export const blogPosts = {
           <li>Higher resolution images generally produce better results</li>
         </ul>
       `,
-  },
-  "advanced-face-swapping-techniques": {
-    id: 2,
-    title: "Advanced Face Swapping Techniques",
-    excerpt:
-      "Discover advanced features and techniques to create more realistic and professional-looking face swaps using MacFaceSwap.",
-    date: "2025-01-01",
-    readTime: "7 min read",
-    category: "Advanced",
-    headerImage: {
-      src: "/blog/headers/advanced-techniques.jpg",
-      alt: "Advanced face swapping demonstration",
-      blurDataUrl: "data:image/jpeg;base64,/9j...",
     },
-    content: `
+    "advanced-face-swapping-techniques": {
+        id: 2,
+        title: "Advanced Face Swapping Techniques",
+        excerpt:
+            "Discover advanced features and techniques to create more realistic and professional-looking face swaps using MacFaceSwap.",
+        date: "2025-01-01",
+        readTime: "7 min read",
+        category: "Advanced",
+        headerImage: {
+            src: "/blog/headers/advanced-techniques.jpg",
+            alt: "Advanced face swapping demonstration",
+            blurDataUrl: "data:image/jpeg;base64,/9j...",
+        },
+        content: `
         <h2>Advanced Features</h2>
         <p>This guide covers advanced techniques and features in MacFaceSwap for creating more realistic and professional results.</p>
   
@@ -101,21 +101,21 @@ export const blogPosts = {
           <li>Detail preservation: Maintain important facial features</li>
         </ul>
       `,
-  },
-  "troubleshooting-common-issues": {
-    id: 3,
-    title: "Troubleshooting Common Issues",
-    excerpt:
-      "Solutions to common problems you might encounter while using MacFaceSwap, including lighting, angle, and resolution fixes.",
-    date: "2024-12-30",
-    readTime: "4 min read",
-    category: "Support",
-    headerImage: {
-      src: "/blog/headers/troubleshooting.jpg",
-      alt: "Troubleshooting guide illustration",
-      blurDataUrl: "data:image/jpeg;base64,/9j...",
     },
-    content: `
+    "troubleshooting-common-issues": {
+        id: 3,
+        title: "Troubleshooting Common Issues",
+        excerpt:
+            "Solutions to common problems you might encounter while using MacFaceSwap, including lighting, angle, and resolution fixes.",
+        date: "2024-12-30",
+        readTime: "4 min read",
+        category: "Support",
+        headerImage: {
+            src: "/blog/headers/troubleshooting.jpg",
+            alt: "Troubleshooting guide illustration",
+            blurDataUrl: "data:image/jpeg;base64,/9j...",
+        },
+        content: `
         <h2>Common Problems and Solutions</h2>
         <p>This guide helps you resolve the most common issues users encounter with MacFaceSwap.</p>
   
@@ -146,22 +146,20 @@ export const blogPosts = {
           <li>Restart the application if exports are failing</li>
         </ul>
       `,
-  },
-  // Add this to your existing blog posts in blog-data.js
-
-  "using-macfaceswap-with-virtual-camera": {
-    id: 4,
-    title: "Using MacFaceSwap with Virtual Cameras for Video Calls",
-    excerpt:
-      "Learn how to use MacFaceSwap with OBS Studio's virtual camera to transform your appearance in Zoom, Google Meet, and other video conferencing apps.",
-    date: "2025-01-03",
-    readTime: "8 min read",
-    category: "Tutorial",
-    headerImage: {
-      src: "/blog/headers/virtual-meetings.jpg",
-      alt: "MacFaceSwap and OBS Studio setup for virtual cameras",
     },
-    content: `
+    "using-macfaceswap-with-virtual-camera": {
+        id: 4,
+        title: "Using MacFaceSwap with Virtual Cameras for Video Calls",
+        excerpt:
+            "Learn how to use MacFaceSwap with OBS Studio's virtual camera to transform your appearance in Zoom, Google Meet, and other video conferencing apps.",
+        date: "2025-01-03",
+        readTime: "8 min read",
+        category: "Tutorial",
+        headerImage: {
+            src: "/blog/headers/virtual-meetings.jpg",
+            alt: "MacFaceSwap and OBS Studio setup for virtual cameras",
+        },
+        content: `
       <h2>Using MacFaceSwap with Virtual Cameras for Video Calls</h2>
       <p>Want to join your next video call with a completely different face? In this guide, we'll walk through how to use MacFaceSwap in combination with OBS Studio's virtual camera feature to transform your appearance in real-time during video calls.</p>
 
@@ -279,5 +277,57 @@ export const blogPosts = {
         <li>Video Conferencing Best Practices</li>
       </ul>
     `,
-  },
+    },
+    "deep-dive-ai-models": {
+        id: 5,
+        title: "Deep Dive: The AI Models Powering MacFaceSwap",
+        excerpt: "Explore the advanced AI technology behind MacFaceSwap, including the Buffalo-L face detection model and Inswapper face swapping architecture.",
+        date: "2025-01-04",
+        readTime: "6 min read",
+        category: "Technical",
+        headerImage: {
+            src: "/blog/headers/neural-networks.jpg",
+            alt: "Neural network visualization",
+        },
+        content: `
+    <h2>Deep Dive: The AI Models Powering MacFaceSwap</h2>
+    <p>Face swapping technology has made remarkable strides in recent years. MacFaceSwap leverages state-of-the-art models from the InsightFace framework to deliver high-quality, real-time face swaps. Let's explore the key components that make this possible.</p>
+    <h3>The Foundation: InsightFace</h3>
+  <p>InsightFace is an open-source face analysis toolkit that provides cutting-edge models for face recognition, detection, and manipulation. MacFaceSwap specifically utilizes two critical components from this framework:</p>
+
+  <h3>Buffalo-L Model for Face Detection</h3>
+  <p>The Buffalo-L model serves as our face detection backbone. It's a lightweight yet powerful model that can:</p>
+  <ul>
+    <li>Detect multiple faces in a single frame</li>
+    <li>Work with various face angles and orientations</li>
+    <li>Handle partial occlusions</li>
+    <li>Process frames in real-time (60+ FPS on Apple Silicon)</li>
+  </ul>
+
+  <p>The model uses a modified RetinaFace architecture optimized for speed while maintaining high accuracy. It outputs facial landmarks and bounding boxes that are crucial for the subsequent swapping process.</p>
+
+  <h3>Inswapper Model for Face Swapping</h3>
+  <p>The core face swapping functionality comes from the Inswapper model, which employs several innovative techniques:</p>
+
+  <h4>1. Latent Identity Encoding</h4>
+  <p>The model first encodes both source and target faces into a latent identity space. This preserves key facial features while allowing for natural blending.</p>
+
+  <h4>2. Expression Preservation</h4>
+  <p>Unlike simpler approaches, Inswapper maintains the target's facial expressions, making the swap look more natural in video applications.</p>
+
+  <h4>3. Adaptive Blending</h4>
+  <p>The model includes a built-in blending mechanism that handles different skin tones and lighting conditions automatically.</p>
+
+  <h3>Technical Architecture</h3>
+  <ul>
+    <li>Neural Network Type: Modified ResNet architecture</li>
+    <li>Input Resolution: 128x128 pixels</li>
+    <li>Model Size: ~1.2GB optimized for Apple Silicon</li>
+    <li>Processing Pipeline: GPU-accelerated using Metal</li>
+  </ul>
+
+  <h3>Local Processing & Privacy</h3>
+  <p>All model inference happens locally on your device. The models are downloaded once during installation and run entirely offline, ensuring your privacy and data security.</p>
+`
+    },
 };
