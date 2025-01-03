@@ -70,32 +70,42 @@ const LandingPage = () => {
       </div>
 
       {/* Features Section */}
+      {/* About Section */}
       <div className="bg-black/30 py-24" id="about">
         <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl font-bold text-white mb-6">About MacFaceSwap</h2>
+            <p className="text-pink-100 text-lg mb-8">
+            As someone deeply passionate about AI, machine learning and computer vision, I developed MacFaceSwap to bring the exciting possibilities of advanced face-swapping technology into the hands of everyday users. Inspired by a curiosity to explore cutting-edge techniques, what began as a weekend/holiday experiment quickly grew into a robust application. My goal was to create a tool that not only delivers real-time performance and seamless results but also respects user privacy—an essential consideration in today’s digital age. MacFaceSwap represents the intersection of my love for innovation and my commitment to making complex technologies approachable and user-friendly.            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="bg-white/5 p-8 rounded-xl">
+              <h3 className="text-2xl font-bold text-white mb-4">The Technology</h3>
+              <p className="text-pink-100 leading-relaxed">
+                MacFaceSwap leverages state-of-the-art deep learning models for face detection and swapping. Built with PyQt6 and optimized for Apple Silicon, it processes everything locally on your device, ensuring both performance and privacy. The core engine uses custom-trained models that excel at preserving facial expressions while maintaining natural-looking results.
+              </p>
+            </div>
+            <div className="bg-white/5 p-8 rounded-xl">
+              <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
+              <p className="text-pink-100 leading-relaxed">
+                We believe creative tools should be powerful yet simple to use. MacFaceSwap aims to democratize advanced AI technology while maintaining ethical standards. That's why we've made it open source, ensuring transparency and fostering community-driven improvements.
+              </p>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white/5 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Real-Time Processing
-              </h3>
-              <p className="text-pink-100">
-                Experience instant face swapping with our optimized deep learning engine.
-              </p>
+              <h3 className="text-xl font-bold text-white mb-4">Real-Time Processing</h3>
+              <p className="text-pink-100">Optimized deep learning engine provides instant face swapping at 60+ FPS on M1/M2 Macs.</p>
             </div>
             <div className="bg-white/5 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-white mb-4">
-                User Privacy
-              </h3>
-              <p className="text-pink-100">
-                All processing happens locally on your device. Your photos stay private.
-              </p>
+              <h3 className="text-xl font-bold text-white mb-4">Privacy First</h3>
+              <p className="text-pink-100">All processing happens locally. No cloud uploads, no data collection, complete privacy guaranteed.</p>
             </div>
             <div className="bg-white/5 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Native Performance
-              </h3>
-              <p className="text-pink-100">
-                Built specifically for macOS to ensure smooth operation and efficiency.
-              </p>
+              <h3 className="text-xl font-bold text-white mb-4">Native Performance</h3>
+              <p className="text-pink-100">Built specifically for macOS with Metal acceleration and Apple Silicon optimization.</p>
             </div>
           </div>
         </div>
