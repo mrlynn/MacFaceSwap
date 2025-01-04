@@ -4,8 +4,15 @@ import React from 'react';
 import { Github, Download, ChevronDown, Clock, ChevronRight } from 'lucide-react';
 import { BlogCard } from '../components/BlogCard';
 import { blogPosts } from '../lib/blog-data';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 const LandingPage = () => {
+  const { trackDownload } = useAnalytics();
+
+  const handleDownloadClick = (e) => {
+    // Track the download event
+    trackDownload('1.0.0');
+  };
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-700 text-white px-4 py-8">
       {/* Hero Section */}
@@ -50,6 +57,7 @@ const LandingPage = () => {
             <a
               href="https://github.com/mrlynn/MacFaceSwap/releases/download/v1.0.0/MacFaceSwap_20250101.dmg"
               className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg flex items-center gap-2"
+              onClick={handleDownloadClick}
             >
               <Download size={20} />
               Download for macOS
@@ -128,6 +136,7 @@ const LandingPage = () => {
               <a
                 href="https://github.com/mrlynn/MacFaceSwap/releases/download/v1.0.0/MacFaceSwap_20250101.dmg"
                 className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2"
+                onClick={handleDownloadClick}
               >
                 <Download size={20} />
                 Download DMG
