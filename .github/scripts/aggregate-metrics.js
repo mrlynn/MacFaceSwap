@@ -7,7 +7,7 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN
 });
 
-const REPO_OWNER = 'mrlynn'; // Replace with your GitHub username
+const REPO_OWNER = 'mrlynn'; 
 const REPO_NAME = 'MacFaceSwap';
 const METRICS_LABEL = 'metrics';
 
@@ -52,10 +52,10 @@ async function aggregateMetrics() {
       }
     });
 
-    // Ensure data directory exists
-    const dataDir = path.join(process.cwd(), 'data');
+    // Ensure data directory exists in project root
+    const dataDir = path.resolve(__dirname, '../../data');
     if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir);
+      fs.mkdirSync(dataDir, { recursive: true });
     }
 
     // Write aggregated metrics
