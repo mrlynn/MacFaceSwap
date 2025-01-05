@@ -105,7 +105,7 @@ tifffile==2024.12.12
 tk==0.1.0
 tkinterdnd2==0.4.2
 tomli==2.2.1
-torch==2.0.1
+torch==2.2.0
 torchvision==0.15.2
 tqdm==4.66.4
 typing_extensions==4.12.2
