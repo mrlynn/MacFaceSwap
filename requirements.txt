@@ -1,7 +1,7 @@
 absl-py==2.1.0
 addict==2.4.0
 albucore==0.0.21
-albumentations==1.4.23
+albumentations==1.4.24
 altgraph==0.17.4
 annotated-types==0.7.0
 astunparse==1.6.3
