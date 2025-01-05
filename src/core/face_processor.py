@@ -10,6 +10,7 @@ from insightface.app import FaceAnalysis
 from insightface.app.common import Face
 import platform
 import time
+from pathlib import Path  # Add this import
 from src import get_resource_path
 
 class ExtendedFace(Face):
@@ -36,7 +37,9 @@ class FaceProcessor:
         try:
             print("\nInitializing FaceProcessor...")
             self.face_mappings = {}
-            self.models_dir = self._get_models_dir()
+            self.models_dir = self.get_models_dir()
+            model_path = os.path.join(self.models_dir, 'inswapper_128.onnx')
+
             self.execution_provider = self._get_execution_provider()
             self._similarity_threshold = 0.0  # Lower default threshold
             # Initialize face analyzer with higher resolution
@@ -56,14 +59,17 @@ class FaceProcessor:
             
             # Load face swapper model
             print("Loading face swapper model...")
-            model_path = os.path.join(self.models_dir, 'inswapper_128.onnx')
             if not os.path.exists(model_path):
-                raise FileNotFoundError(f"Model not found: {model_path}")
+                # One last attempt to download
+                self.get_models_dir()
+                if not os.path.exists(model_path):
+                    raise FileNotFoundError(f"Model not found: {model_path}")
             
             self.face_swapper = insightface.model_zoo.get_model(
                 model_path,
                 providers=[self.execution_provider]
             )
+            print("Face swapper model loaded successfully")
             
             # Enhanced similarity settings
             self.cache_size = 10  # Increased cache size
@@ -294,15 +300,53 @@ class FaceProcessor:
             traceback.print_exc()
             return None
 
-    def _get_models_dir(self) -> str:
+    def get_models_dir(self) -> str:
         """Get the appropriate models directory based on environment"""
-        if getattr(sys, 'frozen', False):
-            # Running in a bundle
-            return os.path.join(sys._MEIPASS, 'models')
-        else:
-            # Running in development
-            return os.path.join(os.path.dirname(os.path.dirname(
-                os.path.dirname(__file__))), 'models')
+        try:
+            models_dir = Path.home() / "Library/Application Support/MacFaceSwap/models"
+            if not models_dir.exists():
+                models_dir.mkdir(parents=True, exist_ok=True)
+                
+            # Check for model in destination directory
+            model_path = models_dir / 'inswapper_128.onnx'
+            if model_path.exists():
+                print(f"Found model at: {model_path}")
+                return str(models_dir)
+                
+            # If model not found, try to download it
+            from src.utils.model_downloader import ModelDownloader
+            
+            # Get config path from source directory
+            config_path = Path(__file__).parent.parent.parent / "models" / "config.json"
+            
+            # Load config
+            with open(config_path) as f:
+                import json
+                config = json.load(f)
+                
+            # Initialize downloader
+            downloader = ModelDownloader(
+                models_dir=str(models_dir),
+                config_url=str(config_path)
+            )
+            
+            # Download using config information
+            model_info = config['models']['inswapper']
+            model_path = downloader.download_model(
+                model_name="inswapper",
+                url=model_info['url'],
+                expected_hash=model_info['sha256']
+            )
+            
+            if model_path and model_path.exists():
+                print(f"Successfully downloaded model to: {model_path.parent}")
+                return str(model_path.parent)
+                
+            raise FileNotFoundError("Could not find or download model")
+                
+        except Exception as e:
+            print(f"Error getting models directory: {e}")
+            raise
 
     def _get_execution_provider(self) -> str:
         """Determine the best execution provider for the current system"""

@@ -68,16 +68,17 @@ class MacFaceSwapModelManager:
         Returns:
             Tuple[Optional[Path], bool]: (path to model if found, True if needs copying)
         """
+        
+        model_info = self.model_config['models'][model_name]
+        url = model_info['url']
+        filename = url.split('/')[-1]  # Extract filename from URL
+        
         print(f"\n=== Looking for model: {model_name} ===")
         print(f"Source directory: {self.src_models_dir}")
         print(f"Destination directory: {self.dest_models_dir}")
         
-        # Determine correct file extension
-        file_ext = '.onnx' if model_name == 'inswapper' else '.pth'
-        print(f"Using file extension: {file_ext}")
-        
         # Check destination directory first
-        dest_path = self.dest_models_dir / f"{model_name}{file_ext}"
+        dest_path = self.dest_models_dir / filename
         print(f"\nChecking destination path: {dest_path}")
         print(f"Destination path exists: {dest_path.exists()}")
         
@@ -90,7 +91,7 @@ class MacFaceSwapModelManager:
                 return dest_path, False
         
         # Check source directory
-        src_path = self.src_models_dir / f"{model_name}{file_ext}"
+        src_path = self.src_models_dir / filename
         print(f"\nChecking source path: {src_path}")
         print(f"Source path exists: {src_path.exists()}")
         
@@ -207,11 +208,11 @@ class MacFaceSwapModelManager:
         success = True
         for model_name in model_names:
             model_info = self.model_config['models'][model_name]
+            url = model_info['url']
+            filename = url.split('/')[-1]  # Extract filename from URL
             
-            # Determine correct file extension
-            file_ext = '.onnx' if model_name == 'inswapper' else '.pth'
-            save_path = self.dest_models_dir / f"{model_name}{file_ext}"
-            
+            save_path = self.dest_models_dir / filename
+                
             # Create progress dialog
             progress = QProgressDialog(
                 f"Downloading {model_name}...\n\n"

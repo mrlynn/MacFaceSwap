@@ -187,3 +187,4 @@ training/*
 web/node_modules/@next/swc-darwin-arm64/
 
 .DS_Store
+codebase.md

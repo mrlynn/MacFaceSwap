@@ -5,12 +5,10 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  // For custom domain, we use minimal configuration
   optimizeFonts: false,
-  // Ensure static files are handled correctly
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  // Add basePath for GitHub Pages
-  basePath: '/MacFaceSwap',
+  // Check if we're deploying to GitHub Pages
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://macfaceswap.com' : '',
   // Configure webpack
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false };

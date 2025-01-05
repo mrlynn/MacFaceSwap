@@ -32,9 +32,9 @@ echo "Installing dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Ensure matplotlib and key dependencies are installed
+# Install additional dependencies
 echo "Installing additional dependencies..."
-pip install matplotlib==3.7.1  # Use a specific version known to work
+pip install matplotlib==3.7.1
 pip install PyQt6 QtAwesome insightface onnxruntime-silicon
 pip install pyinstaller
 
@@ -45,14 +45,25 @@ if [ ! -d "images" ]; then
     exit 1
 fi
 
+# Verify config.json exists
+if [ ! -f "models/config.json" ]; then
+    echo "ERROR: 'config.json' not found in models directory!"
+    exit 1
+fi
+
 # Build the application
 echo "Building application..."
 pyinstaller MacFaceSwap.spec
 
-# Check the built application structure
+# Verify built application structure
 echo "Verifying built application structure..."
 if [ ! -d "dist/MacFaceSwap.app/Contents/Resources/images" ]; then
-    echo "WARNING: 'images' directory not found in built application! Expected at Contents/Resources/images"
+    echo "WARNING: 'images' directory not found in built application!"
+fi
+
+if [ ! -f "dist/MacFaceSwap.app/Contents/Resources/models/config.json" ]; then
+    echo "ERROR: 'config.json' not found in built application!"
+    exit 1
 fi
 
 # Sign the application
@@ -76,7 +87,8 @@ fi
 # Create DMG (optional)
 if command -v create-dmg &> /dev/null; then
     echo "💿 Creating DMG..."
-    VERSION=$(date +%Y%m%d)  # Use date as version if no version file exists
+    
+    VERSION=$(date +%Y%m%d)
     DMG_NAME="MacFaceSwap_${VERSION}.dmg"
     
     create-dmg \
@@ -90,8 +102,10 @@ if command -v create-dmg &> /dev/null; then
         "dist/${DMG_NAME}" \
         "dist/MacFaceSwap.app"
         
-    # Sign the DMG as well
+    # Sign the DMG
     codesign --force --sign "$CERTIFICATE_NAME" "dist/${DMG_NAME}"
+    
+    echo "📦 Final DMG size: $(du -h "dist/${DMG_NAME}" | cut -f1)"
 else
     echo "ℹ️  Skipping DMG creation (create-dmg not installed)"
 fi

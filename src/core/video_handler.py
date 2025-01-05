@@ -1,5 +1,3 @@
-# src/core/video_handler.py
-
 import cv2
 import numpy as np
 from typing import Optional, Tuple, Callable, List, Dict
@@ -12,10 +10,23 @@ import sys
 from src.ui.watermark import VideoWatermark
 import tracemalloc
 import gc
-import psutil
 import resource
 import logging
 import tracemalloc
+
+# Lazy load psutil
+_psutil = None
+def get_psutil():
+    global _psutil
+    if _psutil is None:
+        try:
+            import psutil
+            _psutil = psutil
+        except ImportError:
+            logging.warning("psutil not available")
+            return None
+    return _psutil
+
 if not tracemalloc.is_tracing():
     tracemalloc.start()
 
